@@ -1,0 +1,133 @@
+uuid: 65237628-2c8a-45ed-b44a-e80e594e6d5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.group.operation.field_paragraphs
+    - field.field.group.operation.subgroup_depth
+    - field.field.group.operation.subgroup_left
+    - field.field.group.operation.subgroup_right
+    - field.field.group.operation.subgroup_tree
+    - group.type.operation
+  module:
+    - layout_paragraphs
+    - path
+id: group.operation.default
+targetEntityType: group
+bundle: operation
+mode: default
+content:
+  field_archive_group:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_calendar_alternate_link:
+    type: link_default
+    weight: 6
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_calendar_link:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_hdx_alternate_source:
+    type: link_default
+    weight: 35
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_hdx_dataset_link:
+    type: link_default
+    weight: 34
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_paragraphs:
+    type: layout_paragraphs
+    weight: 3
+    region: content
+    settings:
+      preview_view_mode: preview
+      nesting_depth: 0
+      require_layouts: 0
+      empty_message: ''
+    third_party_settings: {  }
+  field_reliefweb_assessments:
+    type: link_default
+    weight: 38
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_reliefweb_documents:
+    type: link_default
+    weight: 28
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_sidebar_menu:
+    type: layout_paragraphs
+    weight: 4
+    region: content
+    settings:
+      preview_view_mode: preview
+      nesting_depth: 0
+      require_layouts: 0
+      empty_message: ''
+    third_party_settings: {  }
+  label:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 9
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  translation:
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  subgroup_depth: true
+  subgroup_left: true
+  subgroup_right: true
+  subgroup_tree: true
+  uid: true

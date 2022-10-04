@@ -1,0 +1,52 @@
+/**
+ * HR.info Heading Paragraph type.
+ */
+
+/**
+ * For the Landing Page content-type we're applying some extra styles.
+ *
+ * @see html/themes/custom/common_design_subtheme/templates/paragraph--landing-page--heading.html.twig
+ */
+.heading--with-link {
+  --hri-heading-padding: 0.5ch;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.heading--with-link .field--name-field-title {
+  margin-bottom: 0;
+}
+
+.heading--with-link .field-title__link {
+  padding-inline-end: var(--hri-heading-padding);
+  white-space: nowrap;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.heading--with-link .field-title__link:hover {
+  text-decoration: none;
+}
+
+.heading--with-link .field-title__link::after {
+  position: relative;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  content: "";
+  background: transparent url("../rw-brand/rw-icons-sprite.svg") no-repeat;
+}
+
+[dir="ltr"] .heading--with-link .field-title__link::after {
+  left: var(--hri-heading-padding);
+  background-position: -84px -120px;
+}
+
+[dir="rtl"] .heading--with-link .field-title__link::after {
+  right: var(--hri-heading-padding);
+  background-position: -84px -132px;
+}

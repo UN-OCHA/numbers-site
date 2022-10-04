@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a Featured Highlight paragraph.
+ *
+ * @overrides html/themes/custom/common_design_subtheme/templates/paragraph.html.twig
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('common_design_subtheme/hri-highlight')}}
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    'hri-highlight',
+  ]
+%}
+{% block paragraph %}
+  <div{{ attributes
+    .addClass(classes)
+    .setAttribute('data-type', paragraph.bundle)
+    .setAttribute('id', paragraph.bundle ~ '-' ~ paragraph.id())
+  }}>
+    {% block content %}
+      {% set destination = paragraph.field_destination.0.url %}
+      <div class="hri-highlight__content">
+        <a href="{{ destination }}">{{ content.field_title }}</a>
+        {{ content.field_text }}
+        <a class="cd-button cd-button--small cd-button--icon" href="{{ destination }}">
+          <span class="cd-button__text">{{ 'View more'|t }}</span>
+          <svg class="cd-icon cd-icon--arrow-right" aria-hidden="true" focusable="false" width="16" height="16"><use xlink:href="#cd-icon--arrow-right"></use></svg>
+        </a>
+      </div>
+      <div class="hri-highlight__image">
+        {{ content.field_image }}
+      </div>
+    {% endblock %}
+  </div>
+{% endblock paragraph %}

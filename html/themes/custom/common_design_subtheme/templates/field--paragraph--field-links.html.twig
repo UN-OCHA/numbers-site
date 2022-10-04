@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Theme override for a field.
+ *
+ * @overrides html/modules/custom/hr_paragraphs/templates/group-nodes.html.twig
+ *
+ * @see template_preprocess_field()
+ */
+#}
+{# We're imitating default styles for a WYSIWYG field to style the bullets. #}
+{{ attach_library('common_design_subtheme/hri-text-block') }}
+
+<div class="field field--name-field-text field--type-text-long field--label-hidden field__item">
+  <ul>
+    {% for item in items %}
+      <li{{ item.attributes }}>{{ item.content }}</li>
+    {% endfor %}
+  </ul>
+</div>

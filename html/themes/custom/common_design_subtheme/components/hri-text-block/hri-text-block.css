@@ -1,0 +1,47 @@
+/**
+ * HR.info customizations to ALL instances of field_text. It appears as a
+ * universal description field on most Paragraph types.
+ */
+
+/**
+ * Our WYSIWYG editor image float styles need to be cleared
+ */
+.field--name-field-text::after {
+  display: block;
+  visibility: hidden;
+  clear: both;
+  height: 0;
+  content: ".";
+}
+
+/**
+ * Because core's align-left/align-right classes do not look for the HTML dir
+ * attribute, we use the older left/right margin directions and intentionally
+ * avoid looking at the HTML's dir attribute.
+ *
+ * @see html/core/modules/system/css/components/align.module.css
+ */
+.field--name-field-text .align-left {
+  margin-right: 1rem;
+}
+.field--name-field-text .align-right {
+  margin-left: 1rem;
+}
+
+/**
+ * Re-implements CD Bullet List so that it applies to WYSIWYG fields.
+ *
+ * Changes:
+ *
+ * - margins between list-items are more compact
+ * - reading-dir syntax used for padding
+ */
+.field--name-field-text ul {
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.field--name-field-text ul li {
+  margin-inline-start: 1.125em;
+  padding: 0;
+}

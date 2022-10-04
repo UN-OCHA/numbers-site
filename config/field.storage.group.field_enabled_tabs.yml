@@ -1,0 +1,42 @@
+uuid: 06117c9d-ddc5-41bd-86c9-17999be193a1
+langcode: en
+status: true
+dependencies:
+  module:
+    - group
+    - options
+id: group.field_enabled_tabs
+field_name: field_enabled_tabs
+entity_type: group
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: pages
+      label: Pages
+    -
+      value: documents
+      label: Reports
+    -
+      value: maps
+      label: Maps/Infographics
+    -
+      value: assessments
+      label: Assessments
+    -
+      value: data
+      label: Data
+    -
+      value: events
+      label: Events
+    -
+      value: offices
+      label: Contacts
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

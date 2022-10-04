@@ -1,0 +1,79 @@
+uuid: 7a5af56f-20d9-417d-8c3f-bf1663290b10
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_paragraphs_secondary
+    - node.type.landing_page
+    - paragraphs.paragraphs_type.child_groups
+  module:
+    - entity_reference_revisions
+id: node.landing_page.field_paragraphs_secondary
+field_name: field_paragraphs_secondary
+entity_type: node
+bundle: landing_page
+label: 'Secondary Content'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      child_groups: child_groups
+    negate: 1
+    target_bundles_drag_drop:
+      card_list:
+        weight: -35
+        enabled: true
+      child_groups:
+        weight: -26
+        enabled: true
+      featured_highlight:
+        weight: -32
+        enabled: false
+      group_pages:
+        weight: -25
+        enabled: true
+      hdx_river:
+        weight: -31
+        enabled: false
+      heading:
+        weight: -30
+        enabled: false
+      iframe:
+        weight: -29
+        enabled: false
+      layout:
+        weight: -28
+        enabled: true
+      menu_block:
+        weight: -27
+        enabled: false
+      reliefweb_document:
+        weight: -24
+        enabled: false
+      reliefweb_key_figures:
+        weight: -22
+        enabled: false
+      reliefweb_river:
+        weight: -23
+        enabled: false
+      rss_feed:
+        weight: -21
+        enabled: false
+      table_of_contents:
+        weight: -20
+        enabled: false
+      text_block:
+        weight: -34
+        enabled: false
+      twitter_feed:
+        weight: -19
+        enabled: true
+      upcoming_events:
+        weight: -33
+        enabled: true
+field_type: entity_reference_revisions

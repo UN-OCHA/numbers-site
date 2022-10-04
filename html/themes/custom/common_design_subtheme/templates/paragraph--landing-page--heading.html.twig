@@ -1,0 +1,34 @@
+{#
+/**
+ * @file
+ * Display a Heading within the Landing Page content type.
+ *
+ * @overrides html/themes/custom/common_design_subtheme/templates/paragraph.html.twig
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('common_design_subtheme/hri-heading') }}
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    'heading--with-link',
+  ]
+%}
+{% block paragraph %}
+  <div{{ attributes
+    .addClass(classes)
+    .setAttribute('data-type', paragraph.bundle)
+    .setAttribute('id', paragraph.bundle ~ '-' ~ paragraph.id())
+  }}>
+    {% block content %}
+      {{ content.field_title }}
+      <a class="field-title__link" href="/locations">{{ 'View all locations'|t }}</a>
+    {% endblock %}
+  </div>
+{% endblock paragraph %}

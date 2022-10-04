@@ -1,0 +1,38 @@
+services:
+  hr_paragraphs.key_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\KeyFiguresController
+    arguments: ['@http_client']
+  hr_paragraphs.fts_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController
+    arguments: ['@http_client']
+  hr_paragraphs.breadcrumb.groupcontent:
+    class: 'Drupal\hr_paragraphs\Breadcrumb\GroupContentBreadcrumbBuilder'
+    tags:
+      - { name: 'breadcrumb_builder', priority: 100 }
+  hr_paragraphs.breadcrumb.group:
+    class: 'Drupal\hr_paragraphs\Breadcrumb\GroupBreadcrumbBuilder'
+    tags:
+      - { name: 'breadcrumb_builder', priority: 100 }
+  hr_paragraphs.custom_access_group_type:
+    class: Drupal\hr_paragraphs\Access\CustomAccessGroupType
+    arguments: ['@group.group_route_context']
+    tags:
+      - { name: access_check, applies_to: _custom_access_group_type }
+  hr_paragraphs.route_subscriber:
+    class: Drupal\hr_paragraphs\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  hr_paragraphs.social_auth_subscriber:
+    class: Drupal\hr_paragraphs\EventSubscriber\SocialAuthSubscriber
+    arguments:
+      - '@config.factory'
+      - '@plugin.manager.mail'
+    tags:
+      - { name: 'event_subscriber' }
+  hr_paragraphs.override_language:
+    class: \Drupal\hr_paragraphs\Config\LanguageConfigOverrides
+    arguments:
+      - '@config.factory'
+      - '@language.default'
+    tags:
+      - { name: config.factory.override, priority: 2 }

@@ -1,0 +1,75 @@
+{#
+/**
+ * @file
+ * Common include for River-related templates. Outputs one row of data.
+ *
+ * @see river.html.twig
+ * @see hr-paragraphs-rw-list.html.twig
+ */
+#}
+<article class="hri-river__result" data-rw-id="{{ row.id }}">
+  <header>
+    <p class="country">
+      <span class="country--primary">{{ row.primary_country }}</span>
+      {% if row.countries|length > 1 %}
+        {{ '+ @count more'|t({'@count': row.countries|slice(1)|length}) }}
+      {% endif %}
+    </p>
+    <h3 class="title">
+      <a href="{{ row.url }}">{{ row.title }}</a>
+      <span class="hri__external-url"></span>
+    </h3>
+  </header>
+
+  <div class="content">
+    {% if not row.hide_thumbnails %}
+      {% for file in row.files|slice(0, 1) %}
+        {% if file.preview != '' %}
+          <img src="{{ file.preview }}" alt="{{ file.description }}">
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% if row.body != '' %}
+      {% if row.body|striptags|split(' ')|length > 36 %}
+        <p>{{ row.body|striptags|split(' ')|slice(0, 36)|join(' ')|raw }}&hellip;</p>
+      {% else %}
+        <p>{{ row.body|striptags|raw }}</p>
+      {% endif %}
+    {% else %}
+      {% for file in row.files|slice(0, 1) %}
+        {% if file.preview != '' %}
+          <p>{{ 'Please see the attached infographic.'|t }}</p>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <footer>
+    <dl class="meta core">
+      <dt class="format {{ row.format|clean_class }} visually-hidden">{{ 'Format'|t }}:</dt>
+      <dd class="format {{ row.format|clean_class }}">{{ row.format|t }}</dd>
+
+      <dt class="source">{{ 'Source'|t }}:</dt>
+      <dd class="source">{{ row.sources }}</dd>
+
+      <dt class="date posted">{{ 'Posted'|t }}:</dt>
+      <dd class="date posted">{{ row.date_created|date("j M Y") }}</dd>
+
+      {% if row.files|length > 0 %}
+      <dt class="files">{{ 'Files'|t }}:</dt>
+      <dd class="files">
+        {% for file in row.files|slice(0,1) %}
+          <a class="hri-river__file cd-button cd-button--small cd-button--icon" href="{{ file.url }}" title="{{ file.name }}">
+            <span class="visually-hidden">{{ 'Download'|t }}</span>
+            <span class="cd-button__icon hri-river__file-icon"></span>
+          </a>
+        {% endfor %}
+        {% if row.files|length > 1 %}
+          <em>&nbsp;{{ '+ @count more'|t({'@count': row.files|length - 1}) }}</em>
+        {% endif %}
+      </dd>
+      {% endif %}
+    </dl>
+  </footer>
+</article>

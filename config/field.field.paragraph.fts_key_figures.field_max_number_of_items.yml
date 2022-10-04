@@ -1,0 +1,23 @@
+uuid: bdc36223-f535-4a31-8681-5a52311f8048
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_max_number_of_items
+    - paragraphs.paragraphs_type.fts_key_figures
+id: paragraph.fts_key_figures.field_max_number_of_items
+field_name: field_max_number_of_items
+entity_type: paragraph
+bundle: fts_key_figures
+label: 'Max number of items'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

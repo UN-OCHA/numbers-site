@@ -1,0 +1,195 @@
+{
+    "name": "un-ocha/response-site",
+    "description": "Reliefweb Response",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "fullcalendar/fullcalendar",
+                "version": "3.10.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/fullcalendar/fullcalendar/releases/download/v3.10.0/fullcalendar-3.10.0.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "require": {
+        "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
+        "drupal/admin_denied": "^1.1",
+        "drupal/advagg": "^5.0",
+        "drupal/components": "^2.4",
+        "drupal/core-composer-scaffold": "^9",
+        "drupal/core-project-message": "^9",
+        "drupal/core-recommended": "^9",
+        "drupal/csp": "^1.16",
+        "drupal/google_tag": "^1.4",
+        "drupal/group": "^1.4",
+        "drupal/inline_entity_form": "^1.0@RC",
+        "drupal/layout_paragraphs": "^2.0@beta",
+        "drupal/link_allowed_hosts": "^1.0@beta",
+        "drupal/maintenance200": "^1.1",
+        "drupal/masquerade": "^2.0@beta",
+        "drupal/memcache": "^2.3",
+        "drupal/override_node_options": "^2.6",
+        "drupal/pathauto": "^1.8",
+        "drupal/select2": "^1.13",
+        "drupal/social_auth_hid": "^3.0",
+        "drupal/subgroup": "^1.0",
+        "drupal/theme_switcher": "^1.2",
+        "drupal/twig_tweak": "^3.1",
+        "drupal/user_expire": "^1.0",
+        "drush/drush": "11",
+        "galbar/jsonpath": "^2.0",
+        "league/commonmark": "1.6",
+        "mailchimp/marketing": "^3.0",
+        "npm-asset/moment": "^2.29",
+        "npm-asset/select2": "^4",
+        "oomphinc/composer-installers-extender": "^2.0",
+        "rlanvin/php-rrule": "2.3.1",
+        "unocha/common_design": "^7"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "scripts": {
+        "changelog": "conventional-changelog",
+        "release": "conventional-changelog",
+        "release:patch": "conventional-changelog --patch",
+        "release:minor": "conventional-changelog --minor",
+        "release:major": "conventional-changelog --major",
+        "git-hooks": "git config core.hooksPath git-hooks || exit 0",
+        "sass-prepare": "cd html/themes/custom/gms_ocha_common && npm install",
+        "sass-build": "cd html/themes/custom/gms_ocha_common && ./node_modules/.bin/sass sass:build",
+        "sass-cleanup": "cd html/themes/custom/gms_ocha_common && rm -rf ./node_modules",
+        "sass": [
+            "@sass-prepare",
+            "@sass-build",
+            "@sass-cleanup"
+        ],
+        "post-install-cmd": [
+            "@git-hooks"
+        ],
+        "post-update-cmd": [
+            "@git-hooks"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "bin-dir": "vendor/bin/",
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal-composer/preserve-paths": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "drupal/console-extend-plugin": true,
+            "symfony/flex": true,
+            "oomphinc/composer-installers-extender": true
+        }
+    },
+    "extra": {
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": true,
+        "patches-file": "composer.patches.json",
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "html/"
+            }
+        },
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ],
+        "installer-paths": {
+            "html/core": [
+                "type:drupal-core"
+            ],
+            "html/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ],
+            "html/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "html/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "html/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "html/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "html/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
+        },
+        "drupal-core-project-message": {
+            "include-keys": [
+                "homepage",
+                "support"
+            ],
+            "post-create-project-cmd-message": [
+                "<bg=blue;fg=white>                                                         </>",
+                "<bg=blue;fg=white>  Congratulations, you\u2019ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
+                "<bg=blue;fg=white>                                                         </>",
+                "",
+                "<bg=yellow;fg=black>Next steps</>:",
+                "  * Install the site: https://www.drupal.org/docs/8/install",
+                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
+                "  * Get support: https://www.drupal.org/support",
+                "  * Get involved with the Drupal community:",
+                "      https://www.drupal.org/getting-involved",
+                "  * Remove the plugin that prints this message:",
+                "      composer remove drupal/core-project-message"
+            ]
+        }
+    },
+    "require-dev": {
+        "drupal/coder": "^8.3",
+        "drupal/config_inspector": "^2.0",
+        "drupal/console": "^1.9",
+        "drupal/core-dev": "^9",
+        "drupal/dev_mode": "^2.3",
+        "drupal/devel_php": "^1.3",
+        "drupal/entity_type_clone": "^1.7",
+        "drupal/field_tools": "1.x-dev@dev",
+        "marcocesarato/php-conventional-changelog": "^1.13",
+        "mglaman/drupal-check": "^1.4",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "phpspec/prophecy-phpunit": "^2",
+        "phpunit/php-code-coverage": "^9.2",
+        "phpunit/phpunit": "^9.5",
+        "weitzman/drupal-test-traits": "^1.5"
+    },
+    "version": "0.3.0"
+}

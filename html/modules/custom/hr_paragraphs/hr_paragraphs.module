@@ -1,0 +1,800 @@
+<?php
+
+/**
+ * @file
+ * Themes and preprocessors for the paragraphs page title module.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+use Drupal\group\Entity\Group;
+use Drupal\group\Entity\GroupContent;
+use Drupal\node\Entity\Node;
+use Drupal\path_alias\Entity\PathAlias;
+use Drupal\subgroup\MalformedLeafException;
+
+/**
+ * Implements hook_theme().
+ */
+function hr_paragraphs_theme($existing, $type, $theme, $path) {
+  return [
+    'hr_paragraphs_rw_key_figures' => [
+      'template' => 'hr-paragraphs-rw-key-figures',
+      'variables' => [
+        'country_iso' => NULL,
+        'country_name' => NULL,
+        'data' => [],
+        'total' => [],
+        'view_all' => NULL,
+      ],
+    ],
+    'hr_paragraphs_fts_key_figures' => [
+      'template' => 'hr-paragraphs-fts-key-figures',
+      'variables' => [
+        'plan_id' => NULL,
+        'country_iso' => NULL,
+        'country_name' => NULL,
+        'data' => [],
+        'total' => [],
+        'view_all' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function hr_paragraphs_group_insert(EntityInterface $entity) {
+  if ($entity->bundle() != 'operation') {
+    return;
+  }
+
+  $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+  $source = '/group/' . $entity->id();
+
+  $path_alias_manager = \Drupal::service('path_alias.manager');
+  $group_alias = $path_alias_manager->getAliasByPath($source);
+
+  // Add alias if needed.
+  if ($group_alias === $source) {
+    $page_title = \Drupal::service('pathauto.alias_cleaner')->cleanString($entity->label());
+    $new_alias = '/' . $page_title;
+
+    /** @var \Drupal\pathauto\AliasUniquifier $alias_uniquifier */
+    $alias_uniquifier = \Drupal::service('pathauto.alias_uniquifier');
+    $alias_uniquifier->uniquify($new_alias, $source, $langcode);
+
+    if ($source !== $new_alias) {
+      $path_alias = PathAlias::create([
+        'path' => $source,
+        'alias' => $new_alias,
+      ]);
+
+      $path_alias->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function hr_paragraphs_group_update(EntityInterface $entity) {
+  /** @var \Drupal\group\Entity\Group $entity */
+  if ($entity->bundle() == 'operation') {
+    return hr_paragraphs_group_insert($entity);
+  }
+
+  $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+  $source = '/group/' . $entity->id();
+
+  $path_alias_manager = \Drupal::service('path_alias.manager');
+  $group_alias = $path_alias_manager->getAliasByPath($source);
+
+  // Add alias if needed.
+  if ($group_alias === $source) {
+    // Get parent alias.
+    if ($entity->hasField('subgroup_tree') && !$entity->subgroup_tree->isEmpty()) {
+      $subgroup = $entity;
+      $group = Group::load($entity->subgroup_tree->value);
+
+      $path_alias_manager = \Drupal::service('path_alias.manager');
+
+      $group_alias = $path_alias_manager->getAliasByPath('/group/' . $group->id());
+      $page_title = \Drupal::service('pathauto.alias_cleaner')->cleanString($entity->label());
+      $new_alias = $group_alias . '/' . $page_title;
+
+      $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+      $source = '/group/' . $subgroup->id();
+
+      /** @var \Drupal\pathauto\AliasUniquifier $alias_uniquifier */
+      $alias_uniquifier = \Drupal::service('pathauto.alias_uniquifier');
+      $alias_uniquifier->uniquify($new_alias, $source, $langcode);
+
+      if ($source !== $new_alias) {
+        $path_alias = PathAlias::create([
+          'path' => $source,
+          'alias' => $new_alias,
+        ]);
+
+        $path_alias->save();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function hr_paragraphs_node_update(EntityInterface $entity) {
+  $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+  $source = '/node/' . $entity->id();
+
+  $path_alias_manager = \Drupal::service('path_alias.manager');
+  $node_alias = $path_alias_manager->getAliasByPath($source);
+
+  // Skip if an alias is already set.
+  if ($node_alias !== $source) {
+    return;
+  }
+
+  $page_title = \Drupal::service('pathauto.alias_cleaner')->cleanString($entity->label());
+
+  $group_content_array = GroupContent::loadByEntity($entity);
+  $group_content = reset($group_content_array);
+  if ($group_content) {
+    $group = $group_content->getGroup();
+    $group_alias = $path_alias_manager->getAliasByPath('/group/' . $group->id());
+
+    // Make sure group has a proper alias.
+    if ($group_alias == '/group/' . $group->id()) {
+      return;
+    }
+
+    $new_alias = $group_alias . '/' . $page_title;
+
+    /** @var \Drupal\pathauto\AliasUniquifier $alias_uniquifier */
+    $alias_uniquifier = \Drupal::service('pathauto.alias_uniquifier');
+    $alias_uniquifier->uniquify($new_alias, $source, $langcode);
+
+    if ($source !== $new_alias) {
+      $path_alias = PathAlias::create([
+        'path' => $source,
+        'alias' => $new_alias,
+      ]);
+
+      $path_alias->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function hr_paragraphs_group_content_insert(EntityInterface $entity) {
+  /** @var \Drupal\group\Entity\GroupContent $entity */
+  $plugin_id = $entity->getGroupContentType()->getContentPluginId();
+
+  if ($plugin_id === 'group_node:page') {
+    return hr_paragraphs_group_content_alias($entity);
+  }
+
+  if ($plugin_id === 'subgroup:cluster') {
+    return hr_paragraphs_group_subgroup_alias($entity);
+  }
+
+  if ($plugin_id === 'group_membership') {
+    return hr_paragraphs_group_add_member($entity);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function hr_paragraphs_group_add_member(EntityInterface $entity) {
+  /** @var \Drupal\group\Entity\GroupContent $entity */
+  $group = $entity->getGroup();
+
+  /** @var \Drupal\user\Entity\User $member */
+  $member = $entity->getEntity();
+
+  // Skip UID 0 and 1.
+  if ($member->id() <= 1) {
+    return;
+  }
+
+  \Drupal::logger('hr_members')->info('@member (@uid) added to @group (@gid)', [
+    '@member' => $member->getAccountName(),
+    '@uid' => $member->id(),
+    '@group' => $group->label(),
+    '@gid' => $group->id(),
+  ]);
+
+  if ($member->isBlocked()) {
+    $member->activate();
+    $member->save();
+
+    \Drupal::logger('hr_members')->info('@member (@uid) account automatically unblocked', [
+      '@member' => $member->getAccountName(),
+      '@uid' => $member->id(),
+    ]);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function hr_paragraphs_group_subgroup_alias(EntityInterface $entity) {
+  /** @var \Drupal\group\Entity\GroupContent $entity */
+  $plugin_id = $entity->getGroupContentType()->getContentPluginId();
+  if ($plugin_id != 'subgroup:cluster') {
+    return;
+  }
+
+  $subgroup = $entity->getEntity();
+  $group = $entity->getGroup();
+
+  $path_alias_manager = \Drupal::service('path_alias.manager');
+
+  $group_alias = $path_alias_manager->getAliasByPath('/group/' . $group->id());
+  $page_title = \Drupal::service('pathauto.alias_cleaner')->cleanString($entity->label());
+  $new_alias = $group_alias . '/' . $page_title;
+
+  $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+  $source = '/group/' . $subgroup->id();
+
+  /** @var \Drupal\pathauto\AliasUniquifier $alias_uniquifier */
+  $alias_uniquifier = \Drupal::service('pathauto.alias_uniquifier');
+  $alias_uniquifier->uniquify($new_alias, $source, $langcode);
+
+  if ($source !== $new_alias) {
+    $path_alias = PathAlias::create([
+      'path' => $source,
+      'alias' => $new_alias,
+    ]);
+
+    $path_alias->save();
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function hr_paragraphs_group_content_alias(EntityInterface $entity) {
+  /** @var \Drupal\group\Entity\GroupContent $entity */
+  $plugin_id = $entity->getGroupContentType()->getContentPluginId();
+  if ($plugin_id != 'group_node:page') {
+    return;
+  }
+
+  $node = $entity->getEntity();
+  $group = $entity->getGroup();
+
+  $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
+  $source = '/node/' . $node->id();
+
+  $path_alias_manager = \Drupal::service('path_alias.manager');
+  $node_alias = $path_alias_manager->getAliasByPath($source);
+
+  // Skip if an alias is already set.
+  if ($node_alias !== $source) {
+    return;
+  }
+
+  $page_title = \Drupal::service('pathauto.alias_cleaner')->cleanString($node->label());
+
+  $group_alias = $path_alias_manager->getAliasByPath('/group/' . $group->id());
+  $new_alias = $group_alias . '/' . $page_title;
+
+  /** @var \Drupal\pathauto\AliasUniquifier $alias_uniquifier */
+  $alias_uniquifier = \Drupal::service('pathauto.alias_uniquifier');
+  $alias_uniquifier->uniquify($new_alias, $source, $langcode);
+
+  if ($source !== $new_alias) {
+    $path_alias = PathAlias::create([
+      'path' => $source,
+      'alias' => $new_alias,
+    ]);
+
+    $path_alias->save();
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_update().
+ */
+function hr_paragraphs_group_content_update(EntityInterface $entity) {
+  return hr_paragraphs_group_content_insert($entity);
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function hr_paragraphs_preprocess_paragraph(&$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+
+  $view_mode = $variables['view_mode'];
+  if ($view_mode === 'preview') {
+
+    // Check emptiness.
+    $is_empty = TRUE;
+    $outputted_fields = array_keys($variables['content']);
+
+    foreach ($paragraph->getFields(FALSE) as $field) {
+      if (in_array($field->getName(), $outputted_fields)) {
+        if (!$field->isEmpty()) {
+          $is_empty = FALSE;
+        }
+      }
+    }
+
+    if ($is_empty) {
+      $variables['content']['empty_indicator'] = [
+        '#type' => 'markup',
+        '#markup' => t('No preview available'),
+        '#weight' => -100,
+        '#prefix' => '<div class="paragraph-empty-indicator">',
+        '#suffix' => '</div>',
+      ];
+    }
+
+    $variables['content']['indicator'] = [
+      '#type' => 'markup',
+      '#markup' => $paragraph->getParagraphType()->label(),
+      '#weight' => -100,
+      '#prefix' => '<div class="paragraph-preview-indicator">',
+      '#suffix' => '</div>',
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_paragraph__type().
+ */
+function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+
+  // Make sure Country is set.
+  if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
+    return;
+  }
+
+  // Fetch country from user input.
+  $key_figures_country = $paragraph->field_country->value;
+
+  // Fetch label of the user input.
+  $key_figures_country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
+
+  // Set max number of items to 4 by default.
+  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 4;
+
+  try {
+    /** @var \Drupal\hr_paragraphs\Controller\KeyFiguresController */
+    $key_figures_controller = \Drupal::service('hr_paragraphs.key_figures_controller');
+    $results = $key_figures_controller->getKeyFigures($key_figures_country);
+
+    $variables['content']['key_figures'] = [
+      '#theme' => 'hr_paragraphs_rw_key_figures',
+      '#country_iso' => $key_figures_country,
+      '#country_name' => $key_figures_country_labels[$key_figures_country],
+      '#data' => $key_figures_controller->buildKeyFigures($results, $max_number_of_items),
+      '#weight' => 99,
+      '#cache' => [
+        'max-age' => 12 * 60 * 60,
+      ],
+    ];
+  }
+  catch (\Exception $exception) {
+    $variables['content']['key_figures'] = [
+      '#type' => 'markup',
+      '#markup' => t('Key figure data is currently not available.'),
+      '#prefix' => '<div class="response-error response-error-api response-error-fts">',
+      '#suffix' => '</div>',
+    ];
+  }
+}
+
+/**
+ * Implements hook_preprocess_paragraph__type().
+ */
+function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+
+  // Make sure Country is set.
+  if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
+    return;
+  }
+
+  // Fetch country from user input.
+  $key_figures_country = $paragraph->field_country->value;
+
+  // Fetch label of the user input.
+  $key_figures_country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
+
+  // Set max number of items to 4 by default.
+  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 4;
+
+  try {
+    $plan_id = 1100;
+
+    /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
+    $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
+    $results = $key_figures_controller->getKeyFigures($plan_id);
+
+    $variables['content']['key_figures'] = [
+      '#theme' => 'hr_paragraphs_fts_key_figures',
+      '#plan_id' => $plan_id,
+      '#country_iso' => $key_figures_country,
+      '#country_name' => $key_figures_country_labels[$key_figures_country],
+      '#data' => $key_figures_controller->buildKeyFigures($results, $max_number_of_items),
+      '#weight' => 99,
+      '#cache' => [
+        'max-age' => 12 * 60 * 60,
+      ],
+    ];
+  }
+  catch (\Exception $exception) {
+    $variables['content']['key_figures'] = [
+      '#type' => 'markup',
+      '#markup' => t('Key figure data is currently not available.'),
+      '#prefix' => '<div class="response-error response-error-api response-error-fts">',
+      '#suffix' => '</div>',
+    ];
+  }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function hr_paragraphs_menu_local_tasks_alter(&$data, $route_name) {
+  if (empty($data['tabs'])) {
+    return;
+  }
+
+  $weights = [
+    'hr_paragraphs.operation' => -10,
+    'group.view' => 0,
+    'group.edit_form' => 5,
+    'group.delete_form' => 10,
+    'group.version_history' => 15,
+    'views_view:view.group_members.page_1' => 20,
+    'views_view:view.subgroups_of_a_group.page_1' => 30,
+    'views_view:view.group_nodes.page_1' => 40,
+    'content_translation.local_tasks:entity.group.content_translation_overview' => 100,
+    'hr_paragraphs.operation.operations' => 999,
+    'group.content' => 999,
+  ];
+
+  // Re-order tabs.
+  foreach ($data['tabs'][0] as $key => &$tab) {
+    if (isset($weights[$key])) {
+      $tab['#weight'] = $weights[$key];
+    }
+  }
+
+  // Hide add existing content local task.
+  if (isset($data['tabs'][0]['group.view']['#access'])) {
+    $data['tabs'][0]['group.view']['#access'] = FALSE;
+  }
+
+  // Hide duplicate local task.
+  if (isset($data['tabs'][0]['group.view']['#access'])) {
+    $data['tabs'][0]['group.view']['#access'] = FALSE;
+  }
+
+  // Hide all entities.
+  if (isset($data['tabs'][0]['group.content']['#access'])) {
+    $data['tabs'][0]['group.content']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_system_breadcrumb_alter().
+ */
+function hr_paragraphs_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context) {
+  if (empty($breadcrumb)) {
+    return;
+  }
+
+  if ($route_match->getRouteName() !== 'entity.group.add_form') {
+    return;
+  }
+
+  $links = $breadcrumb->getLinks();
+  if (!empty($links[1])) {
+    $title = \Drupal::service('title_resolver')->getTitle(\Drupal::request(), $route_match->getRouteObject());
+    $links[1]->setText($title);
+    $breadcrumb = new Breadcrumb();
+    $breadcrumb->setLinks($links);
+  }
+}
+
+/**
+ * Implements hook_menu_local_actions_alter().
+ */
+function hr_paragraphs_menu_local_actions_alter(&$local_actions) {
+  if (isset($local_actions['group.add_group'])) {
+    unset($local_actions['group.add_group']);
+  }
+
+  if (isset($local_actions['group_content.group_node_relate_page'])) {
+    unset($local_actions['group_content.group_node_relate_page']);
+  }
+
+  if (isset($local_actions['group_content.group_node_add_page'])) {
+    $local_actions['group_content.group_node_add_page']['title'] = t('Add new page');
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function hr_paragraphs_preprocess_node(&$variables) {
+  hr_paragraphs_user_can_edit($variables);
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function hr_paragraphs_user_can_edit(&$variables) {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+
+  /** @var \Drupal\user\Entity\User $current_user */
+  $current_user = \Drupal::currentUser();
+
+  $variables['can_edit'] = FALSE;
+  if ($node->access('update', $current_user)) {
+    $variables['can_edit'] = TRUE;
+    return;
+  }
+}
+
+/**
+ * Parse query string, allowing duplicate keys.
+ */
+function hr_paragraphs_parse_str($string) {
+  $results = [];
+  $parts = explode('&', $string);
+
+  foreach ($parts as $part) {
+    if (strpos($part, '=') === FALSE) {
+      continue;
+    }
+
+    // Split into name and value.
+    [$name, $value] = explode('=', $part, 2);
+
+    // Decode value.
+    $value = urldecode($value);
+
+    // If name already exists.
+    if (isset($results[$name])) {
+      // Stick multiple values into an array.
+      if (is_array($results[$name])) {
+        $results[$name][] = $value;
+      }
+      else {
+        $results[$name] = [$results[$name], $value];
+      }
+    }
+    // Otherwise, simply stick it in a scalar.
+    else {
+      $results[$name] = $value;
+    }
+  }
+
+  return $results;
+}
+
+/**
+ * Implements template_preprocess_html().
+ */
+function hr_paragraphs_preprocess_html(&$variables) {
+  /** @var Drupal\group\Entity\Group $group */
+  $group = \Drupal::request()->attributes->get('group');
+  if (!$group) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Routing\RouteMatch $route_match */
+  $route_match = \Drupal::routeMatch();
+  if (!$route_match) {
+    return;
+  }
+
+  // Only act on group homepage and tabs.
+  if (strpos($route_match->getRouteName(), 'hr_paragraphs.operation.') === FALSE && strpos($route_match->getRouteName(), 'entity.group.canonical') === FALSE) {
+    return;
+  }
+
+  // Add operation name for cluster homepage.
+  if (strpos($route_match->getRouteName(), 'entity.group.canonical') !== FALSE) {
+    if ($group->bundle() == 'cluster' && $group->hasField('subgroup_tree') && !$group->subgroup_tree->isEmpty()) {
+      $operation = Group::load($group->subgroup_tree->value);
+      $variables['head_title']['title'] = $operation->label->value . ': ' . $variables['head_title']['title'];
+    }
+
+    return;
+  }
+
+  if ($group->bundle() == 'cluster' && $group->hasField('subgroup_tree') && !$group->subgroup_tree->isEmpty()) {
+    $operation = Group::load($group->subgroup_tree->value);
+    $variables['head_title']['title'] = $operation->label->value . ': ' . $group->label->value . ' - ' . $variables['head_title']['title'];
+  }
+  else {
+    $variables['head_title']['title'] = $group->label->value . ' - ' . $variables['head_title']['title'];
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_create_access().
+ *
+ * @see subgroup_group_create_access()
+ */
+function hr_paragraphs_group_create_access(AccountInterface $account, array $context, $entity_bundle) {
+  /** @var \Drupal\group\Entity\GroupInterface $entity */
+  $group_type = \Drupal::entityTypeManager()->getStorage('group_type')->load($entity_bundle);
+
+  return AccessResult::neutral()->addCacheableDependency($group_type);
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * @see hr_paragraphs_group_create_access()
+ */
+function hr_paragraphs_module_implements_alter(array &$implementations, string $hook) {
+  if ($hook !== 'group_create_access') {
+    return;
+  }
+
+  if (isset($implementations['subgroup'])) {
+    unset($implementations['subgroup']);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function hr_paragraphs_form_alter(&$form, $form_state, $form_id) {
+  $form_ids = [
+    'group_content_operation-group_membership_add_form',
+    'group_content_operation-group_membership_edit_form',
+    'group_content_cluster-group_membership_add_form',
+    'group_content_cluster-group_membership_edit_form',
+  ];
+
+  if (in_array($form_id, $form_ids)) {
+    if (isset($form['path'])) {
+      unset($form['path']);
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_views_view().
+ */
+function hr_paragraphs_preprocess_views_view(&$variables) {
+  /** @var \Drupal\views\Entity\View */
+  $view = $variables['view'];
+  if ($view->id() == 'group_members' && $view->current_display == 'page_1') {
+    if (!isset($view->args[0])) {
+      return;
+    }
+
+    // Load the group.
+    $group_id = $view->args[0];
+    $group = Group::load($group_id);
+    if ($group->bundle() == 'operation') {
+      return;
+    }
+
+    // Get operation.
+    if (!$group->hasField('subgroup_tree') || $group->subgroup_tree->isEmpty()) {
+      return;
+    }
+
+    $parent = Group::load($group->subgroup_tree->value);
+    $url = Url::fromRoute('view.group_members.page_1', [
+      'group' => $parent->id(),
+    ]);
+    $operation_manager = TRUE;
+
+    // Make sure user has access.
+    $userCurrent = \Drupal::currentUser();
+    if (!$url->access($userCurrent)) {
+      $url = Url::fromRoute('entity.group.canonical', [
+        'group' => $parent->id(),
+      ]);
+      $operation_manager = FALSE;
+
+      if (!$url->access($userCurrent)) {
+        return;
+      }
+    }
+
+    $variables['cluster_message'] = [
+      'operation_manager' => $operation_manager,
+      'operation' => $parent->label(),
+      'link' => $url->toString(),
+    ];
+  }
+}
+
+/**
+ * Implements hook_group_content_info_alter().
+ */
+function hr_paragraphs_group_content_info_alter(&$definitions) {
+  // Allow blocked users to be added to a group.
+  $definitions['group_membership']['class'] = 'Drupal\hr_paragraphs\Plugin\GroupContentEnabler\AllGroupMembership';
+  $definitions['group_membership']['provider'] = 'hr_paragraphs';
+}
+
+/**
+ * Implements hook_mail().
+ */
+function hr_paragraphs_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'user_created':
+      $message['subject'] = t('New HID login on Response site');
+      $message['body'][] = t("Dear team\n\nThere is new user created on the site.");
+      $message['body'][] = t("\n\nEmail address: @mail.", [
+        '@mail' => $params['mail'],
+      ]);
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function hr_paragraphs_form_views_exposed_form_alter(&$form, $form_state, $form_id) {
+  if ($form['#id'] === 'views-exposed-form-groups-page-1' || $form['#id'] === 'views-exposed-form-subgroups-of-a-group-page-1') {
+    $form['status']['#options'][1] = t('Published');
+    $form['status']['#options'][0] = t('Unpublished');
+
+    $form['archived']['#options'][1] = t('Yes');
+    $form['archived']['#options'][0] = t('No');
+  }
+  elseif ($form['#id'] === 'views-exposed-form-content-page-1') {
+    // Load all groups.
+    $groups = Group::loadMultiple();
+
+    // Build options.
+    foreach ($groups as $group) {
+      $value = $group->label();
+
+      if ($group->hasField('subgroup_tree') && !$group->subgroup_tree->isEmpty()) {
+        if ($group->id() != $group->subgroup_tree->value) {
+          $parent = Group::load($group->subgroup_tree->value);
+          $value = $parent->label() . ' > ' . $value;
+        }
+      }
+
+      if (!empty($value)) {
+        $options[$group->id()] = $value;
+      }
+    }
+
+    // Sort and add an All option.
+    asort($options);
+    $options = ['' => 'All'] + $options;
+
+    // Output as select list.
+    if (isset($form['gid'])) {
+      $form['gid']['#type'] = 'select';
+      $form['gid']['#options'] = $options;
+      $form['gid']['#size'] = 1;
+
+    }
+  }
+}

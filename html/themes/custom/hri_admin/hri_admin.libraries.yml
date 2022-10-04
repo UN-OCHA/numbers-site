@@ -1,0 +1,6 @@
+global-styling:
+  css:
+    theme:
+      css/admin.css: {}
+  dependencies:
+    - common_design/cd-alert

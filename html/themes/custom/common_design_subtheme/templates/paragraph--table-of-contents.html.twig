@@ -1,0 +1,37 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a paragraph.
+ *
+ * @overrides html/themes/custom/common_design_subtheme/templates/paragraph.html.twig
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+{# We're imitating default styles for a WYSIWYG field to style the bullets. #}
+{{ attach_library('common_design_subtheme/hri-text-block') }}
+{{ attach_library('common_design_subtheme/hri-toc') }}
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    'field--name-field-text',
+  ]
+%}
+{% block paragraph %}
+  <nav{{ attributes
+    .addClass(classes)
+    .setAttribute('data-type', paragraph.bundle)
+    .setAttribute('id', paragraph.bundle ~ '-' ~ paragraph.id())
+  }}>
+    {% block content %}
+      {{ content }}
+      <ul class="hri-toc__list"></ul>
+    {% endblock %}
+  </nav>
+{% endblock paragraph %}
