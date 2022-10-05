@@ -6,7 +6,6 @@ dependencies:
     - field.field.group.cluster.field_enabled_tabs
     - field.field.group.cluster.field_hdx_dataset_link
     - field.field.group.cluster.field_paragraphs
-    - field.field.group.cluster.field_reliefweb_assessments
     - field.field.group.cluster.subgroup_depth
     - field.field.group.cluster.subgroup_left
     - field.field.group.cluster.subgroup_right
@@ -47,7 +46,6 @@ hidden:
   field_ical_url: true
   field_infographics: true
   field_maps_infographics_link: true
-  field_reliefweb_assessments: true
   field_sidebar_from_operation: true
   langcode: true
   subgroup_depth: true
