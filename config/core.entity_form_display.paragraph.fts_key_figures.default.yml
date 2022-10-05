@@ -8,6 +8,7 @@ dependencies:
     - field.field.paragraph.fts_key_figures.field_plans
     - field.field.paragraph.fts_key_figures.field_text
     - field.field.paragraph.fts_key_figures.field_title
+    - field.field.paragraph.fts_key_figures.field_year
     - paragraphs.paragraphs_type.fts_key_figures
   module:
     - text
@@ -24,14 +25,14 @@ content:
     third_party_settings: {  }
   field_max_number_of_items:
     type: number
-    weight: 4
+    weight: 5
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_plans:
     type: options_buttons
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -50,6 +51,12 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_year:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

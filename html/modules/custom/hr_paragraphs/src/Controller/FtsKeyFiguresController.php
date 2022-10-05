@@ -40,11 +40,24 @@ class FtsKeyFiguresController extends ControllerBase {
   /**
    * Load multiple plans.
    */
-  public function getMultipleKeyFigures(array $plan_ids, string $iso3): array {
+  public function getMultipleKeyFigures(array $plan_ids, string $iso3, bool $combined): array {
     $results = [];
 
     foreach ($plan_ids as $plan_id) {
-      $results = $results + $this->getKeyFigures($plan_id, $iso3);
+      if ($combined) {
+        if (empty($results)) {
+          $results = $this->getKeyFigures($plan_id, $iso3, $combined);
+        }
+        else {
+          $data = $this->getKeyFigures($plan_id, $iso3, $combined);
+          foreach ($data as $key => $values) {
+            $results[$key]['value'] += $values['value'] ?? 0;
+          }
+        }
+      }
+      else {
+        $results = $results + $this->getKeyFigures($plan_id, $iso3, $combined);
+      }
     }
 
     return $results;
@@ -57,11 +70,13 @@ class FtsKeyFiguresController extends ControllerBase {
    *   Plan Id.
    * @param string $iso3
    *   ISO3 of the country we want Key Figures for.
+   * @param bool $combined
+   *   If TRUE data will be using the same keys so they can be aggregated.
    *
    * @return array<string, mixed>
    *   Raw results.
    */
-  public function getKeyFigures(string $plan_id, string $iso3) : array {
+  public function getKeyFigures(string $plan_id, string $iso3, bool $combined) : array {
     $plans = $this->getPlanCodesByIso3($iso3);
     $data_total_requirement = $this->getData('public/plan/id/' . $plan_id);
     $data = $this->getData('public/fts/flow', ['planId' => $plan_id]);
@@ -80,23 +95,31 @@ class FtsKeyFiguresController extends ControllerBase {
     $unmet_requirement = ($total_requirement - $funding_total);
 
     $url = 'https://fts.unocha.org/appeals/' . $plan_id . '/summary';
+    $key_suffix = '_' . $plan_id;
+    $title_suffix = ' (' . $year . ')';
+
+    if ($combined) {
+      $key_suffix = '';
+      $title_suffix = '';
+    }
+
     return [
-      'total_requirement_' . $plan_id => [
-        'name' => 'Total requirements (' . $year . ')',
+      'total_requirement' . $key_suffix => [
+        'name' => $this->t('Total requirements') . $title_suffix,
         'value' => $total_requirement,
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
         'source' => 'FTS - ' . $plans[$plan_id],
       ],
-      'funding_total_' . $plan_id => [
-        'name' => 'Funding total (' . $year . ')',
+      'funding_total' . $key_suffix => [
+        'name' => $this->t('Funding total') . $title_suffix,
         'value' => $funding_total,
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
         'source' => 'FTS - ' . $plans[$plan_id],
       ],
-      'unmet_requirement_' . $plan_id => [
-        'name' => 'Unmet requirements (' . $year . ')',
+      'unmet_requirement' . $key_suffix => [
+        'name' => $this->t('Unmet requirements') . $title_suffix,
         'value' => $unmet_requirement,
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
@@ -448,6 +471,37 @@ class FtsKeyFiguresController extends ControllerBase {
 
     $this->cacheBackend->set($cid, $result, Cache::PERMANENT);
     $this->cacheBackend->set($cid_codes, $codes, Cache::PERMANENT);
+
+    return $result;
+  }
+
+  /**
+   * Get plans by country iso3 code and year.
+   */
+  public function getPlansByIso3AndYear($iso3, $year) {
+    $cid = 'fts_plans:country:' . $iso3 . ':year:' . $year;
+
+    // Return cached data.
+    if ($cache = $this->cacheBackend->get($cid)) {
+      return $cache->data;
+    }
+
+    $result = [];
+
+    $plans = $this->getData('public/plan/country/' . $iso3);
+    foreach ($plans as $plan) {
+      if (strpos($plan['planVersion']['startDate'], $year) === 0) {
+        $result[$plan['id']] = [
+          'name' => $plan['planVersion']['name'],
+          'code' => $plan['planVersion']['code'],
+          'country_id' => $plan['locations'][0]['id'] ?? '',
+        ];
+      }
+    }
+
+    asort($result, SORT_NATURAL | SORT_FLAG_CASE);
+
+    $this->cacheBackend->set($cid, $result, Cache::PERMANENT);
 
     return $result;
   }

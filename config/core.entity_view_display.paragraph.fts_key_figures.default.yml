@@ -8,6 +8,7 @@ dependencies:
     - field.field.paragraph.fts_key_figures.field_plans
     - field.field.paragraph.fts_key_figures.field_text
     - field.field.paragraph.fts_key_figures.field_title
+    - field.field.paragraph.fts_key_figures.field_year
     - paragraphs.paragraphs_type.fts_key_figures
   module:
     - text
@@ -35,3 +36,4 @@ hidden:
   field_country: true
   field_max_number_of_items: true
   field_plans: true
+  field_year: true
