@@ -12,7 +12,7 @@ field_name: field_country
 entity_type: paragraph
 bundle: fts_key_figures
 label: Country
-description: ''
+description: "After selecting a country, you can either select a year to aggregate all plans of that year, or select individual plans.\r\n\r\nPS: If you select both options, only year will be taken into account."
 required: false
 translatable: true
 default_value: {  }

@@ -417,26 +417,62 @@ function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
   $iso3 = $paragraph->field_country->value;
 
   // Fetch label of the user input.
-  $key_figures_country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
+  $country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
 
   // Set max number of items to 4 by default.
   $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 4;
 
   try {
-    $plan_ids = [];
-    foreach ($paragraph->field_plans->getValue() as $plan) {
-      $plan_ids[] = $plan['value'];
-    }
-
     /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
     $fts_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-    $results = $fts_controller->getMultipleKeyFigures($plan_ids, $iso3);
+
+    $plan_ids = [];
+    $combined = FALSE;
+
+    if (!$paragraph->field_year->isEmpty()) {
+      $year = $paragraph->field_year->value;
+      if ($year === 'current') {
+        $year = date('Y');
+      }
+      $plans = $fts_controller->getPlansByIso3AndYear($iso3, $year);
+      $plan_ids = array_keys($plans);
+      $combined = TRUE;
+    }
+    else {
+      foreach ($paragraph->field_plans->getValue() as $plan) {
+        $plan_ids[] = $plan['value'];
+      }
+    }
+
+    if (empty($plan_ids)) {
+      $variables['content']['key_figures'] = [
+        '#type' => 'markup',
+        '#markup' => t('No plans available.'),
+        '#prefix' => '<div class="response-error response-error-data response-error-fts">',
+        '#suffix' => '</div>',
+      ];
+
+      return;
+    }
+
+    // Get the data.
+    $results = $fts_controller->getMultipleKeyFigures($plan_ids, $iso3, $combined);
+
+    // Rewrite FTS links to country summary.
+    if ($combined) {
+      $first = reset($plans);
+      $url = 'https://fts.unocha.org/countries/' . $first['country_id'] . '/summary/' . $year;
+      foreach ($results as &$values) {
+        $values['url'] = $url;
+        $values['source'] = 'FTS - ' . $year;
+      }
+    }
 
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_fts_key_figures',
       '#plan_id' => $plan_ids[0],
       '#country_iso' => $iso3,
-      '#country_name' => $key_figures_country_labels[$iso3],
+      '#country_name' => $country_labels[$iso3],
       '#data' => $fts_controller->buildKeyFigures($results, $max_number_of_items),
       '#weight' => 99,
       '#cache' => [
@@ -809,6 +845,19 @@ function hr_paragraphs_allowed_plans(FieldStorageConfig $definition, ContentEnti
   /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
   $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
   $options = $key_figures_controller->getAllPlans(array_keys($countries));
+
+  return $options;
+}
+
+/**
+ * Allowed years.
+ */
+function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
+  $options = [
+    'current' => t('Current year'),
+  ];
+
+  $options += array_combine(range(date('Y'), 2000, -1), range(date('Y'), 2000, -1));
 
   return $options;
 }
