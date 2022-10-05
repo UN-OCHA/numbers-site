@@ -3,10 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.group.cluster.field_enabled_tabs
-    - field.field.group.cluster.field_hdx_dataset_link
     - field.field.group.cluster.field_paragraphs
-    - field.field.group.cluster.field_reliefweb_assessments
     - field.field.group.cluster.subgroup_depth
     - field.field.group.cluster.subgroup_left
     - field.field.group.cluster.subgroup_right

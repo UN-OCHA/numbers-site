@@ -3,8 +3,9 @@
 namespace Drupal\hr_paragraphs\Controller;
 
 use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Url;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -22,35 +23,51 @@ class FtsKeyFiguresController extends ControllerBase {
   protected $httpClient;
 
   /**
+   * Cache backend.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cacheBackend;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(ClientInterface $http_client) {
+  public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
     $this->httpClient = $http_client;
+    $this->cacheBackend = $cache;
+  }
+
+  /**
+   * Load multiple plans.
+   */
+  public function getMultipleKeyFigures(array $plan_ids, string $iso3): array {
+    $results = [];
+
+    foreach ($plan_ids as $plan_id) {
+      $results = $results + $this->getKeyFigures($plan_id, $iso3);
+    }
+
+    return $results;
   }
 
   /**
    * Fetch Key Figures.
    *
    * @param string $plan_id
+   *   Plan Id.
+   * @param string $iso3
    *   ISO3 of the country we want Key Figures for.
    *
    * @return array<string, mixed>
    *   Raw results.
    */
-  public function getKeyFigures(string $plan_id) : array {
-    $results = [];
-
+  public function getKeyFigures(string $plan_id, string $iso3) : array {
+    $plans = $this->getPlanCodesByIso3($iso3);
     $data_total_requirement = $this->getData('public/plan/id/' . $plan_id);
-    $data = $this->getData('public/fts/flow', array('planId' => $plan_id));
-    $data_top_donors = $this->getData('fts/flow/plan/summary/sources/' . $plan_id);
-/*
-    $data_fund_sectors = $this->getData('public/fts/flow', array(
-      'planId' => $plan_id,
-      'groupby' => 'Cluster',
-    ));
-*/
+    $data = $this->getData('public/fts/flow', ['planId' => $plan_id]);
+
     // Extract years from the plan.
-    $years = array();
+    $years = [];
     if (isset($data_total_requirement['years']) && is_array($data_total_requirement['years'])) {
       foreach ($data_total_requirement['years'] as $year_info) {
         $years[] = $year_info['year'];
@@ -61,56 +78,29 @@ class FtsKeyFiguresController extends ControllerBase {
     $total_requirement = $data_total_requirement['revisedRequirements'];
     $funding_total = $data['incoming']['fundingTotal'];
     $unmet_requirement = ($total_requirement - $funding_total);
-    $funded_average = round(($funding_total * 100) / $total_requirement, 1);
-
-    // Countries.
-    $countries = $data_top_donors[0]['funding_sources'];
-    usort($countries, function ($a, $b) {
-      return $b['total_funding'] - $a['total_funding'];
-    });
-
-    // Top 5 only.
-    $countries = array_slice($countries, 0, 5);
-
-    $country_data = array();
-    foreach ($countries as $country) {
-      $country_data[] = array(
-        'name' => str_replace(', Government of', '', $country['name']),
-        'total_funding' => $country['total_funding'],
-        'percentage' => number_format(($country['total_funding'] * 100) / $funding_total, 1, '.', ''),
-      );
-    }
 
     $url = 'https://fts.unocha.org/appeals/' . $plan_id . '/summary';
     return [
-      'total_requirement' => [
-        'name' => 'Total requirements',
+      'total_requirement_' . $plan_id => [
+        'name' => 'Total requirements (' . $year . ')',
         'value' => $total_requirement,
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
-        'source' => 'FTS',
+        'source' => 'FTS - ' . $plans[$plan_id],
       ],
-      'funding_total' => [
-        'name' => 'Funding total',
+      'funding_total_' . $plan_id => [
+        'name' => 'Funding total (' . $year . ')',
         'value' => $funding_total,
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
-        'source' => 'FTS',
+        'source' => 'FTS - ' . $plans[$plan_id],
       ],
-      'unmet_requirement' => [
-        'name' => 'Unmet requirements',
+      'unmet_requirement_' . $plan_id => [
+        'name' => 'Unmet requirements (' . $year . ')',
         'value' => $unmet_requirement,
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
-        'source' => 'FTS',
-      ],
-      'funded_average' => [
-        'name' => 'Average funded',
-        'value' => $funded_average,
-        'date' => $data_total_requirement['updatedAt'],
-        'url' => $url,
-        'source' => 'FTS',
-        'suffix' => '%',
+        'source' => 'FTS - ' . $plans[$plan_id],
       ],
     ];
   }
@@ -118,13 +108,15 @@ class FtsKeyFiguresController extends ControllerBase {
   /**
    * Fetch Key Figures.
    *
-   * @param string $plan_id
-   *   ISO3 of the country we want Key Figures for.
+   * @param string $path
+   *   API path.
+   * @param array $query
+   *   Query options.
    *
    * @return array<string, mixed>
    *   Raw results.
    */
-  public function getData(string $path, $query = []) : array {
+  public function getData(string $path, array $query = []) : array {
     $endpoint = $this->config('hr_paragraph.settings')->get('fts_api_url');
     if (empty($endpoint)) {
       return [];
@@ -144,7 +136,7 @@ class FtsKeyFiguresController extends ControllerBase {
     }
 
     try {
-      $this->getLogger('hr_paragraphs_keyfigures')->notice('Fetching data from @url', [
+      $this->getLogger('hr_paragraphs_fts_figures')->notice('Fetching data from @url', [
         '@url' => $fullUrl,
       ]);
 
@@ -155,7 +147,7 @@ class FtsKeyFiguresController extends ControllerBase {
       );
     }
     catch (RequestException $exception) {
-      $this->getLogger('hr_paragraphs_keyfigures')->error('Fetching data from $url failed with @message', [
+      $this->getLogger('hr_paragraphs_fts_figures')->error('Fetching data from $url failed with @message', [
         '@url' => $fullUrl,
         '@message' => $exception->getMessage(),
       ]);
@@ -411,17 +403,64 @@ class FtsKeyFiguresController extends ControllerBase {
   }
 
   /**
+   * Get plan codes by country iso3 code.
+   */
+  public function getPlanCodesByIso3($iso3) {
+    $cid = 'fts_plans:codes:' . $iso3;
+
+    // Return cached data.
+    if ($cache = $this->cacheBackend->get($cid)) {
+      return $cache->data;
+    }
+
+    // Cache gets filled by this.
+    $this->getPlansByIso3($iso3);
+
+    if ($cache = $this->cacheBackend->get($cid)) {
+      return $cache->data;
+    }
+
+    return [];
+  }
+
+  /**
    * Get plans by country iso3 code.
    */
-  function getPlansByIso3($iso3) {
-    $result = array();
+  public function getPlansByIso3($iso3) {
+    $cid = 'fts_plans:country:' . $iso3;
+    $cid_codes = 'fts_plans:codes:' . $iso3;
+
+    // Return cached data.
+    if ($cache = $this->cacheBackend->get($cid)) {
+      return $cache->data;
+    }
+
+    $result = [];
+    $codes = [];
 
     $plans = $this->getData('public/plan/country/' . $iso3);
     foreach ($plans as $plan) {
       $result[$plan['id']] = $plan['planVersion']['name'] . ' [' . $plan['planVersion']['code'] . ']';
+      $codes[$plan['id']] = $plan['planVersion']['code'];
     }
 
     asort($result, SORT_NATURAL | SORT_FLAG_CASE);
+
+    $this->cacheBackend->set($cid, $result, Cache::PERMANENT);
+    $this->cacheBackend->set($cid_codes, $codes, Cache::PERMANENT);
+
+    return $result;
+  }
+
+  /**
+   * Get all plans.
+   */
+  public function getAllPlans($countries) {
+    $result = [];
+
+    foreach ($countries as $iso3) {
+      $result = $result + $this->getPlansByIso3($iso3);
+    }
 
     return $result;
   }

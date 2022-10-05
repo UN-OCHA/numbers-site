@@ -7,16 +7,16 @@
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupContent;
-use Drupal\node\Entity\Node;
 use Drupal\path_alias\Entity\PathAlias;
-use Drupal\subgroup\MalformedLeafException;
 
 /**
  * Implements hook_theme().
@@ -395,7 +395,7 @@ function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) 
     $variables['content']['key_figures'] = [
       '#type' => 'markup',
       '#markup' => t('Key figure data is currently not available.'),
-      '#prefix' => '<div class="response-error response-error-api response-error-fts">',
+      '#prefix' => '<div class="response-error response-error-api response-error-rw">',
       '#suffix' => '</div>',
     ];
   }
@@ -414,7 +414,7 @@ function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
   }
 
   // Fetch country from user input.
-  $key_figures_country = $paragraph->field_country->value;
+  $iso3 = $paragraph->field_country->value;
 
   // Fetch label of the user input.
   $key_figures_country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
@@ -423,18 +423,21 @@ function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
   $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 4;
 
   try {
-    $plan_id = 1100;
+    $plan_ids = [];
+    foreach ($paragraph->field_plans->getValue() as $plan) {
+      $plan_ids[] = $plan['value'];
+    }
 
     /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
-    $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-    $results = $key_figures_controller->getKeyFigures($plan_id);
+    $fts_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
+    $results = $fts_controller->getMultipleKeyFigures($plan_ids, $iso3);
 
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_fts_key_figures',
-      '#plan_id' => $plan_id,
-      '#country_iso' => $key_figures_country,
-      '#country_name' => $key_figures_country_labels[$key_figures_country],
-      '#data' => $key_figures_controller->buildKeyFigures($results, $max_number_of_items),
+      '#plan_id' => $plan_ids[0],
+      '#country_iso' => $iso3,
+      '#country_name' => $key_figures_country_labels[$iso3],
+      '#data' => $fts_controller->buildKeyFigures($results, $max_number_of_items),
       '#weight' => 99,
       '#cache' => [
         'max-age' => 12 * 60 * 60,
@@ -478,16 +481,6 @@ function hr_paragraphs_menu_local_tasks_alter(&$data, $route_name) {
     if (isset($weights[$key])) {
       $tab['#weight'] = $weights[$key];
     }
-  }
-
-  // Hide add existing content local task.
-  if (isset($data['tabs'][0]['group.view']['#access'])) {
-    $data['tabs'][0]['group.view']['#access'] = FALSE;
-  }
-
-  // Hide duplicate local task.
-  if (isset($data['tabs'][0]['group.view']['#access'])) {
-    $data['tabs'][0]['group.view']['#access'] = FALSE;
   }
 
   // Hide all entities.
@@ -797,4 +790,102 @@ function hr_paragraphs_form_views_exposed_form_alter(&$form, $form_state, $form_
 
     }
   }
+}
+
+/**
+ * Allowed plans.
+ */
+function hr_paragraphs_allowed_plans(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
+  $options = [];
+
+  $countries = [];
+  $field_name = 'field_country';
+  $definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('paragraph', 'reliefweb_key_figures');
+
+  if (isset($definitions[$field_name])) {
+    $countries = $definitions[$field_name]->getSetting('allowed_values');
+  }
+
+  /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
+  $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
+  $options = $key_figures_controller->getAllPlans(array_keys($countries));
+
+  return $options;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, $form_state, $form_id) {
+  if (!isset($form['field_country']) || !isset($form['field_plans'])) {
+    return;
+  }
+
+  // Add wrapper to plans.
+  $form['field_plans']['#prefix'] = '<div id="field-plans-wrapper">';
+  $form['field_plans']['#suffix'] = '</div>';
+
+  // Add ajax to countries.
+  $form['field_country']['widget']['#ajax'] = [
+    'callback' => 'hr_paragraphs_load_country_plans_callback',
+    'wrapper' => 'field-plans-wrapper',
+    'event' => 'change',
+    'progress' => [
+      'type' => 'throbber',
+      'message' => t('Fetching plans...'),
+    ],
+  ];
+
+  // Get select 2 options in edit form.
+  $country = $form_state->getValue('field_country');
+  if (!empty($country)) {
+    $country = $country[0]['value'];
+  }
+  else {
+    $country = $form['field_country']['widget']['#default_value'][0] ?? NULL;
+  }
+
+  if ($country) {
+    $form['field_plans']['widget']['#options'] = hr_paragraphs_load_country_plans($country);
+  }
+  else {
+    $form['field_plans']['widget']['#options'] = [];
+  }
+}
+
+/**
+ * Callback.
+ */
+function hr_paragraphs_load_country_plans_callback(array $form, $form_state) {
+  $country = $form_state->getValue('field_country');
+  if (!empty($country)) {
+    $country = $country[0]['value'];
+    $form['field_plans']['widget']['#options'] = hr_paragraphs_load_country_plans($country);
+  }
+  else {
+    $form['field_plans']['widget']['#options'] = [];
+  }
+
+  return $form['field_plans'];
+}
+
+/**
+ * Load plans for a country.
+ */
+function hr_paragraphs_load_country_plans($iso3) {
+  $countries = [];
+  $field_name = 'field_country';
+  $definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('paragraph', 'reliefweb_key_figures');
+
+  if (isset($definitions[$field_name])) {
+    $countries = $definitions[$field_name]->getSetting('allowed_values');
+  }
+
+  if (!isset($countries[$iso3])) {
+    return [];
+  }
+
+  /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
+  $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
+  return $key_figures_controller->getPlansByIso3($iso3);
 }
