@@ -628,6 +628,20 @@ function hr_paragraphs_parse_str($string) {
  * Implements template_preprocess_html().
  */
 function hr_paragraphs_preprocess_html(&$variables) {
+  // <link rel="preconnect" href="https://fonts.googleapis.com" />
+  $preconnect_fonts = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'preconnect',
+      'href' => 'https://fonts.googleapis.com',
+    ],
+  ];
+
+  $variables['page']['#attached']['html_head'][] = [
+    $preconnect_fonts,
+    'preconnect_fonts',
+  ];
+
   /** @var Drupal\group\Entity\Group $group */
   $group = \Drupal::request()->attributes->get('group');
   if (!$group) {
