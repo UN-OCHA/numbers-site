@@ -140,7 +140,7 @@ class FtsKeyFiguresController extends ControllerBase {
    *   Raw results.
    */
   public function getData(string $path, array $query = []) : array {
-    $endpoint = $this->config('hr_paragraph.settings')->get('fts_api_url');
+    $endpoint = $this->config('hr_paragraphs.settings')->get('fts_api_url');
     if (empty($endpoint)) {
       return [];
     }
