@@ -3,6 +3,7 @@ _core:
 module:
   admin_denied: 0
   advagg: 0
+  advagg_mod: 0
   big_pipe: 0
   block: 0
   breakpoint: 0
