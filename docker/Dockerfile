@@ -23,7 +23,7 @@ RUN cp -a docker/settings.php docker/services.yml docker/memcache.services.yml h
 ################################################################################
 
 # Generate the image.
-FROM public.ecr.aws/unocha/php-k8s:8.0-NR-stable
+FROM public.ecr.aws/unocha/php-k8s:8.0-stable
 
 ARG VCS_REF
 ARG VCS_URL
@@ -33,9 +33,9 @@ ARG GITHUB_REPOSITORY
 ARG GITHUB_SHA
 ARG GITHUB_REF
 
-ENV  NGINX_SERVERNAME=response.reliefweb.int \
+ENV  NGINX_SERVERNAME=numbers.rwlabs.org \
      PHP_ENVIRONMENT=production \
-     PHP_MEMORY_LIMIT=256M \
+     PHP_MEMORY_LIMIT=192M \
      PHP_MAX_CHILDREN=16 \
      GIT_BLAME=$GITHUB_ACTOR \
      GIT_REPO=$GITHUB_REPOSITORY \
