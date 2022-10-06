@@ -1,0 +1,13 @@
+uuid: 90a6be92-0524-4492-8e28-2d0821048d8b
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: sL588ui1E_8-2c_UupwyYxcqX2OVyMFp3HTLbbFqvPc
+id: global
+label: Global
+tags:
+  canonical_url: '[current-page:url]'
+  description: 'ReliefWeb Numbers provide a quick overview.'
+  google: notranslate
+  title: '[current-page:title] | [site:name]'
