@@ -145,6 +145,7 @@ class FtsKeyFiguresController extends ControllerBase {
       return [];
     }
 
+    $headers = [];
     if (strpos($endpoint, '@') !== FALSE) {
       $auth = substr($endpoint, 8, strpos($endpoint, '@') - 8);
       $endpoint = substr_replace($endpoint, '', 8, strpos($endpoint, '@') - 7);
