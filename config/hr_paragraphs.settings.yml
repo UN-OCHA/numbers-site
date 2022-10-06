@@ -1,4 +1,1 @@
-sync_domain: 'http://hrinfo.docksal.site'
-sync_credentials: ''
-csv_source_dir: /var/www/tsv/
-notification_new_user_enabled: false
+fts_api_url: 'https://api.hpc.tools/v1/'
