@@ -1,9 +1,7 @@
 # Build the code.
-FROM public.ecr.aws/unocha/unified-builder:8.0-stable as builder
+FROM public.ecr.aws/unocha/php-k8s:8.0-stable as builder
 
 ARG  BRANCH_ENVIRONMENT
-
-ENV  NODE_ENV=$BRANCH_ENVIRONMENT
 
 # Copy only the files necessary to build the code (see .dockerignore in root).
 COPY . /srv/www
