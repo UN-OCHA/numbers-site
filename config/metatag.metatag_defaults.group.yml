@@ -1,0 +1,8 @@
+uuid: 7c8973bc-15c4-41bf-a13e-3e0f6cd9baad
+langcode: en
+status: true
+dependencies: {  }
+id: group
+label: Group
+tags:
+  geo_placename: '[current-page:title]'
