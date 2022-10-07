@@ -31,6 +31,7 @@ function hr_paragraphs_theme($existing, $type, $theme, $path) {
         'data' => [],
         'total' => [],
         'view_all' => NULL,
+        'jsonld' => NULL,
       ],
     ],
     'hr_paragraphs_fts_key_figures' => [
@@ -42,6 +43,7 @@ function hr_paragraphs_theme($existing, $type, $theme, $path) {
         'data' => [],
         'total' => [],
         'view_all' => NULL,
+        'jsonld' => NULL,
       ],
     ],
   ];
@@ -380,11 +382,21 @@ function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) 
     $key_figures_controller = \Drupal::service('hr_paragraphs.key_figures_controller');
     $results = $key_figures_controller->getKeyFigures($key_figures_country);
 
+    $data = $key_figures_controller->buildKeyFigures($results, $max_number_of_items);
+    $json_data = [];
+    foreach ($data as $row) {
+      $json_data[$row['name']] = $row['value'];
+    }
+
+    // @todo Find a better text.
+    $description = 'This needs to at least 50 characters according to google, ReliefWeb Key figures for ' . $key_figures_country_labels[$key_figures_country];
+
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_rw_key_figures',
       '#country_iso' => $key_figures_country,
       '#country_name' => $key_figures_country_labels[$key_figures_country],
-      '#data' => $key_figures_controller->buildKeyFigures($results, $max_number_of_items),
+      '#data' => $data,
+      '#jsonld' => hr_paragraphs_add_jsonld_data($key_figures_country_labels[$key_figures_country], $description, $json_data),
       '#weight' => 99,
       '#cache' => [
         'max-age' => 12 * 60 * 60,
@@ -468,12 +480,23 @@ function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
       }
     }
 
+    $data = $fts_controller->buildKeyFigures($results, $max_number_of_items);
+
+    $json_data = [];
+    foreach ($data as $row) {
+      $json_data[$row['name']] = $row['value'];
+    }
+
+    // @todo Find a better text.
+    $description = 'This needs to at least 50 characters according to google FTS Data for ' . $country_labels[$iso3];
+
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_fts_key_figures',
       '#plan_id' => $plan_ids[0],
       '#country_iso' => $iso3,
       '#country_name' => $country_labels[$iso3],
-      '#data' => $fts_controller->buildKeyFigures($results, $max_number_of_items),
+      '#data' => $data,
+      '#jsonld' => hr_paragraphs_add_jsonld_data($country_labels[$iso3], $description, $json_data),
       '#weight' => 99,
       '#cache' => [
         'max-age' => 12 * 60 * 60,
@@ -951,4 +974,59 @@ function hr_paragraphs_load_country_plans($iso3) {
   /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
   $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
   return $key_figures_controller->getPlansByIso3($iso3);
+}
+
+/**
+ * Add json ld data.
+ */
+function hr_paragraphs_add_jsonld_data($name, $description, $data) {
+  $label_column = [];
+  $value_column = [];
+
+  foreach ($data as $label => $value) {
+    $label_column[] = [
+      'csvw:value' => $label,
+      'csvw:primaryKey' => $label,
+    ];
+
+    $value_column[] = [
+      'csvw:value' => $value,
+      'csvw:primaryKey' => $value,
+    ];
+  }
+
+  $json_ld = [
+    '@context' => [
+      'https://schema.org',
+      [
+        'csvw' => 'http://www.w3.org/ns/csvw#',
+      ],
+    ],
+    '@type' => 'Dataset',
+    'name' => $name,
+    'description' => $description,
+    'publisher' => [
+      '@type' => 'Organization',
+      'name' => 'ReliefWeb',
+    ],
+    'mainEntity' => [
+      '@type' => 'csvw:Table',
+      'csvw:tableSchema' => [
+        'csvw:columns' => [
+          [
+            'csvw:name' => 'Label',
+            'csvw:datatype' => 'string',
+            'csvw:cells' => $label_column,
+          ],
+          [
+            'csvw:name' => 'Value',
+            'csvw:datatype' => 'number',
+            'csvw:cells' => $value_column,
+          ],
+        ],
+      ],
+    ],
+  ];
+
+  return json_encode($json_ld);
 }
