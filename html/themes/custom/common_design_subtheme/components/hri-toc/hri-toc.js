@@ -8,7 +8,11 @@
     attach: function (context, settings) {
       // Initialize with a few variables.
       const toc = [];
-      const paragraphs = document.querySelectorAll('.field--name-field-paragraphs > .field__item > *');
+      const paragraphs = context.querySelectorAll('.field--name-field-paragraphs > .field__item > *');
+      if (paragraphs.length == 0) {
+        return;
+      }
+
       const targets = document.querySelectorAll('.hri-toc__list');
       let output = '';
 
@@ -34,14 +38,8 @@
       if (toc.length <= 1) {
         // Remove toc.
         targets.forEach(function (target) {
-          target.parentElement.parentElement.parentElement.remove();
+          target.parentElement.parentElement.remove();
         });
-
-        // Remove sidebar if empty.
-        const sidebar = document.querySelector('.hri-layout__sidebar');
-        if (sidebar && sidebar.childElementCount == 0) {
-          sidebar.remove();
-        }
 
         return;
       }
