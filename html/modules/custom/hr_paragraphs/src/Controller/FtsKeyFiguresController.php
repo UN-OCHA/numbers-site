@@ -110,6 +110,7 @@ class FtsKeyFiguresController extends ControllerBase {
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
         'source' => 'FTS - ' . $plans[$plan_id],
+        'prefix' => '$',
       ],
       'funding_total' . $key_suffix => [
         'name' => $this->t('Funding total') . $title_suffix,
@@ -117,6 +118,7 @@ class FtsKeyFiguresController extends ControllerBase {
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
         'source' => 'FTS - ' . $plans[$plan_id],
+        'prefix' => '$',
       ],
       'unmet_requirement' . $key_suffix => [
         'name' => $this->t('Unmet requirements') . $title_suffix,
@@ -124,6 +126,7 @@ class FtsKeyFiguresController extends ControllerBase {
         'date' => $data_total_requirement['updatedAt'],
         'url' => $url,
         'source' => 'FTS - ' . $plans[$plan_id],
+        'prefix' => '$',
       ],
     ];
   }
@@ -499,8 +502,6 @@ class FtsKeyFiguresController extends ControllerBase {
         ];
       }
     }
-
-    asort($result, SORT_NATURAL | SORT_FLAG_CASE);
 
     $this->cacheBackend->set($cid, $result, Cache::PERMANENT);
 
