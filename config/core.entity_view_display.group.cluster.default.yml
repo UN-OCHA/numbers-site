@@ -44,7 +44,6 @@ hidden:
   field_ical_url: true
   field_infographics: true
   field_maps_infographics_link: true
-  field_reliefweb_assessments: true
   field_sidebar_from_operation: true
   langcode: true
   subgroup_depth: true

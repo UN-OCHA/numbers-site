@@ -27,9 +27,6 @@ settings:
       card_list:
         weight: -35
         enabled: true
-      child_groups:
-        weight: -26
-        enabled: true
       featured_highlight:
         weight: -32
         enabled: false
