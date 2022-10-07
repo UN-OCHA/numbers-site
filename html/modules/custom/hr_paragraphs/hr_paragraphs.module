@@ -372,8 +372,8 @@ function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) 
   // Fetch label of the user input.
   $key_figures_country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
 
-  // Set max number of items to 4 by default.
-  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 4;
+  // Set max number of items to 99 by default.
+  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 99;
 
   try {
     /** @var \Drupal\hr_paragraphs\Controller\KeyFiguresController */
@@ -419,8 +419,8 @@ function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
   // Fetch label of the user input.
   $country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
 
-  // Set max number of items to 4 by default.
-  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 4;
+  // Set max number of items to 99 by default.
+  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 99;
 
   try {
     /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
