@@ -42,6 +42,18 @@ function common_design_subtheme_preprocess_html(&$vars) {
     $svg_favicon,
     'svg-favicon',
   ];
+
+  // Define manifest file.
+  $manifest = [
+    'rel' => 'manifest',
+    'href' => '/' . $theme_path . '/manifest.json',
+  ];
+
+  // Link manifest.json within HTML.
+  $vars['page']['#attached']['html_head_link'][] = [
+    $manifest,
+    'manifest',
+  ];
 }
 
 /**
