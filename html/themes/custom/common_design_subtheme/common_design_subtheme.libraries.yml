@@ -10,6 +10,7 @@ global-styling:
     - common_design_subtheme/hri-breadcrumbs
     - common_design_subtheme/hri-cd-header
     - common_design_subtheme/cd-read-more
+    - common_design_subtheme/rwn-pwa
 
 cd-read-more:
   css:
@@ -187,3 +188,8 @@ rw-river-letter-navigation:
     components/rw-river-letter-navigation/rw-river-letter-navigation.js: {}
   dependencies:
     - common_design_subtheme/rw-brand
+
+rwn-pwa:
+  js:
+    js/service-worker-registration.js: {}
+    # js/service-worker.js: { preprocess: false }

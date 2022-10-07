@@ -6,7 +6,7 @@
   "description": "ReliefWeb Numbers: Financial and Crisis Figures",
   "display": "minimal-ui",
   "scope": "/",
-  "start_url": "https://numbers.rwlabs.org",
+  "start_url": "/",
   "background_color": "#055372",
   "theme_color": "#055372",
   "icons": [
