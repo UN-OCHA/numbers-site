@@ -149,6 +149,11 @@ hri-twitter-feed:
     theme:
       components/hri-twitter-feed/hri-twitter-feed.css: {}
 
+node-edit-link:
+  css:
+    theme:
+      components/node-edit-link/node-edit-link.css: {}
+
 rw-brand:
   css:
     theme:
@@ -182,8 +187,3 @@ rw-river-letter-navigation:
     components/rw-river-letter-navigation/rw-river-letter-navigation.js: {}
   dependencies:
     - common_design_subtheme/rw-brand
-
-node-edit-link:
-  css:
-    theme:
-      components/node-edit-link/node-edit-link.css: {}
