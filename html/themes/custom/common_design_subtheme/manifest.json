@@ -1,0 +1,20 @@
+{
+  "dir": "ltr",
+  "lang": "en-US",
+  "name": "ReliefWeb Numbers",
+  "short_name": "Numbers",
+  "description": "ReliefWeb Numbers: Financial and Crisis Figures",
+  "display": "minimal-ui",
+  "scope": "/",
+  "start_url": "https://numbers.rwlabs.org",
+  "background_color": "#055372",
+  "theme_color": "#055372",
+  "icons": [
+    {
+      "src": "/themes/custom/common_design_subtheme/img/logos/numbers-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
