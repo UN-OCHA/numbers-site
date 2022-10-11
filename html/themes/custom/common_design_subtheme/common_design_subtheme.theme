@@ -46,6 +46,7 @@ function common_design_subtheme_preprocess_html(&$vars) {
   // Define manifest file.
   $manifest = [
     'rel' => 'manifest',
+    'crossorigin' => 'use-credentials',
     'href' => '/' . $theme_path . '/manifest.json',
   ];
 
