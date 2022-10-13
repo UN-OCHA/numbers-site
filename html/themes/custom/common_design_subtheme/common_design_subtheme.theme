@@ -55,6 +55,55 @@ function common_design_subtheme_preprocess_html(&$vars) {
     $manifest,
     'manifest',
   ];
+
+  // Define app icons.
+  $apple_touch_icon_120 = [
+    'rel' => 'apple-touch-icon',
+    'sizes' => '120x120',
+    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@120.png',
+  ];
+  $apple_touch_icon_144 = [
+    'rel' => 'apple-touch-icon',
+    'sizes' => '144x144',
+    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@144.png',
+  ];
+  $apple_touch_icon_152 = [
+    'rel' => 'apple-touch-icon',
+    'sizes' => '152x152',
+    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@152.png',
+  ];
+  $apple_touch_icon_180 = [
+    'rel' => 'apple-touch-icon',
+    'sizes' => '180x180',
+    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@180.png',
+  ];
+  $apple_touch_icon_512 = [
+    'rel' => 'apple-touch-icon',
+    'sizes' => '512x512',
+    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@512.png',
+  ];
+
+  // Add touch icons to markup.
+  $vars['page']['#attached']['html_head_link'][] = [
+    $apple_touch_icon_120,
+    'apple_touch_icon_120',
+  ];
+  $vars['page']['#attached']['html_head_link'][] = [
+    $apple_touch_icon_144,
+    'apple_touch_icon_144',
+  ];
+  $vars['page']['#attached']['html_head_link'][] = [
+    $apple_touch_icon_152,
+    'apple_touch_icon_152',
+  ];
+  $vars['page']['#attached']['html_head_link'][] = [
+    $apple_touch_icon_180,
+    'apple_touch_icon_180',
+  ];
+  $vars['page']['#attached']['html_head_link'][] = [
+    $apple_touch_icon_512,
+    'apple_touch_icon_512',
+  ];
 }
 
 /**
