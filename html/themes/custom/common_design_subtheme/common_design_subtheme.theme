@@ -25,7 +25,7 @@ function common_design_subtheme_preprocess_html(&$vars) {
     'sizes' => 'any',
   ];
 
-  // Construct a <link> for our SVG favicon.
+  // Construct markup for our SVG favicon.
   $svg_favicon = [
     'rel' => 'icon',
     'href' => '/' . $theme_path . '/favicon.svg',
@@ -33,14 +33,24 @@ function common_design_subtheme_preprocess_html(&$vars) {
     'class' => 'svg-favicon',
   ];
 
-  // Add <link> tags to HTML response.
+  // Add icon tags to HTML response.
   $vars['page']['#attached']['html_head_link'][] = [
     $classic_favicon,
-    'classic-favicon',
+    'classic_favicon',
   ];
   $vars['page']['#attached']['html_head_link'][] = [
     $svg_favicon,
-    'svg-favicon',
+    'svg_favicon',
+  ];
+
+  // Define theme color in markup (should always match manifest).
+  $theme_color = [
+    'name' => 'theme-color',
+    'content' => '#055372',
+  ];
+  $vars['page']['#attached']['html_head_link'][] = [
+    $theme_color,
+    'theme_color',
   ];
 
   // Define manifest file.
@@ -49,8 +59,6 @@ function common_design_subtheme_preprocess_html(&$vars) {
     'crossorigin' => 'use-credentials',
     'href' => '/' . $theme_path . '/manifest.json',
   ];
-
-  // Link manifest.json within HTML.
   $vars['page']['#attached']['html_head_link'][] = [
     $manifest,
     'manifest',
