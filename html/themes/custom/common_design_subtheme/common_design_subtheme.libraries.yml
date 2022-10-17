@@ -200,14 +200,13 @@ rw-river-letter-navigation:
 
 # RW ToC comes from un-ocha/rwint9-site
 #
-# We add our own CSS (comes after RW) and JS (comes before RW).
+# We add our own CSS (comes after RW)
 rw-toc:
   css:
     theme:
       components/rw-toc/rw-toc.css: {}
       components/rw-toc/num-toc.css: {}
   js:
-    components/rw-toc/num-toc.js: {}
     components/rw-toc/rw-toc.js: {}
   dependencies:
     - common_design/cd-dropdown

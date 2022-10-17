@@ -22,5 +22,11 @@
   .setAttribute('id', 'table-of-contents')
 }}>
   <h3 class="rw-toc__title">{{ 'Figures'|t }}</h3>
-  <ul class="rw-toc__list"></ul>
+  <ul class="rw-toc__list">
+    {% for section in group.field_paragraphs %}
+      <li class="rw-toc__section">
+        <a href="#{{ section.entity.bundle ~ '-' ~ section.entity.id() }}">{{ section.entity.field_title.value }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 </nav>
