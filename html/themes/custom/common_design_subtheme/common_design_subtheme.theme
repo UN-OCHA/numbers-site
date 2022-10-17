@@ -57,10 +57,22 @@ function common_design_subtheme_preprocess_html(&$vars) {
       'href' => '/' . $theme_path . '/manifest.json',
     ],
   ];
-
   $vars['page']['#attached']['html_head'][] = [
     $manifest,
     'manifest',
+  ];
+
+  // Define theme color for PWA.
+  $theme_color = [
+    '#tag' => 'link',
+    '#attributes' => [
+      'name' => 'theme-color',
+      'content' => '#055372',
+    ],
+  ];
+  $vars['page']['#attached']['html_head'][] = [
+    $theme_color,
+    'theme_color',
   ];
 
   // Define app icons.
