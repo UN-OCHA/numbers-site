@@ -10,21 +10,18 @@
        */
       function observeAnchorTargets() {
         if (!window.IntersectionObserver) {
-          console.log('no intersectionobserver');
           return;
         }
 
         // Get the table of contents.
         var toc = document.getElementById('table-of-contents');
         if (!toc) {
-          console.log('no toc');
           return;
         }
 
         // Get the list of anchors from the table of contents.
         var anchors = toc.querySelectorAll('[href^="#"]');
         if (!anchors || anchors.length === 0) {
-          console.log('no anchors');
           return;
         }
 
@@ -40,10 +37,8 @@
           }
         }
         if (elements.length === 0) {
-          console.log('no elements');
           return;
         }
-        console.log(elements);
 
         // Track the active element, the scrolling position and the intersecting
         // elements.
