@@ -19,96 +19,110 @@ function common_design_subtheme_preprocess_html(&$vars) {
   //
   // @see config/system.theme.global.yml
   $classic_favicon = [
-    'rel' => 'alternate icon',
-    'href' => '/' . $theme_path . '/favicon.ico',
-    'type' => 'image/vnd.microsoft.icon',
-    'sizes' => 'any',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'alternate icon',
+      'href' => '/' . $theme_path . '/favicon.ico',
+      'type' => 'image/vnd.microsoft.icon',
+      'sizes' => 'any',
+    ],
   ];
 
-  // Construct markup for our SVG favicon.
   $svg_favicon = [
-    'rel' => 'icon',
-    'href' => '/' . $theme_path . '/favicon.svg',
-    'type' => 'image/svg+xml',
-    'class' => 'svg-favicon',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'icon',
+      'href' => '/' . $theme_path . '/favicon.svg',
+      'type' => 'image/svg+xml',
+      'class' => 'svg-favicon',
+    ],
   ];
 
   // Add icon tags to HTML response.
-  $vars['page']['#attached']['html_head_link'][] = [
+  $vars['page']['#attached']['html_head'][] = [
     $classic_favicon,
     'classic_favicon',
   ];
-  $vars['page']['#attached']['html_head_link'][] = [
+  $vars['page']['#attached']['html_head'][] = [
     $svg_favicon,
     'svg_favicon',
   ];
 
-  // Define theme color in markup (should always match manifest).
-  $theme_color = [
-    'name' => 'theme-color',
-    'content' => '#055372',
-  ];
-  $vars['page']['#attached']['html_head_link'][] = [
-    $theme_color,
-    'theme_color',
-  ];
-
   // Define manifest file.
   $manifest = [
-    'rel' => 'manifest',
-    'crossorigin' => 'use-credentials',
-    'href' => '/' . $theme_path . '/manifest.json',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'manifest',
+      'crossorigin' => 'use-credentials',
+      'href' => '/' . $theme_path . '/manifest.json',
+    ],
   ];
-  $vars['page']['#attached']['html_head_link'][] = [
+
+  $vars['page']['#attached']['html_head'][] = [
     $manifest,
     'manifest',
   ];
 
   // Define app icons.
   $apple_touch_icon_120 = [
-    'rel' => 'apple-touch-icon',
-    'sizes' => '120x120',
-    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@120.png',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'apple-touch-icon',
+      'sizes' => '120x120',
+      'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@120.png',
+    ],
   ];
   $apple_touch_icon_144 = [
-    'rel' => 'apple-touch-icon',
-    'sizes' => '144x144',
-    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@144.png',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'apple-touch-icon',
+      'sizes' => '144x144',
+      'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@144.png',
+    ],
   ];
   $apple_touch_icon_152 = [
-    'rel' => 'apple-touch-icon',
-    'sizes' => '152x152',
-    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@152.png',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'apple-touch-icon',
+      'sizes' => '152x152',
+      'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@152.png',
+    ],
   ];
   $apple_touch_icon_180 = [
-    'rel' => 'apple-touch-icon',
-    'sizes' => '180x180',
-    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@180.png',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'apple-touch-icon',
+      'sizes' => '180x180',
+      'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@180.png',
+    ],
   ];
   $apple_touch_icon_512 = [
-    'rel' => 'apple-touch-icon',
-    'sizes' => '512x512',
-    'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@512.png',
+    '#tag' => 'link',
+    '#attributes' => [
+      'rel' => 'apple-touch-icon',
+      'sizes' => '512x512',
+      'href' => '/' . $theme_path . '/img/' . 'reliefweb-numbers@512.png',
+    ],
   ];
 
   // Add touch icons to markup.
-  $vars['page']['#attached']['html_head_link'][] = [
+  $vars['page']['#attached']['html_head'][] = [
     $apple_touch_icon_120,
     'apple_touch_icon_120',
   ];
-  $vars['page']['#attached']['html_head_link'][] = [
+  $vars['page']['#attached']['html_head'][] = [
     $apple_touch_icon_144,
     'apple_touch_icon_144',
   ];
-  $vars['page']['#attached']['html_head_link'][] = [
+  $vars['page']['#attached']['html_head'][] = [
     $apple_touch_icon_152,
     'apple_touch_icon_152',
   ];
-  $vars['page']['#attached']['html_head_link'][] = [
+  $vars['page']['#attached']['html_head'][] = [
     $apple_touch_icon_180,
     'apple_touch_icon_180',
   ];
-  $vars['page']['#attached']['html_head_link'][] = [
+  $vars['page']['#attached']['html_head'][] = [
     $apple_touch_icon_512,
     'apple_touch_icon_512',
   ];
