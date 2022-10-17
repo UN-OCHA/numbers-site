@@ -65,7 +65,7 @@ function common_design_subtheme_preprocess_html(&$vars) {
 
   // Define theme color for PWA.
   $theme_color = [
-    '#tag' => 'link',
+    '#tag' => 'meta',
     '#attributes' => [
       'name' => 'theme-color',
       'content' => '#055372',
