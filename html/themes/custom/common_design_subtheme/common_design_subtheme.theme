@@ -13,7 +13,7 @@ function common_design_subtheme_preprocess_html(&$vars) {
   $theme_handler = \Drupal::service('theme_handler');
   $theme_path = $theme_handler->getTheme($theme_handler->getDefault())->getPath();
 
-  // Construct a <link> for the legacy favicon, which we disabled in the config
+  // Define a <link> for the legacy favicon, which we disabled in the config
   // for the site via global theme settings. We're modifying a couple of the
   // attributes so it's easiest to redefine it in code.
   //
@@ -28,6 +28,7 @@ function common_design_subtheme_preprocess_html(&$vars) {
     ],
   ];
 
+  // Define markup for our SVG favicon.
   $svg_favicon = [
     '#tag' => 'link',
     '#attributes' => [
@@ -38,7 +39,7 @@ function common_design_subtheme_preprocess_html(&$vars) {
     ],
   ];
 
-  // Add icon tags to HTML response.
+  // Add favicon tags to <head> markup.
   $vars['page']['#attached']['html_head'][] = [
     $classic_favicon,
     'classic_favicon',
@@ -117,7 +118,7 @@ function common_design_subtheme_preprocess_html(&$vars) {
     ],
   ];
 
-  // Add touch icons to markup.
+  // Add touch icons to <head> markup.
   $vars['page']['#attached']['html_head'][] = [
     $apple_touch_icon_120,
     'apple_touch_icon_120',
