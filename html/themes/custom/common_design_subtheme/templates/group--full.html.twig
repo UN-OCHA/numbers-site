@@ -42,7 +42,7 @@
  */
 #}
 {{ attach_library('common_design/cd-alert') }}
-{{ attach_library('common_design_subtheme/hri-layout') }}
+{{ attach_library('common_design_subtheme/num-layout') }}
 
 {%
   set classes = [
@@ -80,16 +80,14 @@
 
   <div{{ content_attributes }}>
     {% block section %}
-      <div class="hri-layout hri-layout--two-col">
-        <div class="hri-layout__main-content">
+      <div class="num-layout num-layout--two-col">
+        <div class="num-layout__main-content">
           {{ content|without('field_sidebar_menu')}}
         </div>
 
-        {% if content.field_sidebar_menu[0] is not empty %}
-          <div class="hri-layout__sidebar hri-layout__first" role="complementary">
-            {{ content.field_sidebar_menu }}
-          </div>
-        {% endif %}
+        <div class="num-layout__sidebar num-layout__first" role="complementary">
+          {% include '@common_design_subtheme/sticky-toc.html.twig' %}
+        </div>
       </div>
     {% endblock %}
   </div>

@@ -1,10 +1,10 @@
 /**
- * HR.info Table of Contents
+ * Numbers Table of Contents
  */
 (function () {
   'use strict';
 
-  Drupal.behaviors.tableOfContents = {
+  Drupal.behaviors.numTableOfContents = {
     attach: function (context, settings) {
       // Initialize with a few variables.
       const toc = [];
@@ -13,7 +13,7 @@
         return;
       }
 
-      const targets = document.querySelectorAll('.hri-toc__list');
+      const targets = document.querySelectorAll('.rw-toc__list');
       let output = '';
 
       // Loop through Paragraphs in the main content column and collect essential
@@ -46,7 +46,9 @@
 
       // For all items found, construct some HTML.
       toc.forEach(function (item) {
-        output += '<li><a href="#' + item.id + '">' + item.title + '</a></li>';
+        output += '<li class="rw-toc__section">';
+        output += '<a href="#' + item.id + '">' + item.title + '</a>';
+        output += '</li>';
       });
 
       // Append to DOM of all ToC Paragraphs on page.
@@ -58,7 +60,7 @@
       //
       // First, check for prefers-reduced-motion and only continue if the media
       // query resolves to false.
-      const tocLinks = document.querySelectorAll('.hri-toc__list a');
+      const tocLinks = document.querySelectorAll('.rw-toc__list a');
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches === false) {
         tocLinks.forEach(function (link) {
           link.addEventListener('click', function (ev) {
