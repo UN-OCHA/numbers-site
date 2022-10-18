@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a paragraph.
+ *
+ * @overrides html/themes/custom/common_design_subtheme/templates/paragraph.html.twig
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('common_design_subtheme/rw-toc') }}
+{% set attributes = create_attribute() %}
+{% set classes = ['rw-toc'] %}
+
+<nav{{ attributes
+  .addClass(classes)
+  .setAttribute('data-cd-toggable', 'Jump to content')
+  .setAttribute('data-cd-icon', 'arrow-down')
+  .setAttribute('data-cd-component', 'rw-toc')
+  .setAttribute('id', 'table-of-contents')
+}}>
+  <h3 class="rw-toc__title">{{ 'Figures'|t }}</h3>
+  <ul class="rw-toc__list">
+    {% for section in group.field_paragraphs %}
+      <li class="rw-toc__section">
+        <a href="#{{ section.entity.bundle ~ '-' ~ section.entity.id() }}">{{ section.entity.field_title.value }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

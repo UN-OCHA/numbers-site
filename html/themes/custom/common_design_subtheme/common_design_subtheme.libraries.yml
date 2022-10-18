@@ -10,7 +10,7 @@ global-styling:
     - common_design_subtheme/hri-breadcrumbs
     - common_design_subtheme/hri-cd-header
     - common_design_subtheme/cd-read-more
-    - common_design_subtheme/rwn-pwa
+    - common_design_subtheme/num-pwa
 
 cd-read-more:
   css:
@@ -95,11 +95,6 @@ hri-iframe:
     component:
       components/hri-iframe/hri-iframe.css: {}
 
-hri-layout:
-  css:
-    component:
-      components/hri-layout/hri-layout.css: {}
-
 hri-pagination:
   css:
     theme:
@@ -136,10 +131,6 @@ hri-text-block:
     theme:
       components/hri-text-block/hri-text-block.css: {}
 
-hri-toc:
-  js:
-    components/hri-toc/hri-toc.js: {}
-
 hri-tooltip:
   css:
     theme:
@@ -154,6 +145,24 @@ node-edit-link:
   css:
     theme:
       components/node-edit-link/node-edit-link.css: {}
+
+num-layout:
+  css:
+    component:
+      components/num-layout/num-layout.css: {}
+
+num-pwa:
+  js:
+    js/service-worker-registration.js: {}
+    # TODO: when we start using the SW, probably best to slide it back into the
+    # theme directory where we can easily run local node commands to build it,
+    # and supply a ServiceWorker-Allowed HTTP header so that the scope can still
+    # be at the root of the site even though it's inside the theme directory.
+    #
+    # We won't want to aggregate it, so the following config will be necessary
+    # in order to load it.
+    #
+    # js/service-worker.js: { preprocess: false }
 
 rw-brand:
   css:
@@ -189,15 +198,16 @@ rw-river-letter-navigation:
   dependencies:
     - common_design_subtheme/rw-brand
 
-rwn-pwa:
+# RW ToC comes from un-ocha/rwint9-site
+#
+# We add our own CSS and JS, which enhance the core RW assets.
+rw-toc:
+  css:
+    theme:
+      components/rw-toc/rw-toc.css: {}
+      components/rw-toc/num-toc.css: {}
   js:
-    js/service-worker-registration.js: {}
-    # TODO: when we start using the SW, probably best to slide it back into the
-    # theme directory where we can easily run local node commands to build it,
-    # and supply a ServiceWorker-Allowed HTTP header so that the scope can still
-    # be at the root of the site even though it's inside the theme directory.
-    #
-    # We won't want to aggregate it, so the following config will be necessary
-    # in order to load it.
-    #
-    # js/service-worker.js: { preprocess: false }
+    components/rw-toc/rw-toc.js: {}
+    components/rw-toc/num-toc.js: {}
+  dependencies:
+    - common_design/cd-dropdown
