@@ -86,45 +86,45 @@ class IdpsKeyFiguresController extends ControllerBase {
     foreach ($data['values'] as $values) {
       if (!empty($values['ConflictStockDisplacement'])) {
         $conflictStockDisplacement['values'][] = [
-          'date' => new DateTime($values['year'] . '-01-01'),
+          'date' => new \DateTime($values['year'] . '-01-01'),
           'value' => $values['ConflictStockDisplacement'],
         ];
 
         // Most recent is last.
-        $conflictStockDisplacement['date'] = new DateTime($values['year'] . '-01-01');
+        $conflictStockDisplacement['date'] = new \DateTime($values['year'] . '-01-01');
         $conflictStockDisplacement['value'] = $values['ConflictStockDisplacement'];
       }
 
       if (!empty($values['ConflictInternalDisplacements'])) {
         $conflictInternalDisplacements['values'][] = [
-          'date' => new DateTime($values['year'] . '-01-01'),
+          'date' => new \DateTime($values['year'] . '-01-01'),
           'value' => $values['ConflictInternalDisplacements'],
         ];
 
         // Most recent is last.
-        $conflictInternalDisplacements['date'] = new DateTime($values['year'] . '-01-01');
+        $conflictInternalDisplacements['date'] = new \DateTime($values['year'] . '-01-01');
         $conflictInternalDisplacements['value'] = $values['ConflictInternalDisplacements'];
       }
 
       if (!empty($values['DisasterInternalDisplacements'])) {
         $disasterInternalDisplacements['values'][] = [
-          'date' => new DateTime($values['year'] . '-01-01'),
+          'date' => new \DateTime($values['year'] . '-01-01'),
           'value' => $values['DisasterInternalDisplacements'],
         ];
 
         // Most recent is last.
-        $disasterInternalDisplacements['date'] = new DateTime($values['year'] . '-01-01');
+        $disasterInternalDisplacements['date'] = new \DateTime($values['year'] . '-01-01');
         $disasterInternalDisplacements['value'] = $values['DisasterInternalDisplacements'];
       }
 
       if (!empty($values['DisasterStockDisplacement'])) {
         $disasterStockDisplacement['values'][] = [
-          'date' => new DateTime($values['year'] . '-01-01'),
+          'date' => new \DateTime($values['year'] . '-01-01'),
           'value' => $values['DisasterStockDisplacement'],
         ];
 
         // Most recent is last.
-        $disasterStockDisplacement['date'] = new DateTime($values['year'] . '-01-01');
+        $disasterStockDisplacement['date'] = new \DateTime($values['year'] . '-01-01');
         $disasterStockDisplacement['value'] = $values['DisasterStockDisplacement'];
       }
     }
