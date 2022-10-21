@@ -5,6 +5,12 @@ hr_paragraphs.settings:
     fts_api_url:
       type: string
       label: 'FTS API URL including authentication'
+    idps_api_url:
+      type: string
+      label: 'OCHA API URL'
+    idps_api_key:
+      type: string
+      label: 'OCHA API key'
 
 field.widget.settings.hr_paragraphs_link_default:
   type: mapping

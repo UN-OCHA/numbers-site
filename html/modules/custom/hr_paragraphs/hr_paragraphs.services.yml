@@ -5,6 +5,9 @@ services:
   hr_paragraphs.fts_figures_controller:
     class: \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController
     arguments: ['@http_client', '@hr_paragraphs.cache.fts_plans']
+  hr_paragraphs.idps_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\IdpsKeyFiguresController
+    arguments: ['@http_client', '@hr_paragraphs.cache.idps']
   hr_paragraphs.breadcrumb.groupcontent:
     class: 'Drupal\hr_paragraphs\Breadcrumb\GroupContentBreadcrumbBuilder'
     tags:
@@ -42,3 +45,9 @@ services:
       - { name: cache.bin, default_backend: cache.backend.permanent_database }
     factory: cache_factory:get
     arguments: [fts_plans]
+  hr_paragraphs.cache.idps:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin, default_backend: cache.backend.permanent_database }
+    factory: cache_factory:get
+    arguments: [idps]

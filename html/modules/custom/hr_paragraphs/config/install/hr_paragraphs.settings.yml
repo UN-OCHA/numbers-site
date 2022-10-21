@@ -1,1 +1,3 @@
 fts_api_url: 'https://api.hpc.tools/v1/'
+idps_api_url: ''
+idps_api_key: ''
