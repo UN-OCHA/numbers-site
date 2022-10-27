@@ -4,8 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.fts_key_figures.field_country
-    - field.field.paragraph.fts_key_figures.field_max_number_of_items
-    - field.field.paragraph.fts_key_figures.field_plans
     - field.field.paragraph.fts_key_figures.field_title
     - field.field.paragraph.fts_key_figures.field_year
     - paragraphs.paragraphs_type.fts_key_figures
@@ -17,19 +15,6 @@ content:
   field_country:
     type: options_select
     weight: 2
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_max_number_of_items:
-    type: number
-    weight: 5
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_plans:
-    type: options_buttons
-    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }

@@ -2,15 +2,18 @@
 
 namespace Drupal\hr_paragraphs\Controller;
 
+use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Controller\ControllerBase;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Page controller for Key Figures.
+ * Base controller for Key Figures.
  */
-class KeyFiguresController extends ControllerBase {
+class BaseKeyFiguresController extends ControllerBase {
 
   /**
    * The HTTP client to fetch the files with.
@@ -20,10 +23,39 @@ class KeyFiguresController extends ControllerBase {
   protected $httpClient;
 
   /**
+   * Cache backend.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $cacheBackend;
+
+  /**
+   * Cache Id.
+   *
+   * @var string
+   */
+  protected $cacheId = '';
+
+  /**
+   * API URL.
+   *
+   * @var string
+   */
+  protected $apiUrl = '';
+
+  /**
+   * API Key.
+   *
+   * @var string
+   */
+  protected $apiKey = '';
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(ClientInterface $http_client) {
+  public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
     $this->httpClient = $http_client;
+    $this->cacheBackend = $cache;
   }
 
   /**
@@ -31,28 +63,98 @@ class KeyFiguresController extends ControllerBase {
    *
    * @param string $iso3
    *   ISO3 of the country we want Key Figures for.
+   * @param string $year
+   *   Optional year.
    *
    * @return array<string, mixed>
    *   Raw results.
    */
-  public function getKeyFigures(string $iso3) : array {
-    $endpoint = 'https://raw.githubusercontent.com/reliefweb/crisis-app-data/v2/edition/world/countries/';
+  public function getKeyFigures(string $iso3, $year) : array {
+    $query = [
+      'iso3' => $iso3,
+    ];
+
+    $grouped = FALSE;
+    if ($year) {
+      $query['year'] = $year;
+    }
+    else {
+      $grouped = TRUE;
+    }
+
+    $data = $this->getData('', $query);
+
+    // Sort the values by newest first.
+    usort($data, function ($a, $b) {
+      return strcmp($b['year'], $a['year']);
+    });
+
+    foreach ($data as &$row) {
+      $row['date'] = new \DateTime($row['year'] . '-01-01');
+    }
+
+    if (!$grouped) {
+      return $data;
+    }
+
+    $results = [];
+    foreach ($data as $row) {
+      if (!isset($results[$row['name']])) {
+        $results[$row['name']] = $row;
+        $results[$row['name']]['values'] = [$row];
+      }
+      else {
+        $results[$row['name']]['values'][] = $row;
+      }
+    }
+
+    return $results;
+  }
+
+  /**
+   * Fetch Key Figures.
+   *
+   * @param string $path
+   *   API path.
+   * @param array $query
+   *   Query options.
+   *
+   * @return array<string, mixed>
+   *   Raw results.
+   */
+  public function getData(string $path, array $query = []) : array {
+    $endpoint = $this->apiUrl;
+    $api_key = $this->apiKey;
+
+    if (empty($endpoint)) {
+      return [];
+    }
+
+    $headers = [
+      'API-KEY' => $api_key,
+      'ACCEPT' => 'application/json',
+    ];
 
     // Construct full URL.
-    $fullUrl = $endpoint . $iso3 . '/figures.json';
+    $fullUrl = $endpoint . $path;
+
+    if (!empty($query)) {
+      $fullUrl = $fullUrl . '?' . UrlHelper::buildQuery($query);
+    }
 
     try {
-      $this->getLogger('hr_paragraphs_keyfigures')->notice('Fetching data from @url', [
+      $this->getLogger('hr_paragraphs_fts_figures')->notice('Fetching data from @url', [
         '@url' => $fullUrl,
       ]);
 
       $response = $this->httpClient->request(
         'GET',
         $fullUrl,
+        ['headers' => $headers],
       );
     }
     catch (RequestException $exception) {
-      $this->getLogger('hr_paragraphs_keyfigures')->error('Fetching data from $url failed with @message', [
+      $this->getLogger('hr_paragraphs_fts_figures')->error('Fetching data from $url failed with @message', [
         '@url' => $fullUrl,
         '@message' => $exception->getMessage(),
       ]);
@@ -72,7 +174,7 @@ class KeyFiguresController extends ControllerBase {
   }
 
   /**
-   * Build reliefweb objects.
+   * Build key figures.
    *
    * @param array<string, mixed> $results
    *   Raw results from API.
@@ -83,13 +185,14 @@ class KeyFiguresController extends ControllerBase {
    *   Results.
    */
   public function buildKeyFigures(array $results, int $max) : array {
-    $figures = [];
     $figures = $this->parseKeyFigures($results);
 
     // Add the trend and sparkline.
     foreach ($figures as $index => $figure) {
-      $figure['trend'] = $this->getKeyFigureTrend($figure['values']);
-      $figure['sparkline'] = $this->getKeyFigureSparkline($figure['values']);
+      if (isset($figure['values'])) {
+        $figure['trend'] = $this->getKeyFigureTrend($figure['values']);
+        $figure['sparkline'] = $this->getKeyFigureSparkline($figure['values']);
+      }
       $figures[$index] = $figure;
     }
 
@@ -116,74 +219,16 @@ class KeyFiguresController extends ControllerBase {
     $now = new \DateTime();
     $recent = [];
     $standard = [];
-    $options = ['options' => ['min_range' => 0]];
 
     foreach ($figures as $item) {
-      // Validate url.
-      if (empty($item['url']) || !filter_var($item['url'], FILTER_VALIDATE_URL)) {
-        continue;
-      }
-
-      // Validate name.
-      if (empty($item['name']) || ctype_space($item['name'])) {
-        continue;
-      }
-      $item['name'] = trim($item['name']);
-
-      // Validate value (integer > 0).
-      // Currently, the key figures are for population in need etc. so there is
-      // no interest in showing a card with a value of '0' so we skip it.
-      if (empty($item['value']) || !filter_var($item['value'], FILTER_VALIDATE_INT, $options)) {
-        continue;
-      }
-      $item['value'] = (int) $item['value'];
-
-      // Validate date.
-      $item['date'] = !empty($item['date']) ? date_create($item['date']) : FALSE;
-      if ($item['date'] === FALSE) {
-        continue;
-      }
-
-      // Validate source.
-      if (empty($item['source']) || ctype_space($item['source'])) {
-        continue;
-      }
-      $item['source'] = trim($item['source']);
-
-      // Validate list of past figures.
-      if (empty($item['values']) || !is_array($item['values'])) {
-        continue;
-      }
-
-      // Sanitize and sort the past figures for the sparkline and trend.
-      $values = [];
-      foreach ($item['values'] as $value) {
-        // A value of '0' is acceptable to construct the sparkline as opposed
-        // to the main figure so we don't use 'empty()'.
-        if (!isset($value['value'], $value['date']) || !filter_var($value['value'], FILTER_VALIDATE_INT, $options)) {
-          continue;
-        }
-        $date = date_create($value['date']);
-        // Skip if the date is invalid.
-        if ($date === FALSE) {
-          continue;
-        }
-        $iso = $date->format('c');
-        // Skip if there is already a more recent value for the same date.
-        if (!isset($values[$iso])) {
-          $values[$iso] = [
-            'value' => (int) $value['value'],
-            'date' => $date,
-          ];
-        }
-      }
-      // Sort the past values by newest first.
-      krsort($values);
-      $item['values'] = $values;
-
       // Set the figure status and format its date.
       $item['status'] = 'standard';
+
       $days_ago = $item['date']->diff($now)->days;
+      if ($item['updated']) {
+        $item['updated'] = new \DateTime($item['updated']);
+        $days_ago = $item['updated']->diff($now)->days;
+      }
 
       if ($days_ago < $number_of_days) {
         $item['status'] = 'recent';
@@ -307,6 +352,54 @@ class KeyFiguresController extends ControllerBase {
     ];
 
     return $trend;
+  }
+
+  /**
+   * Get countries.
+   */
+  public function getCountries() {
+    $cid = $this->cacheId . ':countries';
+
+    // Return cached data.
+    if ($cache = $this->cacheBackend->get($cid)) {
+      return $cache->data;
+    }
+
+    // Fetch data.
+    $countries = [];
+    $data = $this->getData('countries');
+    foreach ($data as $row) {
+      $countries[$row['value']] = $row['label'];
+    }
+
+    // Cache data.
+    $this->cacheBackend->set($cid, $countries, Cache::PERMANENT);
+
+    return $countries;
+  }
+
+  /**
+   * Get countries.
+   */
+  public function getYears() {
+    $cid = $this->cacheId . ':years';
+
+    // Return cached data.
+    if ($cache = $this->cacheBackend->get($cid)) {
+      return $cache->data;
+    }
+
+    // Fetch data.
+    $years = [];
+    $data = $this->getData('years');
+    foreach ($data as $row) {
+      $years[$row['value']] = $row['label'];
+    }
+
+    // Cache data.
+    $this->cacheBackend->set($cid, $years, Cache::PERMANENT);
+
+    return $years;
   }
 
 }

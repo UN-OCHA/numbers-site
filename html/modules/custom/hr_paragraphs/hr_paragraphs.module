@@ -34,18 +34,6 @@ function hr_paragraphs_theme($existing, $type, $theme, $path) {
         'jsonld' => NULL,
       ],
     ],
-    'hr_paragraphs_fts_key_figures' => [
-      'template' => 'hr-paragraphs-fts-key-figures',
-      'variables' => [
-        'plan_id' => NULL,
-        'country_iso' => NULL,
-        'country_name' => NULL,
-        'data' => [],
-        'total' => [],
-        'view_all' => NULL,
-        'jsonld' => NULL,
-      ],
-    ],
   ];
 }
 
@@ -360,163 +348,36 @@ function hr_paragraphs_preprocess_paragraph(&$variables) {
  * Implements hook_preprocess_paragraph__type().
  */
 function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) {
-  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
-  $paragraph = $variables['paragraph'];
+  /** @var \Drupal\hr_paragraphs\Controller\KeyFiguresController */
+  $controller = \Drupal::service('hr_paragraphs.rw_key_figures_controller');
 
-  // Make sure Country is set.
-  if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
-    return;
-  }
-
-  // Fetch country from user input.
-  $key_figures_country = $paragraph->field_country->value;
-
-  // Fetch label of the user input.
-  $key_figures_country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
-
-  // Set max number of items to 99 by default.
-  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 99;
-
-  try {
-    /** @var \Drupal\hr_paragraphs\Controller\KeyFiguresController */
-    $key_figures_controller = \Drupal::service('hr_paragraphs.key_figures_controller');
-    $results = $key_figures_controller->getKeyFigures($key_figures_country);
-
-    $data = $key_figures_controller->buildKeyFigures($results, $max_number_of_items);
-    $json_data = [];
-    foreach ($data as $row) {
-      $json_data[$row['name']] = $row['value'];
-    }
-
-    // @todo Find a better text.
-    $description = 'This needs to at least 50 characters according to google, ReliefWeb Key figures for ' . $key_figures_country_labels[$key_figures_country];
-
-    $variables['content']['key_figures'] = [
-      '#theme' => 'hr_paragraphs_rw_key_figures',
-      '#country_iso' => $key_figures_country,
-      '#country_name' => $key_figures_country_labels[$key_figures_country],
-      '#data' => $data,
-      '#jsonld' => hr_paragraphs_add_jsonld_data($key_figures_country_labels[$key_figures_country], $description, $json_data),
-      '#weight' => 99,
-      '#cache' => [
-        'max-age' => 12 * 60 * 60,
-      ],
-    ];
-  }
-  catch (\Exception $exception) {
-    $variables['content']['key_figures'] = [
-      '#type' => 'markup',
-      '#markup' => t('Key figure data is currently not available.'),
-      '#prefix' => '<div class="response-error response-error-api response-error-rw">',
-      '#suffix' => '</div>',
-    ];
-  }
+  hr_paragraphs_keyfigures($variables, $controller);
 }
 
 /**
  * Implements hook_preprocess_paragraph__type().
  */
 function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
-  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
-  $paragraph = $variables['paragraph'];
+  /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
+  $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
 
-  // Make sure Country is set.
-  if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
-    return;
-  }
-
-  // Fetch country from user input.
-  $iso3 = $paragraph->field_country->value;
-
-  // Fetch label of the user input.
-  $country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
-
-  // Set max number of items to 99 by default.
-  $max_number_of_items = $paragraph->field_max_number_of_items->value ?? 99;
-
-  try {
-    /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
-    $fts_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-
-    $plan_ids = [];
-    $combined = FALSE;
-
-    if (!$paragraph->field_year->isEmpty()) {
-      $year = $paragraph->field_year->value;
-      if ($year === 'current') {
-        $year = date('Y');
-      }
-      $plans = $fts_controller->getPlansByIso3AndYear($iso3, $year);
-      $plan_ids = array_keys($plans);
-      $combined = TRUE;
-    }
-    else {
-      foreach ($paragraph->field_plans->getValue() as $plan) {
-        $plan_ids[] = $plan['value'];
-      }
-    }
-
-    if (empty($plan_ids)) {
-      $variables['content']['key_figures'] = [
-        '#type' => 'markup',
-        '#markup' => t('No plans available.'),
-        '#prefix' => '<div class="response-error response-error-data response-error-fts">',
-        '#suffix' => '</div>',
-      ];
-
-      return;
-    }
-
-    // Get the data.
-    $results = $fts_controller->getMultipleKeyFigures($plan_ids, $iso3, $combined);
-
-    // Rewrite FTS links to country summary.
-    if ($combined) {
-      $first = reset($plans);
-      $url = 'https://fts.unocha.org/countries/' . $first['country_id'] . '/summary/' . $year;
-      foreach ($results as &$values) {
-        $values['url'] = $url;
-        $values['source'] = 'FTS - ' . $year;
-      }
-    }
-
-    $data = $fts_controller->buildKeyFigures($results, $max_number_of_items);
-
-    $json_data = [];
-    foreach ($data as $row) {
-      $json_data[$row['name']] = $row['value'];
-    }
-
-    // @todo Find a better text.
-    $description = 'This needs to at least 50 characters according to google FTS Data for ' . $country_labels[$iso3];
-
-    $variables['content']['key_figures'] = [
-      '#theme' => 'hr_paragraphs_fts_key_figures',
-      '#plan_id' => $plan_ids[0],
-      '#country_iso' => $iso3,
-      '#country_name' => $country_labels[$iso3],
-      '#data' => $data,
-      '#jsonld' => hr_paragraphs_add_jsonld_data($country_labels[$iso3], $description, $json_data),
-      '#weight' => 99,
-      '#cache' => [
-        'max-age' => 12 * 60 * 60,
-      ],
-    ];
-  }
-  catch (\Exception $exception) {
-    $variables['content']['key_figures'] = [
-      '#type' => 'markup',
-      '#markup' => t('Key figure data is currently not available.'),
-      '#prefix' => '<div class="response-error response-error-api response-error-fts">',
-      '#suffix' => '</div>',
-    ];
-  }
+  hr_paragraphs_keyfigures($variables, $controller);
 }
 
 /**
  * Implements hook_preprocess_paragraph__type().
  */
 function hr_paragraphs_preprocess_paragraph__idps_key_figures(&$variables) {
+  /** @var \Drupal\hr_paragraphs\Controller\IdpsKeyFiguresController */
+  $controller = \Drupal::service('hr_paragraphs.idps_figures_controller');
+
+  hr_paragraphs_keyfigures($variables, $controller);
+}
+
+/**
+ * Implements hook_preprocess_paragraph__type().
+ */
+function hr_paragraphs_keyfigures(&$variables, $controller) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
 
@@ -528,17 +389,29 @@ function hr_paragraphs_preprocess_paragraph__idps_key_figures(&$variables) {
   // Fetch country from user input.
   $iso3 = $paragraph->field_country->value;
 
-  // Fetch label of the user input.
-  $country_labels = $paragraph->getFieldDefinition('field_country')->getFieldStorageDefinition()->getSetting('allowed_values');
+  $year = FALSE;
+  if (!$paragraph->field_year->isEmpty()) {
+    $year = $paragraph->field_year->value;
+    if ($year === 'current') {
+      $year = date('Y');
+    }
+  }
 
   try {
-    /** @var \Drupal\hr_paragraphs\Controller\IdpsKeyFiguresController */
-    $fts_controller = \Drupal::service('hr_paragraphs.idps_figures_controller');
-
     // Get the data.
-    $results = $fts_controller->getKeyFigures($iso3);
+    $results = $controller->getKeyFigures($iso3, $year);
 
-    $data = $fts_controller->buildKeyFigures($results, 99);
+    $data = $controller->buildKeyFigures($results, 99);
+    if (empty($data)) {
+      $variables['content']['key_figures'] = [
+        '#type' => 'markup',
+        '#markup' => t('No key figure data found.'),
+        '#prefix' => '<div class="response-error response-error-api response-error-fts">',
+        '#suffix' => '</div>',
+      ];
+
+      return;
+    }
 
     $json_data = [];
     foreach ($data as $row) {
@@ -546,14 +419,16 @@ function hr_paragraphs_preprocess_paragraph__idps_key_figures(&$variables) {
     }
 
     // @todo Find a better text.
-    $description = 'This needs to at least 50 characters according to google FTS Data for ' . $country_labels[$iso3];
+    $first = reset($data);
+    $country = $first['country'];
+    $description = 'This needs to at least 50 characters according to google FTS Data for ' . $country;
 
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_rw_key_figures',
       '#country_iso' => $iso3,
-      '#country_name' => $country_labels[$iso3],
+      '#country_name' => $country,
       '#data' => $data,
-      '#jsonld' => hr_paragraphs_add_jsonld_data($country_labels[$iso3], $description, $json_data),
+      '#jsonld' => hr_paragraphs_add_jsonld_data($country, $description, $json_data),
       '#weight' => 99,
       '#cache' => [
         'max-age' => 12 * 60 * 60,
@@ -924,22 +799,36 @@ function hr_paragraphs_form_views_exposed_form_alter(&$form, $form_state, $form_
 }
 
 /**
- * Allowed plans.
+ * Allowed years.
  */
-function hr_paragraphs_allowed_plans(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
-  $options = [];
+function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
+  /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
+  $controller = FALSE;
 
-  $countries = [];
-  $field_name = 'field_country';
-  $definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('paragraph', 'reliefweb_key_figures');
+  switch ($entity->bundle()) {
+    case 'fts_key_figures':
+      $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
+      break;
 
-  if (isset($definitions[$field_name])) {
-    $countries = $definitions[$field_name]->getSetting('allowed_values');
+    case 'idps_key_figures':
+      $controller = \Drupal::service('hr_paragraphs.idps_figures_controller');
+      break;
+
+    case 'reliefweb_key_figures':
+      $controller = \Drupal::service('hr_paragraphs.rw_key_figures_controller');
+      break;
+
+    default:
+      return [];
   }
 
-  /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
-  $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-  $options = $key_figures_controller->getAllPlans(array_keys($countries));
+  $options = [
+    'current' => t('Current year'),
+  ];
+
+  $years = $controller->getYears();
+
+  $options += $years;
 
   return $options;
 }
@@ -947,91 +836,28 @@ function hr_paragraphs_allowed_plans(FieldStorageConfig $definition, ContentEnti
 /**
  * Allowed years.
  */
-function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
-  $options = [
-    'current' => t('Current year'),
-  ];
+function hr_paragraphs_allowed_countries(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
+  /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
+  $controller = FALSE;
 
-  $options += array_combine(range(date('Y'), 2000, -1), range(date('Y'), 2000, -1));
+  switch ($entity->bundle()) {
+    case 'fts_key_figures':
+      $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
+      break;
 
-  return $options;
-}
+    case 'idps_key_figures':
+      $controller = \Drupal::service('hr_paragraphs.idps_figures_controller');
+      break;
 
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, $form_state, $form_id) {
-  if (!isset($form['field_country']) || !isset($form['field_plans'])) {
-    return;
+    case 'reliefweb_key_figures':
+      $controller = \Drupal::service('hr_paragraphs.rw_key_figures_controller');
+      break;
+
+    default:
+      return [];
   }
 
-  // Add wrapper to plans.
-  $form['field_plans']['#prefix'] = '<div id="field-plans-wrapper">';
-  $form['field_plans']['#suffix'] = '</div>';
-
-  // Add ajax to countries.
-  $form['field_country']['widget']['#ajax'] = [
-    'callback' => 'hr_paragraphs_load_country_plans_callback',
-    'wrapper' => 'field-plans-wrapper',
-    'event' => 'change',
-    'progress' => [
-      'type' => 'throbber',
-      'message' => t('Fetching plans...'),
-    ],
-  ];
-
-  // Get select 2 options in edit form.
-  $country = $form_state->getValue('field_country');
-  if (!empty($country)) {
-    $country = $country[0]['value'];
-  }
-  else {
-    $country = $form['field_country']['widget']['#default_value'][0] ?? NULL;
-  }
-
-  if ($country) {
-    $form['field_plans']['widget']['#options'] = hr_paragraphs_load_country_plans($country);
-  }
-  else {
-    $form['field_plans']['widget']['#options'] = [];
-  }
-}
-
-/**
- * Callback.
- */
-function hr_paragraphs_load_country_plans_callback(array $form, $form_state) {
-  $country = $form_state->getValue('field_country');
-  if (!empty($country)) {
-    $country = $country[0]['value'];
-    $form['field_plans']['widget']['#options'] = hr_paragraphs_load_country_plans($country);
-  }
-  else {
-    $form['field_plans']['widget']['#options'] = [];
-  }
-
-  return $form['field_plans'];
-}
-
-/**
- * Load plans for a country.
- */
-function hr_paragraphs_load_country_plans($iso3) {
-  $countries = [];
-  $field_name = 'field_country';
-  $definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('paragraph', 'reliefweb_key_figures');
-
-  if (isset($definitions[$field_name])) {
-    $countries = $definitions[$field_name]->getSetting('allowed_values');
-  }
-
-  if (!isset($countries[$iso3])) {
-    return [];
-  }
-
-  /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
-  $key_figures_controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-  return $key_figures_controller->getPlansByIso3($iso3);
+  return $controller->getCountries();
 }
 
 /**

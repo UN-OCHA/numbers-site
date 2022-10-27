@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.reliefweb_key_figures.field_country
-    - field.field.paragraph.reliefweb_key_figures.field_max_number_of_items
     - field.field.paragraph.reliefweb_key_figures.field_title
+    - field.field.paragraph.reliefweb_key_figures.field_year
     - paragraphs.paragraphs_type.reliefweb_key_figures
 id: paragraph.reliefweb_key_figures.default
 targetEntityType: paragraph
@@ -22,4 +22,4 @@ content:
     region: content
 hidden:
   field_country: true
-  field_max_number_of_items: true
+  field_year: true

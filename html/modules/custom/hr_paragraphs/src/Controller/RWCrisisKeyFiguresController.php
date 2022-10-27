@@ -8,12 +8,12 @@ use GuzzleHttp\ClientInterface;
 /**
  * Page controller for Key Figures.
  */
-class FtsKeyFiguresController extends BaseKeyFiguresController {
+class RWCrisisKeyFiguresController extends BaseKeyFiguresController {
 
   /**
    * {@inheritdoc}
    */
-  protected $cacheId = 'fts';
+  protected $cacheId = 'rw_crisis';
 
   /**
    * {@inheritdoc}
@@ -21,8 +21,8 @@ class FtsKeyFiguresController extends BaseKeyFiguresController {
   public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
     parent::__construct($http_client, $cache);
 
-    $this->apiUrl = $this->config('hr_paragraphs.settings')->get('fts_api_url');
-    $this->apiKey = $this->config('hr_paragraphs.settings')->get('fts_api_key');
+    $this->apiUrl = $this->config('hr_paragraphs.settings')->get('rw_crisis_api_url');
+    $this->apiKey = $this->config('hr_paragraphs.settings')->get('rw_crisis_api_key');
   }
 
 }
