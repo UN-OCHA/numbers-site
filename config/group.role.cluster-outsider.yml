@@ -14,3 +14,9 @@ permissions_ui: true
 permissions:
   - 'view group'
   - 'view group_node:page entity'
+  - 'view paragraph content fts_key_figures'
+  - 'view paragraph content heading'
+  - 'view paragraph content idps_key_figures'
+  - 'view paragraph content reliefweb_key_figures'
+  - 'view paragraph content table_of_contents'
+  - 'view paragraph content text_block'
