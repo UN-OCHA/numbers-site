@@ -12,7 +12,7 @@ field_name: field_year
 entity_type: paragraph
 bundle: idps_key_figures
 label: Year
-description: ''
+description: 'Select the year you want to retrieve data from. Select "current" to display the data of this year. If you select none, a sparkline will be added.'
 required: false
 translatable: true
 default_value: {  }

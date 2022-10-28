@@ -12,7 +12,7 @@ field_name: field_year
 entity_type: paragraph
 bundle: fts_key_figures
 label: Year
-description: 'Select the year you want to retrieve data from. Select "current" to display the data of this year.'
+description: 'Select the year you want to retrieve data from. Select "current" to display the data of this year. If you select none, a sparkline will be added.'
 required: false
 translatable: false
 default_value: {  }
