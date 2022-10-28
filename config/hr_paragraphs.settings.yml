@@ -1,1 +1,6 @@
-fts_api_url: 'https://api.hpc.tools/v1/'
+fts_api_url: 'http://api-test.docksal.site/api/fts/'
+fts_api_key: '52aad3ea7c9d14625b085e70eb0f8474'
+idps_api_url: 'http://api-test.docksal.site/api/idps/'
+idps_api_key: '35f2bcd196b3776f0b35a9a09a019555'
+rw_crisis_api_url: 'http://api-test.docksal.site/api/rw-crisis/'
+rw_crisis_api_key: 'e8fe3ddce120531c60a53e58a083347e'

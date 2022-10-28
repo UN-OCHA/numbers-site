@@ -4,13 +4,22 @@ hr_paragraphs.settings:
   mapping:
     fts_api_url:
       type: string
-      label: 'FTS API URL including authentication'
+      label: 'FTS API URL'
+    fts_api_key:
+      type: string
+      label: 'FTS API key'
     idps_api_url:
       type: string
-      label: 'OCHA API URL'
+      label: 'IDPs API URL'
     idps_api_key:
       type: string
-      label: 'OCHA API key'
+      label: 'IDPs API key'
+    rw_crisis_api_url:
+      type: string
+      label: 'RW Crisis API URL'
+    rw_crisis_api_key:
+      type: string
+      label: 'RW Crisis API key'
 
 field.widget.settings.hr_paragraphs_link_default:
   type: mapping
