@@ -9,6 +9,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -397,10 +398,24 @@ function hr_paragraphs_keyfigures(&$variables, $controller) {
     }
   }
 
+  // Selected figures.
+  $selected_figures = [];
+  if ($paragraph->hasField('field_figures') && !$paragraph->field_figures->isEmpty()) {
+    foreach ($paragraph->field_figures->getValue() as $figure) {
+      $selected_figures[$figure['value']] = $figure['value'];
+    }
+  }
+
   try {
     // Get the data.
     $results = $controller->getKeyFigures($iso3, $year);
 
+    // Filter figures.
+    if (!empty($selected_figures)) {
+      $results = array_intersect_key($results, $selected_figures);
+    }
+
+    // Build figures.
     $data = $controller->buildKeyFigures($results, 99);
     if (empty($data)) {
       $variables['content']['key_figures'] = [
@@ -799,27 +814,32 @@ function hr_paragraphs_form_views_exposed_form_alter(&$form, $form_state, $form_
 }
 
 /**
+ * Load controller by bundle.
+ */
+function hr_paragraphs_load_keyfigure_controller($bundle) {
+  switch ($bundle) {
+    case 'fts_key_figures':
+      return \Drupal::service('hr_paragraphs.fts_figures_controller');
+
+    case 'idps_key_figures':
+      return \Drupal::service('hr_paragraphs.idps_figures_controller');
+
+    case 'reliefweb_key_figures':
+      return \Drupal::service('hr_paragraphs.rw_key_figures_controller');
+  }
+
+  return NULL;
+}
+
+/**
  * Allowed years.
  */
 function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
   /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
-  $controller = FALSE;
+  $controller = hr_paragraphs_load_keyfigure_controller($entity->bundle());
 
-  switch ($entity->bundle()) {
-    case 'fts_key_figures':
-      $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-      break;
-
-    case 'idps_key_figures':
-      $controller = \Drupal::service('hr_paragraphs.idps_figures_controller');
-      break;
-
-    case 'reliefweb_key_figures':
-      $controller = \Drupal::service('hr_paragraphs.rw_key_figures_controller');
-      break;
-
-    default:
-      return [];
+  if (!$controller) {
+    return [];
   }
 
   $options = [
@@ -827,7 +847,6 @@ function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEnti
   ];
 
   $years = $controller->getYears();
-
   $options += $years;
 
   return $options;
@@ -838,26 +857,40 @@ function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEnti
  */
 function hr_paragraphs_allowed_countries(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
   /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
-  $controller = FALSE;
-
-  switch ($entity->bundle()) {
-    case 'fts_key_figures':
-      $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-      break;
-
-    case 'idps_key_figures':
-      $controller = \Drupal::service('hr_paragraphs.idps_figures_controller');
-      break;
-
-    case 'reliefweb_key_figures':
-      $controller = \Drupal::service('hr_paragraphs.rw_key_figures_controller');
-      break;
-
-    default:
-      return [];
-  }
+  $controller = hr_paragraphs_load_keyfigure_controller($entity->bundle());
 
   return $controller->getCountries();
+}
+
+/**
+ * Allowed years.
+ */
+function hr_paragraphs_allowed_figures(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
+  /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
+  $controller = hr_paragraphs_load_keyfigure_controller($entity->bundle());
+
+  if (!$controller) {
+    return [];
+  }
+
+  // Fetch country from user input.
+  $iso3 = $entity->field_country->value;
+  if (empty($iso3)) {
+    return [];
+  }
+
+  $year = FALSE;
+  if (!$entity->field_year->isEmpty()) {
+    $year = $entity->field_year->value;
+    if ($year === 'current') {
+      $year = date('Y');
+    }
+  }
+
+  $figures = $controller->getKeyFigures($iso3, $year);
+  $figures = array_keys($figures);
+
+  return array_combine($figures, $figures);
 }
 
 /**
@@ -913,4 +946,111 @@ function hr_paragraphs_add_jsonld_data($name, $description, $data) {
   ];
 
   return json_encode($json_ld);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if (!isset($form['field_country']) || !isset($form['field_figures'])) {
+    return;
+  }
+
+  // Add wrapper to figures.
+  $form['field_figures']['#prefix'] = '<div id="field-figures-wrapper">';
+  $form['field_figures']['#suffix'] = '</div>';
+
+  // Add ajax to countries.
+  $form['field_country']['widget']['#ajax'] = [
+    'callback' => 'hr_paragraphs_load_country_figures_callback',
+    'wrapper' => 'field-figures-wrapper',
+    'event' => 'change',
+    'progress' => [
+      'type' => 'throbber',
+      'message' => t('Fetching figures...'),
+    ],
+  ];
+
+  // Add ajax to countries.
+  $form['field_year']['widget']['#ajax'] = [
+    'callback' => 'hr_paragraphs_load_country_figures_callback',
+    'wrapper' => 'field-figures-wrapper',
+    'event' => 'change',
+    'progress' => [
+      'type' => 'throbber',
+      'message' => t('Fetching figures...'),
+    ],
+  ];
+
+  // Get bundle and fields.
+  /** @var Drupal\layout_paragraphs\Form\ComponentFormBase $component_form */
+  $component_form = $form_state->getFormObject();
+  $bundle = $component_form->getParagraph()->bundle();
+
+  $country = $form_state->getValue('field_country');
+  if (!empty($country)) {
+    $country = $country[0]['value'];
+  }
+  else {
+    $country = $form['field_country']['widget']['#default_value'][0] ?? NULL;
+  }
+
+  $year = $form_state->getValue('field_year');
+  if (!empty($year)) {
+    $year = $year[0]['value'];
+  }
+  else {
+    $year = $form['field_year']['widget']['#default_value'][0] ?? NULL;
+  }
+
+  if ($country) {
+    $form['field_figures']['widget']['#options'] = hr_paragraphs_load_country_figures($bundle, $country, $year);
+  }
+  else {
+    $form['field_figures']['widget']['#options'] = [];
+  }
+}
+
+/**
+ * Callback.
+ */
+function hr_paragraphs_load_country_figures_callback(array $form, $form_state) {
+  // Get bundle and fields.
+  $bundle = $form_state->getFormObject()->getParagraph()->bundle();
+
+  $country = $form_state->getValue('field_country');
+  $year = $form_state->getValue('field_year');
+
+  if (!empty($country)) {
+    $country = $country[0]['value'];
+    $year = $year[0]['value'];
+    if ($year === 'current') {
+      $year = date('Y');
+    }
+
+    $form['field_figures']['widget']['#options'] = hr_paragraphs_load_country_figures($bundle, $country, $year);
+  }
+  else {
+    $form['field_figures']['widget']['#options'] = [];
+  }
+
+  return $form['field_figures'];
+}
+
+/**
+ * Load figures for a country.
+ */
+function hr_paragraphs_load_country_figures($bundle, $iso3, $year) {
+  /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
+  $controller = hr_paragraphs_load_keyfigure_controller($bundle);
+
+  if (!$controller) {
+    return [];
+  }
+
+  $figures = $controller->getKeyFigures($iso3, $year);
+  $figures = array_keys($figures);
+  sort($figures);
+
+  return array_combine($figures, $figures);
 }

@@ -94,7 +94,12 @@ class BaseKeyFiguresController extends ControllerBase {
     }
 
     if (!$grouped) {
-      return $data;
+      $results = [];
+      foreach ($data as $row) {
+        $results[$row['name']] = $row;
+      }
+
+      return $results;
     }
 
     $results = [];
