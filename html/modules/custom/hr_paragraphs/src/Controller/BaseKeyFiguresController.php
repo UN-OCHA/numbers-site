@@ -230,7 +230,7 @@ class BaseKeyFiguresController extends ControllerBase {
       $item['status'] = 'standard';
 
       $days_ago = $item['date']->diff($now)->days;
-      if ($item['updated']) {
+      if (isset($item['updated']) && !empty($item['updated'])) {
         $item['updated'] = new \DateTime($item['updated']);
         $days_ago = $item['updated']->diff($now)->days;
       }
