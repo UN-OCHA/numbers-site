@@ -391,7 +391,7 @@ function hr_paragraphs_keyfigures(&$variables, $controller) {
   $iso3 = $paragraph->field_country->value;
 
   $year = FALSE;
-  if (!$paragraph->field_year->isEmpty()) {
+  if (!$paragraph->hasField('field_year') || !$paragraph->field_year->isEmpty()) {
     $year = $paragraph->field_year->value;
     if ($year === 'current') {
       $year = date('Y');
