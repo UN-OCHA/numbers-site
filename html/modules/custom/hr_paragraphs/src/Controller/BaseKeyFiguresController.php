@@ -140,8 +140,8 @@ class BaseKeyFiguresController extends ControllerBase {
       'ACCEPT' => 'application/json',
     ];
 
-    // Construct full URL.
-    $fullUrl = $endpoint . $path;
+    // Construct full URL without ending /.
+    $fullUrl = rtrim($endpoint . $path, '/');
 
     if (!empty($query)) {
       $fullUrl = $fullUrl . '?' . UrlHelper::buildQuery($query);
@@ -159,7 +159,7 @@ class BaseKeyFiguresController extends ControllerBase {
       );
     }
     catch (RequestException $exception) {
-      $this->getLogger('hr_paragraphs_fts_figures')->error('Fetching data from $url failed with @message', [
+      $this->getLogger('hr_paragraphs_fts_figures')->error('Fetching data from @url failed with @message', [
         '@url' => $fullUrl,
         '@message' => $exception->getMessage(),
       ]);
