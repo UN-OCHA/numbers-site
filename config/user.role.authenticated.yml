@@ -41,6 +41,7 @@ permissions:
   - 'view own unpublished content'
   - 'view paragraph content article_card_list'
   - 'view paragraph content card_list'
+  - 'view paragraph content cbpf_key_figures'
   - 'view paragraph content child_groups'
   - 'view paragraph content featured_highlight'
   - 'view paragraph content fts_key_figures'
