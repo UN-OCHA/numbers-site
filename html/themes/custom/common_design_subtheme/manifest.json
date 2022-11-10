@@ -11,8 +11,18 @@
   "theme_color": "#055372",
   "icons": [
     {
+      "src": "/themes/custom/common_design_subtheme/img/reliefweb-numbers@72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/themes/custom/common_design_subtheme/img/reliefweb-numbers@96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
       "src": "/themes/custom/common_design_subtheme/img/reliefweb-numbers@128.png",
-      "sizes": "72x72 96x96 128x128",
+      "sizes": "128x128",
       "type": "image/png"
     },
     {
@@ -59,6 +69,7 @@
       "type": "image/png"
     },
     {
+      "//": "All-purpose SVG",
       "src": "/themes/custom/common_design_subtheme/img/logos/numbers-logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",
