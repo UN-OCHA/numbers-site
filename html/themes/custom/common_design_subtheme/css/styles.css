@@ -1,5 +1,5 @@
 /**
- * HR.info site-wide custom styling.
+ * Numbers site-wide custom styling.
  */
 
 /**
@@ -28,7 +28,7 @@
 /**
  * External URLs
  */
-.hri__external-url {
+.external-url {
   position: relative;
   top: 1px;
   display: inline-block;
