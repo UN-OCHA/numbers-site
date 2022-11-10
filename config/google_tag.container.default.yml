@@ -1,11 +1,15 @@
-uuid: 5baec9c6-24e6-454d-a6fe-53699fb0f183
+uuid: c9526f56-ef46-45dc-9b15-4cf8b5ef9395
 langcode: en
 status: true
-dependencies: null
+dependencies:
+  module:
+    - group
+    - node
+    - taxonomy
 id: default
 label: default
 weight: 0
-container_id: GTM-xxxxxx
+container_id: GTM-PB7QK3G
 data_layer: dataLayer
 include_classes: false
 whitelist_classes: |-
@@ -34,4 +38,28 @@ status_toggle: 'exclude listed'
 status_list: |-
   403
   404
-conditions: {  }
+conditions:
+  'entity_bundle:group':
+    id: 'entity_bundle:group'
+    negate: false
+    context_mapping:
+      group: '@group.group_route_context:group'
+    bundles: {  }
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles: {  }
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles: {  }
+  group_type:
+    id: group_type
+    group_types: {  }
+    negate: 0
+    context_mapping:
+      group: '@group.group_route_context:group'
