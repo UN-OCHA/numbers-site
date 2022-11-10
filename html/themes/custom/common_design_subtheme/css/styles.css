@@ -1,6 +1,13 @@
 /**
- * HR.info site-wide custom styling.
+ * Numbers site-wide custom styling.
  */
+
+/**
+ * OCHA Services see-all button
+ */
+.cd-ocha-dropdown__see-all {
+  background: var(--cd-primary-color--lighter);
+}
 
 /**
  * Provide separators between each Paragraph on ANY Paragraphs field.
@@ -28,7 +35,7 @@
 /**
  * External URLs
  */
-.hri__external-url {
+.external-url {
   position: relative;
   top: 1px;
   display: inline-block;
