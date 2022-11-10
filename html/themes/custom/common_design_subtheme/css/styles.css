@@ -3,6 +3,13 @@
  */
 
 /**
+ * OCHA Services see-all button
+ */
+.cd-ocha-dropdown__see-all {
+  background: var(--cd-primary-color--lighter);
+}
+
+/**
  * Provide separators between each Paragraph on ANY Paragraphs field.
  */
 .field--name-field-paragraphs > .field__item + .field__item {
