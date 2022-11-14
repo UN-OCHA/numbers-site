@@ -21,8 +21,7 @@ class FtsKeyFiguresController extends BaseKeyFiguresController {
   public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
     parent::__construct($http_client, $cache);
 
-    $this->apiUrl = $this->config('hr_paragraphs.settings')->get('fts_api_url');
-    $this->apiKey = $this->config('hr_paragraphs.settings')->get('fts_api_key');
+    $this->apiUrl .= 'fts/';
   }
 
 }
