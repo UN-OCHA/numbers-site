@@ -56,6 +56,9 @@ class BaseKeyFiguresController extends ControllerBase {
   public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
     $this->httpClient = $http_client;
     $this->cacheBackend = $cache;
+
+    $this->apiUrl = $this->config('hr_paragraphs.settings')->get('ocha_api_url');
+    $this->apiKey = $this->config('hr_paragraphs.settings')->get('ocha_api_key');
   }
 
   /**
