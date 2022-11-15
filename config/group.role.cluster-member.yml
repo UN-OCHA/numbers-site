@@ -15,6 +15,7 @@ permissions:
   - 'leave group'
   - 'view group'
   - 'view group_node:page entity'
+  - 'view paragraph content cbpf_key_figures'
   - 'view paragraph content fts_key_figures'
   - 'view paragraph content heading'
   - 'view paragraph content idps_key_figures'
