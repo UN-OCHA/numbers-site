@@ -141,6 +141,7 @@ class BaseKeyFiguresController extends ControllerBase {
     $headers = [
       'API-KEY' => $api_key,
       'ACCEPT' => 'application/json',
+      'APP-NAME' => 'RW Numbers',
     ];
 
     // Construct full URL without ending /.
