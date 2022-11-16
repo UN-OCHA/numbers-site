@@ -388,6 +388,16 @@ function hr_paragraphs_preprocess_paragraph__cbpf_key_figures(&$variables) {
 /**
  * Implements hook_preprocess_paragraph__type().
  */
+function hr_paragraphs_preprocess_paragraph__inform_key_figures(&$variables) {
+  /** @var \Drupal\hr_paragraphs\Controller\InformKeyFiguresController */
+  $controller = \Drupal::service('hr_paragraphs.inform_key_figures_controller');
+
+  hr_paragraphs_keyfigures($variables, $controller);
+}
+
+/**
+ * Implements hook_preprocess_paragraph__type().
+ */
 function hr_paragraphs_keyfigures(&$variables, $controller) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
@@ -839,6 +849,9 @@ function hr_paragraphs_load_keyfigure_controller($bundle) {
 
     case 'cbpf_key_figures':
       return \Drupal::service('hr_paragraphs.cbpf_key_figures_controller');
+
+    case 'inform_key_figures':
+      return \Drupal::service('hr_paragraphs.inform_key_figures_controller');
 
   }
 
