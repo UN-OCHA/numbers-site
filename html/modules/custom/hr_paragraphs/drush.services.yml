@@ -1,0 +1,6 @@
+services:
+  hr_paragraphs.commands:
+    class: \Drupal\hr_paragraphs\Commands\HrParagraphsCommands
+    arguments: ['@config.factory', '@extension.list.module']
+    tags:
+      - { name: drush.command }

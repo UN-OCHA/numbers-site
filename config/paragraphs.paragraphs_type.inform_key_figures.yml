@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: inform_key_figures
+label: 'Figures - Inform'
+icon_uuid: null
+icon_default: null
+description: 'Inform figures from various sources'
+behavior_plugins: {  }
