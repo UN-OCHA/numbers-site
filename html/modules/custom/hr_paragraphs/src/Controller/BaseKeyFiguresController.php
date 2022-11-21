@@ -3,7 +3,6 @@
 namespace Drupal\hr_paragraphs\Controller;
 
 use Drupal\Component\Utility\UrlHelper;
-use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Controller\ControllerBase;
 use GuzzleHttp\ClientInterface;
@@ -49,6 +48,13 @@ class BaseKeyFiguresController extends ControllerBase {
    * @var string
    */
   protected $apiKey = '';
+
+  /**
+   * Cache live.
+   *
+   * @var int
+   */
+  protected $cacheDuration = 60 * 60;
 
   /**
    * {@inheritdoc}
@@ -382,7 +388,7 @@ class BaseKeyFiguresController extends ControllerBase {
     }
 
     // Cache data.
-    $this->cacheBackend->set($cid, $countries, Cache::PERMANENT);
+    $this->cacheBackend->set($cid, $countries, time() + $this->cacheDuration);
 
     return $countries;
   }
@@ -406,7 +412,7 @@ class BaseKeyFiguresController extends ControllerBase {
     }
 
     // Cache data.
-    $this->cacheBackend->set($cid, $years, Cache::PERMANENT);
+    $this->cacheBackend->set($cid, $years, time() + $this->cacheDuration);
 
     return $years;
   }
