@@ -401,7 +401,7 @@ function hr_paragraphs_preprocess_paragraph__inform_key_figures(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_paragraph__type().
+ * Helper function to render Numbers paragraphs.
  */
 function hr_paragraphs_keyfigures(&$variables, $controller) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
