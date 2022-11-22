@@ -165,3 +165,23 @@ function common_design_subtheme_theme_suggestions_paragraph_alter(&$suggestions,
     $suggestions[] = 'paragraph__' . $parent->bundle() . '__' . $paragraph->bundle();
   }
 }
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ */
+function common_design_subtheme_theme_suggestions_page_alter(array $variables) {
+  $path_args = explode('/', trim(\Drupal::service('path.current')->getPath(), '/'));
+  $suggestions = theme_get_suggestions($path_args, 'page');
+  $http_error_suggestions = [
+    'system.401' => 'page__401',
+    'system.403' => 'page__403',
+    'system.404' => 'page__404',
+  ];
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if (isset($http_error_suggestions[$route_name])) {
+    $suggestions[] = $http_error_suggestions[$route_name];
+  }
+
+  return $suggestions;
+}
