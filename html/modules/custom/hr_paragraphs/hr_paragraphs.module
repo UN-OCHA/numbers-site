@@ -446,7 +446,7 @@ function hr_paragraphs_keyfigures(&$variables, $controller) {
     if (empty($data)) {
       $variables['content']['key_figures'] = [
         '#type' => 'markup',
-        '#markup' => t('No key figure data found.'),
+        '#markup' => t('No data available.'),
         '#prefix' => '<div class="response-error response-error-api response-error-fts">',
         '#suffix' => '</div>',
       ];
@@ -462,7 +462,7 @@ function hr_paragraphs_keyfigures(&$variables, $controller) {
     // @todo Find a better text.
     $first = reset($data);
     $country = $first['country'];
-    $description = 'This needs to at least 50 characters according to google FTS Data for ' . $country;
+    $description = 'This needs to at least 50 characters according to google. FTS Data for ' . $country;
 
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_rw_key_figures',
