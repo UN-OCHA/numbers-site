@@ -28,9 +28,11 @@
     {% endfor %}
   </ul>
 
+  {% if view_all %}
   <footer class="view-more rw-key-figures__links">
     <a href="https://reliefweb.int/country/{{ country_iso|lower }}?figures=all#key-figures">{{ 'View all @country figures'|t({'@country': country_name}) }}</a>
   </footer>
+  {% endif %}
 
   <script type="application/ld+json">
     {{ jsonld|raw }}
