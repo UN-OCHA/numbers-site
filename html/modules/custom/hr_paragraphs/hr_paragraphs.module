@@ -17,6 +17,7 @@ use Drupal\Core\Url;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupContent;
+use Drupal\hr_paragraphs\Controller\BaseKeyFiguresController;
 use Drupal\path_alias\Entity\PathAlias;
 
 /**
@@ -401,9 +402,20 @@ function hr_paragraphs_preprocess_paragraph__inform_key_figures(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_paragraph__type().
+ */
+function hr_paragraphs_preprocess_paragraph__cerf_key_figures(&$variables) {
+  /** @var \Drupal\hr_paragraphs\Controller\CerfKeyFiguresController */
+  $controller = \Drupal::service('hr_paragraphs.cerf_key_figures_controller');
+  $variables['view_all'] = FALSE;
+
+  hr_paragraphs_keyfigures($variables, $controller);
+}
+
+/**
  * Helper function to render Numbers paragraphs.
  */
-function hr_paragraphs_keyfigures(&$variables, $controller) {
+function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $controller) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   $view_all = $variables['view_all'];
@@ -859,6 +871,9 @@ function hr_paragraphs_load_keyfigure_controller($bundle) {
 
     case 'inform_key_figures':
       return \Drupal::service('hr_paragraphs.inform_key_figures_controller');
+
+    case 'cerf_key_figures':
+      return \Drupal::service('hr_paragraphs.cerf_key_figures_controller');
 
   }
 
