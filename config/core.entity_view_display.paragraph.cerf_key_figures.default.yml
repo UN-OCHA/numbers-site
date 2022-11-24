@@ -1,3 +1,4 @@
+uuid: 8576341d-7a0c-45a6-af71-c1bae9daf6c1
 langcode: en
 status: true
 dependencies:
@@ -24,4 +25,3 @@ hidden:
   field_country: true
   field_figures: true
   field_year: true
-uuid: 8576341d-7a0c-45a6-af71-c1bae9daf6c1
