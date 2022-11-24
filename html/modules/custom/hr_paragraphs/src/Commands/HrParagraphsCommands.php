@@ -2,6 +2,7 @@
 
 namespace Drupal\hr_paragraphs\Commands;
 
+use Drupal\Component\Uuid\UuidInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drush\Commands\DrushCommands;
@@ -31,9 +32,10 @@ class HrParagraphsCommands extends DrushCommands {
   /**
    * {@inheritdoc}
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleExtensionList $module_extensionList) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleExtensionList $module_extensionList, UuidInterface $uuid_service) {
     $this->configFactory = $config_factory;
     $this->moduleExtensionList = $module_extensionList;
+    $this->uuidService = $uuid_service;
   }
 
   /**
@@ -67,6 +69,7 @@ class HrParagraphsCommands extends DrushCommands {
       $yaml = str_replace('Internally displaced persons', $title, $yaml);
 
       $data = Yaml::parse($yaml);
+      $data['uuid'] = $this->uuidService->generate();
 
       $new_name = str_replace('idps_key_figures', $machine_name, $filename);
       $new_name = str_replace('.yml', '', $new_name);

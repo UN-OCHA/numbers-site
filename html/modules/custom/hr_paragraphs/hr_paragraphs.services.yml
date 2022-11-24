@@ -14,6 +14,9 @@ services:
   hr_paragraphs.inform_key_figures_controller:
     class: \Drupal\hr_paragraphs\Controller\InformKeyFiguresController
     arguments: ['@http_client', '@hr_paragraphs.cache.fts']
+  hr_paragraphs.cerf_key_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\CerfKeyFiguresController
+    arguments: ['@http_client', '@hr_paragraphs.cache.fts']
 
   hr_paragraphs.breadcrumb.groupcontent:
     class: 'Drupal\hr_paragraphs\Breadcrumb\GroupContentBreadcrumbBuilder'
