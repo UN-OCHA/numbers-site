@@ -18,6 +18,9 @@
             <polyline points="{{ figure.sparkline.points|join(' ') }}"/>
           </svg>
           {% endif %}
+          {% if figure.description %}
+            <small class="rw-key-figures__figure__description"><span class="rw-key-figures__figure__description__message">{{ figure.description }}</span></small>
+          {% endif %}
         </div>
         <footer class="rw-key-figures__figure__footer">
           <time datetime="{{ figure.date|date('c') }}" class="rw-key-figures__figure__updated">{{ figure.updated }}</time>
