@@ -4,7 +4,7 @@
   <ul class="rw-key-figures__list">
     {% for figure in data %}
     <li>
-      <figure class="rw-key-figures__figure rw-key-figures__figure--{{ figure.status }}">
+      <figure id="{{ figure.id|clean_id }}" class="rw-key-figures__figure rw-key-figures__figure--{{ figure.status }}">
         <figcaption class="rw-key-figures__figure__label">{{ figure.name }}</figcaption>
         <div class="rw-key-figures__figure__content">
           <p>
