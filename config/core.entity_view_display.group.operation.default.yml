@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.group.operation.field_calendar_alternate_link
     - field.field.group.operation.field_paragraphs
     - field.field.group.operation.subgroup_depth
     - field.field.group.operation.subgroup_left

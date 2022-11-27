@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_paragraphs
     - node.type.landing_page
-    - paragraphs.paragraphs_type.child_groups
   module:
     - entity_reference_revisions
 id: node.landing_page.field_paragraphs
@@ -28,9 +27,6 @@ settings:
       card_list:
         weight: -35
         enabled: false
-      child_groups:
-        weight: -26
-        enabled: true
       featured_highlight:
         weight: -32
         enabled: false

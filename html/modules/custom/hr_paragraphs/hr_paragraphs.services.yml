@@ -1,10 +1,23 @@
 services:
-  hr_paragraphs.key_figures_controller:
-    class: \Drupal\hr_paragraphs\Controller\KeyFiguresController
-    arguments: ['@http_client']
+  hr_paragraphs.rw_key_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\RWCrisisKeyFiguresController
+    arguments: ['@http_client', '@hr_paragraphs.cache.rw_crisis']
   hr_paragraphs.fts_figures_controller:
     class: \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController
-    arguments: ['@http_client']
+    arguments: ['@http_client', '@hr_paragraphs.cache.fts']
+  hr_paragraphs.idps_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\IdpsKeyFiguresController
+    arguments: ['@http_client', '@hr_paragraphs.cache.idps']
+  hr_paragraphs.cbpf_key_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\CbpfKeyFiguresController
+    arguments: ['@http_client', '@hr_paragraphs.cache.fts']
+  hr_paragraphs.inform_key_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\InformKeyFiguresController
+    arguments: ['@http_client', '@hr_paragraphs.cache.fts']
+  hr_paragraphs.cerf_key_figures_controller:
+    class: \Drupal\hr_paragraphs\Controller\CerfKeyFiguresController
+    arguments: ['@http_client', '@hr_paragraphs.cache.fts']
+
   hr_paragraphs.breadcrumb.groupcontent:
     class: 'Drupal\hr_paragraphs\Breadcrumb\GroupContentBreadcrumbBuilder'
     tags:
@@ -36,3 +49,21 @@ services:
       - '@language.default'
     tags:
       - { name: config.factory.override, priority: 2 }
+  hr_paragraphs.cache.fts:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin, default_backend: cache.backend.permanent_database }
+    factory: cache_factory:get
+    arguments: [fts]
+  hr_paragraphs.cache.rw_crisis:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin, default_backend: cache.backend.permanent_database }
+    factory: cache_factory:get
+    arguments: [rw_crisis]
+  hr_paragraphs.cache.idps:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin, default_backend: cache.backend.permanent_database }
+    factory: cache_factory:get
+    arguments: [idps]

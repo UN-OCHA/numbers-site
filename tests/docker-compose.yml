@@ -1,0 +1,54 @@
+version: "2.2"
+
+networks:
+  default:
+
+volumes:
+  numbers-test-site-public:
+  numbers-test-site-private:
+
+services:
+  mysql:
+    image: public.ecr.aws/unocha/mysql:10.6
+    hostname: numbers-test-mysql
+    container_name: numbers-test-mysql
+    environment:
+      - MYSQL_DB=numbers
+      - MYSQL_USER=numbers
+      - MYSQL_PASS=numbers
+    networks:
+      - default
+
+  drupal:
+    image: public.ecr.aws/unocha/numbers-site:local
+    hostname: numbers-test-site
+    container_name: numbers-test-site
+    depends_on:
+      - mysql
+    volumes:
+      - "./settings:/srv/www/shared/settings:ro"
+      # Mount volumes for the private and public files.
+      - "numbers-test-site-public:/srv/www/html/sites/default/files:rw"
+      - "numbers-test-site-private:/srv/www/html/sites/default/private:rw"
+      # Mount the folders needed for the tests.
+      - "../phpcs.xml:/srv/www/phpcs.xml:ro"
+      - "../phpunit.xml:/srv/www/phpunit.xml:ro"
+      - "../.coveralls.yml:/srv/www/.coveralls.yml:ro"
+      # Mount local custom code.
+      - "../html/modules/custom:/srv/www/html/modules/custom:ro"
+      - "../html/themes/custom:/srv/www/html/themes/custom:ro"
+    environment:
+      - TERM=xterm
+      - ENVIRONMENT=dev
+      - NGINX_SERVERNAME=numbers-test-site,localhost,127.0.0.1
+      - NGINX_OVERRIDE_PROTOCOL=HTTP,numbers-test-site,localhost,127.0.0.1
+      - DRUSH_OPTIONS_URI=http://numbers-test-site
+      - DRUPAL_DB_DATABASE=numbers
+      - DRUPAL_DB_USERNAME=numbers
+      - DRUPAL_DB_PASSWORD=numbers
+      - DRUPAL_DB_HOST=mysql
+      - DRUPAL_DB_DRIVER=mysql
+      - PHP_ENVIRONMENT=dev
+      - PHP_XDEBUG=true
+    networks:
+      - default

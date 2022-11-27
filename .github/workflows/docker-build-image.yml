@@ -22,13 +22,10 @@ jobs:
         aws_secret_access_key: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
         docker_registry_url: public.ecr.aws
         docker_registry_path: /unocha/
-        docker_image: response-site
+        docker_image: numbers-site
         docker_username: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
         docker_password: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
         ecr_github_token: ${{ secrets.ECR_GITHUB_TOKEN }}
         ecr_jenkins_token: ${{ secrets.JENKINS_ECR_TOKEN }}
-        flowdock_token: ${{ secrets.FLOWDOCK_TOKEN }}
-        flowdock_icon_success: 'blossom'
-        flowdock_icon_failure: 'warning'
         slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
         slack_channel_name: ${{ secrets.SLACK_CHANNEL }}

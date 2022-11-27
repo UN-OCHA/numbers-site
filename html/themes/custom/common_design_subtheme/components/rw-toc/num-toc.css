@@ -1,0 +1,39 @@
+/**
+ * Numbers ToC customizations
+ *
+ * The ToC component is sourced from RW D9 and shouldn't be altered. Use this
+ * file to make customizations to the ToC.
+ */
+.js .rw-toc {
+  padding-bottom: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .rw-toc {
+    width: 100%;
+    padding-top: 1rem;
+  }
+}
+
+.rw-toc__title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: var(--cd-font-size--medium);
+}
+
+.rw-toc a {
+  display: inline-block;
+  padding-inline-start: 16px;
+}
+
+.rw-toc a[data-active] {
+  padding-inline-start: 10px;
+  border-inline-start: 6px solid var(--brand-primary);
+  font-weight: bold;
+}
+
+.paragraph[data-active] .field--name-field-title {
+  padding-inline-start: 8px;
+  border-inline-start: 8px solid var(--brand-primary);
+  font-weight: bold;
+}

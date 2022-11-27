@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies: {  }
 id: reliefweb_key_figures
-label: 'ReliefWeb - Key Figures'
+label: 'Figures - ReliefWeb'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Display figures from ReliefWeb.'
 behavior_plugins: {  }

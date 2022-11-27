@@ -6,5 +6,5 @@ id: heading
 label: Heading
 icon_uuid: null
 icon_default: null
-description: 'A generic heading.'
+description: 'A generic heading. It will be listed in the Table of Contents.'
 behavior_plugins: {  }

@@ -6,5 +6,5 @@ id: text_block
 label: 'Custom block'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Free-form HTML to enter custom content.'
 behavior_plugins: {  }

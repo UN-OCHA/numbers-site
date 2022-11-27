@@ -18,6 +18,9 @@
             <polyline points="{{ figure.sparkline.points|join(' ') }}"/>
           </svg>
           {% endif %}
+          {% if figure.description %}
+            <small class="rw-key-figures__figure__description"><span class="rw-key-figures__figure__description__message">{{ figure.description }}</span></small>
+          {% endif %}
         </div>
         <footer class="rw-key-figures__figure__footer">
           <time datetime="{{ figure.date|date('c') }}" class="rw-key-figures__figure__updated">{{ figure.updated }}</time>
@@ -28,7 +31,14 @@
     {% endfor %}
   </ul>
 
+  {% if view_all %}
   <footer class="view-more rw-key-figures__links">
     <a href="https://reliefweb.int/country/{{ country_iso|lower }}?figures=all#key-figures">{{ 'View all @country figures'|t({'@country': country_name}) }}</a>
   </footer>
+  {% endif %}
+
+  <script type="application/ld+json">
+    {{ jsonld|raw }}
+  </script>
+
 </div>{# .rw-key-figures #}

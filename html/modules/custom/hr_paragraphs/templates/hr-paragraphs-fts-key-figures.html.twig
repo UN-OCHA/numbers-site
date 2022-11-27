@@ -8,7 +8,7 @@
         <figcaption class="rw-key-figures__figure__label">{{ figure.name }}</figcaption>
         <div class="rw-key-figures__figure__content">
           <p>
-            <data value="{{ figure.value }}" class="rw-key-figures__figure__value">{{ figure.value|number_format }}</data>
+            <data value="{{ figure.value }}" class="rw-key-figures__figure__value">{{ figure.prefix }}{{ figure.value|number_format }}{{ figure.suffix }}</data>
             {% if figure.trend %}
               <small class="rw-key-figures__figure__trend"><span class="rw-key-figures__figure__trend__message">{{ figure.trend.message }}</span> <span class="rw-key-figures__figure__trend__since">{{ figure.trend.since }}</span></small>
             {% endif %}
@@ -29,6 +29,11 @@
   </ul>
 
   <footer class="view-more rw-key-figures__links">
-    <a href="https://fts.unocha.org/appeals/{{ plan_id }}/summary'">{{ 'View all figures'|t }}</a>
+    <a href="https://fts.unocha.org/appeals/{{ plan_id }}/summary">{{ 'View all figures'|t }}</a>
   </footer>
+
+  <script type="application/ld+json">
+    {{ jsonld|raw }}
+  </script>
+
 </div>{# .key-figures #}

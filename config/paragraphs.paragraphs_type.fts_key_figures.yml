@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies: {  }
 id: fts_key_figures
-label: 'FTS - Key Figures'
+label: 'Figures - FTS'
 icon_uuid: null
 icon_default: null
-description: ''
+description: 'Display figures from FTS.'
 behavior_plugins: {  }

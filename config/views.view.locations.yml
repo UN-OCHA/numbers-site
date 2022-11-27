@@ -1,6 +1,6 @@
 uuid: cb46f568-8171-4663-91a6-8b804543e885
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - group.type.operation
@@ -284,6 +284,39 @@ display:
       header: {  }
       footer: {  }
       display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+      tags: {  }
+  404_list:
+    id: 404_list
+    display_title: '404 List'
+    display_plugin: block
+    position: 3
+    display_options:
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+      row:
+        type: fields
+        options:
+          default_field_elements: false
+          inline:
+            label: label
+            field_archive_group: field_archive_group
+          separator: ''
+          hide_empty: false
+      defaults:
+        style: false
+        row: false
+      display_description: ''
+      display_extenders: {  }
+      block_description: '404 List'
     cache_metadata:
       max-age: -1
       contexts:
