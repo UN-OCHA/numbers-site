@@ -1,3 +1,4 @@
+uuid: 2f1da77e-8460-4a43-ae57-17913c5a13f3
 langcode: en
 status: true
 dependencies:
@@ -18,4 +19,3 @@ default_value: {  }
 default_value_callback: ''
 settings: {  }
 field_type: list_string
-uuid: 2f1da77e-8460-4a43-ae57-17913c5a13f3

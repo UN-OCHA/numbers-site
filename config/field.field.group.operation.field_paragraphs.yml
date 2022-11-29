@@ -24,27 +24,30 @@ settings:
     negate: 1
     target_bundles_drag_drop:
       cbpf_key_figures:
-        weight: -15
+        weight: -17
         enabled: false
-      fts_key_figures:
-        weight: -14
-        enabled: false
-      heading:
+      cerf_key_figures:
         weight: -16
         enabled: false
+      fts_key_figures:
+        weight: -15
+        enabled: false
+      heading:
+        weight: -18
+        enabled: false
       idps_key_figures:
-        weight: -13
+        weight: -14
         enabled: false
       inform_key_figures:
-        weight: -12
+        weight: -13
         enabled: false
       reliefweb_key_figures:
-        weight: -11
+        weight: -12
         enabled: false
       table_of_contents:
-        weight: -10
+        weight: -11
         enabled: false
       text_block:
-        weight: -17
+        weight: -19
         enabled: false
 field_type: entity_reference_revisions

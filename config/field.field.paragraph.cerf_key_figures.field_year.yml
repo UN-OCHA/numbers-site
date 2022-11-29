@@ -1,3 +1,4 @@
+uuid: 7c13102f-0dd1-452d-b01e-3d21b4195b95
 langcode: en
 status: true
 dependencies:
@@ -18,4 +19,3 @@ default_value: {  }
 default_value_callback: ''
 settings: {  }
 field_type: list_string
-uuid: 7c13102f-0dd1-452d-b01e-3d21b4195b95
