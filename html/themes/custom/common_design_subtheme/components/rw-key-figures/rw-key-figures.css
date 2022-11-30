@@ -115,6 +115,7 @@
   }
   .rw-key-figures ul li {
     display: flex;
+    position: relative;
     margin: 0;
   }
   .rw-key-figures ul li figure {
@@ -142,4 +143,16 @@
   .rw-key-figures ul {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.rw-key-figures__share-button {
+  background-image: url(share.svg);
+  background-size: contain;
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  position: absolute;
+  right: 10px;
+  border: 0;
+  background-color: #fff;
 }

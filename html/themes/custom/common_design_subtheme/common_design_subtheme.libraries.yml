@@ -5,8 +5,6 @@ global-styling:
       css/styles.css: {}
   js:
     js/login_destination.js: {}
-    js/html2canvas.js: {}
-    js/share-it.js: {}
   dependencies:
     - common_design_subtheme/rw-brand
     - common_design_subtheme/hri-breadcrumbs
@@ -182,6 +180,9 @@ rw-key-figures:
   css:
     theme:
       components/rw-key-figures/rw-key-figures.css: {}
+  js:
+    js/html2canvas.js: {}
+    js/share-it.js: {}
 
 rw-river:
   css:

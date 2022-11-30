@@ -10,7 +10,7 @@
     keyFigures.forEach((keyfigure) => {
       // Attach share button.
       let button = document.createElement('button');
-      button.innerHTML = 'Share';
+      button.innerHTML = '<span class="hidden">Share</span>';
       button.classList.add('rw-key-figures__share-button');
 
       button.addEventListener('click', (ev) => {
