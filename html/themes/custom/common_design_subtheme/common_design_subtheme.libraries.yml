@@ -146,6 +146,17 @@ node-edit-link:
     theme:
       components/node-edit-link/node-edit-link.css: {}
 
+num-key-figures-share:
+  css:
+    theme:
+      components/num-key-figures-share/num-key-figures-share.css: {}
+  js:
+    components/num-key-figures-share/html2canvas.js: {}
+    components/num-key-figures-share/num-key-figures-share.js: {}
+  dependencies:
+    - common_design_subtheme/rw-key-figures
+    - common_design/cd-social-links
+
 num-layout:
   css:
     component:
@@ -180,9 +191,6 @@ rw-key-figures:
   css:
     theme:
       components/rw-key-figures/rw-key-figures.css: {}
-  js:
-    js/html2canvas.js: {}
-    js/share-it.js: {}
 
 rw-river:
   css:

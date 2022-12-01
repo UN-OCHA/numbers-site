@@ -1,4 +1,5 @@
 {{ attach_library('common_design_subtheme/rw-key-figures') }}
+{{ attach_library('common_design_subtheme/num-key-figures-share') }}
 
 <div class="rw-key-figures">
   <ul class="rw-key-figures__list">
@@ -14,7 +15,7 @@
             {% endif %}
           </p>
           {% if figure.sparkline %}
-          <svg viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" width="120" fill="none" stroke="#999" aria-hidden="true">
+          <svg class="rw-key-figures__figure__sparkline" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" width="120" fill="none" stroke="#999" aria-hidden="true">
             <polyline points="{{ figure.sparkline.points|join(' ') }}"/>
           </svg>
           {% endif %}

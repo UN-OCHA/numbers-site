@@ -1,20 +1,30 @@
 /**
  * @file
- * Use native browser share mechanism on individual figures.
+ * Use the Web Share API on individual figures.
  */
 
 (function () {
   if (!!navigator.canShare) {
     var keyFigures = document.querySelectorAll('.rw-key-figures__figure');
 
-    keyFigures.forEach((keyfigure) => {
-      // Attach share button.
-      let button = document.createElement('button');
-      button.innerHTML = '<span class="hidden">Share</span>';
-      button.classList.add('rw-key-figures__share-button');
+    keyFigures.forEach((keyFigure) => {
+      // Create share button.
+      let shareButton = document.createElement('button');
+      // @TODO: fix non-translatable text
+      shareButton.innerHTML = '<span class="visually-hidden">Share this figure</span><img src="/themes/custom/common_design_subtheme/components/num-key-figures-share/share.svg" aria-hidden="true" focusable="false">';
+      shareButton.classList.add(
+        'rw-key-figures__share-button',
+        'cd-social-links__link',
+        'cd-social-links__link--copy',
+      );
 
-      button.addEventListener('click', (ev) => {
-        let keyFigure = ev.target.parentElement;
+      // Using this as an error, as opposed to success as it appears in the
+      // default cd-social-links component.
+      shareButton.dataset.message = 'Failed to share Figure';
+
+      // Set up Web Share API when button is clicked.
+      shareButton.addEventListener('click', (ev) => {
+        let keyFigure = ev.target.closest('.rw-key-figures__figure');
 
         let shareTitle = window.title;
         let shareUrl = window.location.href + '#' + keyFigure.id;
@@ -24,8 +34,8 @@
           keyFigure.querySelector('.rw-key-figures__figure__value').innerHTML
         ].join('');
 
-        // Hide share button.
-        keyFigure.querySelector('.rw-key-figures__share-button').style.display = 'none';
+        // Hide share button while capturing an image of the figure.
+        shareButton.classList.add('visually-hidden');
 
         // Try sharing image.
         html2canvas(keyFigure).then((canvas) => {
@@ -63,24 +73,30 @@
                     if (navigator.canShare(shareData)) {
                       navigator.share(shareData);
                     }
-                    else {
-                      button.style.backgroundColor = 'red';
-                    }
                   }
                 }
               }
             } catch (err) {
-              button.style.backgroundColor = 'red';
+              // Show user feedback and remove after some time.
+              shareButton.classList.add('is--showing-message');
+              setTimeout(function () {
+                shareButton.classList.remove('is--showing-message');
+              }, 2500);
+
+              // Log error to console.
               console.error('Sharing failed:', err);
             }
           });
         });
 
-        // Show share button.
-        keyFigure.querySelector('.rw-key-figures__share-button').style.display = 'block';
+        // Show share button now that image capture was attempted.
+        shareButton.classList.remove('visually-hidden');
       });
 
-      keyfigure.append(button);
+      // Insert button into DOM.
+      keyFigure.append(shareButton);
+      // Mark this figure as shareable.
+      keyFigure.classList.add('rw-key-figures__figure--can-share');
     });
   }
 }());

@@ -1,0 +1,36 @@
+/**
+ * Web Share API
+ *
+ * Modifications for when the browser can natively share images or text.
+ */
+.rw-key-figures__figure--can-share {
+  position: relative;
+}
+
+.rw-key-figures__figure--can-share .rw-key-figures__figure__label {
+  margin-inline-end: 2rem;
+}
+
+.rw-key-figures__share-button {
+  position: absolute;
+  top: 16px; /* matches RW component units */
+  border: none;
+  background: none;
+}
+
+html[dir="ltr"] .rw-key-figures__share-button {
+  right: 16px;
+}
+html[dir="rtl"] .rw-key-figures__share-button {
+  left: 16px;
+}
+
+.rw-key-figures__share-button svg {
+  fill: var(--brand-primary--dark);
+  width: 100%;
+  height: 100%;
+}
+
+.is--hidden {
+  display: none;
+}
