@@ -114,7 +114,6 @@
     grid-column-gap: 20px;
   }
   .rw-key-figures ul li {
-    position: relative; /* @MOD */
     display: flex;
     margin: 0;
   }
