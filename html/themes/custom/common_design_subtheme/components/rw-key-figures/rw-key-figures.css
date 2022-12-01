@@ -2,8 +2,8 @@
 /**
  * RW Key Figures component
  *
- * If you want to modify this component, add an overrides file without touching
- * this file, which we source directly from RW D9.
+ * This component contains modifications to the original, which came from the
+ * following commit:
  *
  * @see https://github.com/UN-OCHA/rwint9-site/blob/8900b2b7079594a59a8ccc2c75c4c7f1415eef3a/html/themes/custom/common_design_subtheme/components/rw-key-figures/rw-key-figures.css
  */
@@ -53,7 +53,7 @@
   font-style: normal;
   line-height: 1.5;
 }
-.rw-key-figures figure svg {
+.rw-key-figures .rw-key-figures__figure__sparkline { /* @MOD */
   float: right;
   overflow: visible;
   width: 120px;
@@ -114,8 +114,8 @@
     grid-column-gap: 20px;
   }
   .rw-key-figures ul li {
+    position: relative; /* @MOD */
     display: flex;
-    position: relative;
     margin: 0;
   }
   .rw-key-figures ul li figure {
@@ -143,16 +143,4 @@
   .rw-key-figures ul {
     grid-template-columns: repeat(2, 1fr);
   }
-}
-
-.rw-key-figures__share-button {
-  background-image: url(share.svg);
-  background-size: contain;
-  width: 25px;
-  height: 25px;
-  background-repeat: no-repeat;
-  position: absolute;
-  right: 10px;
-  border: 0;
-  background-color: #fff;
 }
