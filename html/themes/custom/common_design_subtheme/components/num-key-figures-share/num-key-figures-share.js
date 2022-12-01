@@ -44,25 +44,38 @@
             try {
               // Attempt to share image.
               const images = [new File([blob], 'image.png', { type: blob.type })];
-              navigator.share({
+              let shareData = {
                 title: shareTitle,
                 text: sharetext,
                 url: shareUrl,
                 files: images
-              }).catch(error => {
-                // If the first share attempt failed, we will log it but try again
-                // with plain text before reporting failure to the user.
-                console.log('Image sharing failed:', error);
+              };
 
-                // Attempt to share text.
-                navigator.share({
-                  title: shareTitle,
-                  text: sharetext,
-                  url: shareUrl
-                }).catch(error => {
-                  console.log('Text sharing failed:', error);
-                });
-              });
+              // Share everything.
+              if (navigator.canShare(shareData)) {
+                navigator.share(shareData);
+              }
+              else {
+                // Share without files.
+                delete shareData.files;
+                if (navigator.canShare(shareData)) {
+                  navigator.share(shareData);
+                }
+                else {
+                  // Share without text.
+                  delete shareData.text;
+                  if (navigator.canShare(shareData)) {
+                    navigator.share(shareData);
+                  }
+                  else {
+                    // Share without title.
+                    delete shareData.title;
+                    if (navigator.canShare(shareData)) {
+                      navigator.share(shareData);
+                    }
+                  }
+                }
+              }
             } catch (err) {
               // Show user feedback and remove after some time.
               shareButton.classList.add('is--showing-message');
@@ -71,7 +84,7 @@
               }, 2500);
 
               // Log error to console.
-              console.error(err);
+              console.error('Sharing failed:', err);
             }
           });
         });
