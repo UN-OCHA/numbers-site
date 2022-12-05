@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.inform_key_figures.field_country
     - field.field.paragraph.inform_key_figures.field_figures
+    - field.field.paragraph.inform_key_figures.field_show_sparklines
     - field.field.paragraph.inform_key_figures.field_title
     - field.field.paragraph.inform_key_figures.field_year
     - paragraphs.paragraphs_type.inform_key_figures
@@ -24,4 +25,5 @@ content:
 hidden:
   field_country: true
   field_figures: true
+  field_show_sparklines: true
   field_year: true

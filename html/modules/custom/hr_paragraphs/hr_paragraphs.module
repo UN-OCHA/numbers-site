@@ -444,6 +444,11 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     }
   }
 
+  $sparklines = FALSE;
+  if ($paragraph->hasField('field_show_sparklines') && $paragraph->field_show_sparklines->value) {
+    $sparklines = TRUE;
+  }
+
   try {
     // Get the data.
     $results = $controller->getKeyFigures($iso3, $year);
@@ -454,7 +459,7 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     }
 
     // Build figures.
-    $data = $controller->buildKeyFigures($results, 99);
+    $data = $controller->buildKeyFigures($results, $sparklines);
     if (empty($data)) {
       $variables['content']['key_figures'] = [
         '#type' => 'markup',
