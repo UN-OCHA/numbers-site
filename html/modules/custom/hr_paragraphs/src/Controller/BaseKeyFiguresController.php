@@ -193,26 +193,27 @@ class BaseKeyFiguresController extends ControllerBase {
    *
    * @param array<string, mixed> $results
    *   Raw results from API.
-   * @param int $max
-   *   Number of items to return.
+   * @param bool $sparklines
+   *   Add sparklines.
    *
    * @return array<string, mixed>
    *   Results.
    */
-  public function buildKeyFigures(array $results, int $max) : array {
+  public function buildKeyFigures(array $results, bool $sparklines) : array {
     $figures = $this->parseKeyFigures($results);
 
     // Add the trend and sparkline.
-    foreach ($figures as $index => $figure) {
-      if (isset($figure['values'])) {
-        $figure['trend'] = $this->getKeyFigureTrend($figure['values']);
-        $figure['sparkline'] = $this->getKeyFigureSparkline($figure['values']);
+    if ($sparklines) {
+      foreach ($figures as $index => $figure) {
+        if (isset($figure['values'])) {
+          $figure['trend'] = $this->getKeyFigureTrend($figure['values']);
+          $figure['sparkline'] = $this->getKeyFigureSparkline($figure['values']);
+        }
+        $figures[$index] = $figure;
       }
-      $figures[$index] = $figure;
     }
 
-    // Limit to the number specified by Editor, then return.
-    return array_slice($figures, 0, $max);
+    return $figures;
   }
 
   /**
