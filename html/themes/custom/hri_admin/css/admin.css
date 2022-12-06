@@ -25,7 +25,10 @@
   border-inline-start-width: 0.5rem;
   border-radius: 3px;
 }
-
+/* Reset margin from core */
+.form-type-radio .description, .form-type-checkbox .description {
+  margin-left: 0;
+}
 
 /**
  * Move description of the "Custom Content" fields on Operations so it sits
@@ -232,4 +235,18 @@
 .rw-key-figures__figure__label {
   font-weight: 700;
   font-size: 1.25em;
+}
+
+/* Keyfigure edit screen */
+.field--name-field-figures .form-checkboxes {
+  display: grid;
+  grid-template-columns: repeat( auto-fit, minmax(360px, 1fr) );
+  grid-column-gap: 0.5rem;
+}
+
+.field--name-field-figures .form-type-checkbox {
+  overflow: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

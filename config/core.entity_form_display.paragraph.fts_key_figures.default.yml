@@ -16,7 +16,7 @@ mode: default
 content:
   field_country:
     type: options_select
-    weight: 2
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -28,7 +28,7 @@ content:
     third_party_settings: {  }
   field_show_sparklines:
     type: boolean_checkbox
-    weight: 5
+    weight: 3
     region: content
     settings:
       display_label: true
@@ -43,7 +43,7 @@ content:
     third_party_settings: {  }
   field_year:
     type: options_select
-    weight: 3
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
