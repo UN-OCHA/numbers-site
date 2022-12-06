@@ -237,11 +237,14 @@
   font-size: 1.25em;
 }
 
-/* Keyfigure edit screen */
-.field--name-field-figures .form-checkboxes {
-  display: grid;
-  grid-template-columns: repeat( auto-fit, minmax(360px, 1fr) );
-  grid-column-gap: 0.5rem;
+/**
+ * Key Figures paragraph configuration
+ *
+ * Shows a simple list of figures until it is 10 items long, then displays the
+ * options in 3 columns.
+ */
+.field--name-field-figures .form-checkboxes:has(:nth-child(10)) {
+  columns: 3 auto;
 }
 
 .field--name-field-figures .form-type-checkbox {
