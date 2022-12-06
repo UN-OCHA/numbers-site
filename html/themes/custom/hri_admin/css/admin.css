@@ -25,7 +25,10 @@
   border-inline-start-width: 0.5rem;
   border-radius: 3px;
 }
-
+/* Reset margin from core */
+.form-type-radio .description, .form-type-checkbox .description {
+  margin-left: 0;
+}
 
 /**
  * Move description of the "Custom Content" fields on Operations so it sits
@@ -232,4 +235,45 @@
 .rw-key-figures__figure__label {
   font-weight: 700;
   font-size: 1.25em;
+}
+
+/**
+ * Key Figures paragraph configuration
+ *
+ * Shows a simple list of figures until it is 10 items long, then displays the
+ * options in 3 columns.
+ */
+ .field--name-field-figures .form-checkboxes:has(:nth-child(10)) {
+  column-gap: 2rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .field--name-field-figures .form-checkboxes:has(:nth-child(10)) {
+    columns: 2 auto;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .field--name-field-figures .form-checkboxes:has(:nth-child(10)) {
+    columns: 3 auto;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  .field--name-field-figures .form-checkboxes:has(:nth-child(10)) {
+    columns: 4 auto;
+  }
+}
+
+@media only screen and (min-width: 2000px) {
+  .field--name-field-figures .form-checkboxes:has(:nth-child(10)) {
+    columns: 5 auto;
+  }
+}
+
+.field--name-field-figures .form-type-checkbox {
+  overflow: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

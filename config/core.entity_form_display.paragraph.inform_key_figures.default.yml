@@ -22,13 +22,13 @@ content:
     third_party_settings: {  }
   field_figures:
     type: options_buttons
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   field_show_sparklines:
     type: boolean_checkbox
-    weight: 4
+    weight: 3
     region: content
     settings:
       display_label: true

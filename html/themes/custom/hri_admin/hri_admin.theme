@@ -4,3 +4,12 @@
  * @file
  * Functions to support theming in the hri_admin theme.
  */
+
+/**
+ * Implements template_preprocess_form_element().
+ */
+function hri_admin_preprocess_form_element(&$variables) {
+  if ($variables['element']['#type'] == 'checkbox') {
+    $variables['label']['#theme'] = 'form_element_label__checkbox';
+  }
+}
