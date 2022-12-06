@@ -25,10 +25,8 @@ html[dir="rtl"] .rw-key-figures__share-button {
   left: 16px;
 }
 
-.rw-key-figures__share-button svg {
-  fill: var(--brand-primary--dark);
-  width: 100%;
-  height: 100%;
+.rw-key-figures__share-button img {
+  display: block;
 }
 
 .is--hidden {
