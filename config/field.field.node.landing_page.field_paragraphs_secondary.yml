@@ -20,56 +20,37 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    target_bundles:
-      child_groups: child_groups
+    target_bundles: null
     negate: 1
     target_bundles_drag_drop:
-      card_list:
-        weight: -35
-        enabled: true
-      featured_highlight:
-        weight: -32
+      cbpf_key_figures:
+        weight: -18
         enabled: false
-      group_pages:
-        weight: -25
-        enabled: true
-      hdx_river:
-        weight: -31
+      cerf_key_figures:
+        weight: -17
+        enabled: false
+      fts_key_figures:
+        weight: -16
         enabled: false
       heading:
-        weight: -30
-        enabled: false
-      iframe:
-        weight: -29
-        enabled: false
-      layout:
-        weight: -28
-        enabled: true
-      menu_block:
-        weight: -27
-        enabled: false
-      reliefweb_document:
-        weight: -24
-        enabled: false
-      reliefweb_key_figures:
-        weight: -22
-        enabled: false
-      reliefweb_river:
-        weight: -23
-        enabled: false
-      rss_feed:
         weight: -21
         enabled: false
+      idps_key_figures:
+        weight: -15
+        enabled: false
+      inform_key_figures:
+        weight: -14
+        enabled: false
+      locations_list:
+        weight: -13
+        enabled: false
+      reliefweb_key_figures:
+        weight: -19
+        enabled: false
       table_of_contents:
-        weight: -20
+        weight: -12
         enabled: false
       text_block:
-        weight: -34
+        weight: -20
         enabled: false
-      twitter_feed:
-        weight: -19
-        enabled: true
-      upcoming_events:
-        weight: -33
-        enabled: true
 field_type: entity_reference_revisions

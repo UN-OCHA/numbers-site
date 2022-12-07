@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.group.field_paragraphs
     - group.type.operation
+    - paragraphs.paragraphs_type.locations_list
   module:
     - entity_reference_revisions
 id: group.operation.field_paragraphs
@@ -20,34 +21,38 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    target_bundles: null
+    target_bundles:
+      locations_list: locations_list
     negate: 1
     target_bundles_drag_drop:
       cbpf_key_figures:
-        weight: -17
+        weight: -19
         enabled: false
       cerf_key_figures:
-        weight: -16
-        enabled: false
-      fts_key_figures:
-        weight: -15
-        enabled: false
-      heading:
         weight: -18
         enabled: false
+      fts_key_figures:
+        weight: -17
+        enabled: false
+      heading:
+        weight: -21
+        enabled: false
       idps_key_figures:
-        weight: -14
+        weight: -16
         enabled: false
       inform_key_figures:
-        weight: -13
+        weight: -15
         enabled: false
+      locations_list:
+        weight: -13
+        enabled: true
       reliefweb_key_figures:
-        weight: -12
+        weight: -14
         enabled: false
       table_of_contents:
-        weight: -11
+        weight: -12
         enabled: false
       text_block:
-        weight: -19
+        weight: -20
         enabled: false
 field_type: entity_reference_revisions
