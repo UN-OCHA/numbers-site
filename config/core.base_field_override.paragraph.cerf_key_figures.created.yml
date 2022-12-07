@@ -1,0 +1,18 @@
+uuid: e27c6ddf-ff67-4c27-ad86-f94152276886
+langcode: en
+status: true
+dependencies:
+  config:
+    - paragraphs.paragraphs_type.cerf_key_figures
+id: paragraph.cerf_key_figures.created
+field_name: created
+entity_type: paragraph
+bundle: cerf_key_figures
+label: 'Authored on'
+description: 'The time that the Paragraph was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

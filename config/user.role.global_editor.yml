@@ -4,20 +4,16 @@ status: true
 dependencies:
   config:
     - filter.format.hr_plain_text
-    - group.type.cluster
-    - group.type.operation
     - node.type.landing_page
     - node.type.page
     - taxonomy.vocabulary.tags
   module:
-    - content_translation
     - contextual
     - entity_reference_revisions
     - file
     - filter
     - group
     - locale
-    - menu_link_content
     - node
     - paragraphs
     - paragraphs_type_permissions
@@ -49,7 +45,6 @@ permissions:
   - 'administer users'
   - 'bypass group access'
   - 'bypass node access'
-  - 'create content translations'
   - 'create landing_page content'
   - 'create operation group'
   - 'create page content'
@@ -79,7 +74,6 @@ permissions:
   - 'customize shortcut links'
   - 'delete any landing_page content'
   - 'delete any page content'
-  - 'delete content translations'
   - 'delete landing_page revisions'
   - 'delete orphan revisions'
   - 'delete own landing_page content'
@@ -118,14 +112,7 @@ permissions:
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'switch shortcut sets'
-  - 'translate cluster group'
   - 'translate interface'
-  - 'translate landing_page node'
-  - 'translate menu_link_content'
-  - 'translate operation group'
-  - 'translate page node'
-  - 'translate paragraph'
-  - 'update content translations'
   - 'update paragraph content article_card_list'
   - 'update paragraph content card_list'
   - 'update paragraph content cbpf_key_figures'
