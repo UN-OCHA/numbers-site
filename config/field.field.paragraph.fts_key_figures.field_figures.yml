@@ -14,7 +14,7 @@ bundle: fts_key_figures
 label: Figures
 description: 'Select which figures needs to be displayed, if you select none, all will be displayed.'
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings: {  }
