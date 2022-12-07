@@ -1,9 +1,9 @@
-uuid: 6146ab70-d0a5-426f-921a-659b58940610
+uuid: 217b04fe-490e-4567-b5ab-d3b65e987993
 langcode: en
 status: true
 dependencies:
   config:
-    - paragraphs.paragraphs_type.table_of_contents
+    - paragraphs.paragraphs_type.idps_key_figures
   module:
     - content_translation
 third_party_settings:
@@ -11,8 +11,8 @@ third_party_settings:
     enabled: true
     bundle_settings:
       untranslatable_fields_hide: '0'
-id: paragraph.table_of_contents
+id: paragraph.idps_key_figures
 target_entity_type_id: paragraph
-target_bundle: table_of_contents
+target_bundle: idps_key_figures
 default_langcode: site_default
 language_alterable: true

@@ -12,7 +12,7 @@ bundle: cbpf_key_figures
 label: 'Show sparklines'
 description: 'Show sparkline on key figures when data is available.'
 required: false
-translatable: false
+translatable: true
 default_value:
   -
     value: 0
