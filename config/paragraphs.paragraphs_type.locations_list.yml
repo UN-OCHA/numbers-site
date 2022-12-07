@@ -1,0 +1,10 @@
+uuid: c305a82a-4e39-4703-bc45-00a1927d6800
+langcode: en
+status: true
+dependencies: {  }
+id: locations_list
+label: 'Locations list'
+icon_uuid: null
+icon_default: null
+description: 'Simple list of Locations for inclusion in Paragraphs content.'
+behavior_plugins: {  }
