@@ -57,7 +57,7 @@
         "drupal/theme_switcher": "^1.2",
         "drupal/twig_tweak": "^3.1",
         "drupal/user_expire": "^1.0",
-        "drush/drush": "11",
+        "drush/drush": "^11.0",
         "galbar/jsonpath": "^2.0",
         "league/commonmark": "1.6",
         "mailchimp/marketing": "^3.0",

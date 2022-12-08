@@ -6,9 +6,7 @@ report-only:
     connect-src:
       base: self
       sources:
-        - analytics.google.com
-        - '*.google-analytics.com'
-        - '*.doubleclick.net'
+        - www.google-analytics.com
         - '*.analytics.google.com'
     font-src:
       base: self
@@ -31,11 +29,11 @@ report-only:
         - unsafe-inline
       sources:
         - fonts.googleapis.com
-        - '*.gstatic.com'
-        - '*.google.com'
-        - '*.google-analytics.com'
+        - www.gstatic.com
+        - www.google.com
+        - www.googletagmanager.com
         - cdn.jsdelivr.net
-        - googletagmanager.com
+        - '*.google-analytics.com'
     script-src-attr:
       base: self
       flags:
@@ -46,11 +44,11 @@ report-only:
         - unsafe-inline
       sources:
         - fonts.googleapis.com
-        - '*.gstatic.com'
-        - '*.google.com'
-        - '*.google-analytics.com'
+        - www.gstatic.com
+        - www.google.com
+        - www.googletagmanager.com
         - cdn.jsdelivr.net
-        - googletagmanager.com
+        - '*.google-analytics.com'
     style-src:
       base: self
       flags:
