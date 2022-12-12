@@ -4,6 +4,30 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.1.1](https://github.com/UN-OCHA/numbers-site/compare/0.1.0...v0.1.1) (2022-12-12)
+
+### Features
+
+* Add sitemap [#NUM-48](https://https://humanitarian.atlassian.net/browse/NUM-48) ([d84183](https://github.com/UN-OCHA/numbers-site/commit/d84183d83e27f9856bd461e37e87d6f80470474d))
+
+### Bug Fixes
+
+* Perms for Locations list paragraph type ([70b29c](https://github.com/UN-OCHA/numbers-site/commit/70b29c46dca3f2adcdfab36d60a63e41134ce451))
+
+### Chores
+
+* Make csp rules consistent ([6d06b0](https://github.com/UN-OCHA/numbers-site/commit/6d06b0aabdebed7f13de922404c9b1373f189798))
+* Update all outdated drupal/* packages. ([0bcb97](https://github.com/UN-OCHA/numbers-site/commit/0bcb97739e9e63fb7bc1d82cb182444a48bef44c))
+
+##### Deps
+
+* Bump decode-uri-component ([073ac3](https://github.com/UN-OCHA/numbers-site/commit/073ac3341bfd563cea695a03a9c9f76edfaf08d8))
+* Bump qs in /html/themes/custom/common_design_subtheme ([ea0077](https://github.com/UN-OCHA/numbers-site/commit/ea0077fd9c58e6163f805704e92adc71cea66b1e))
+
+##### Deps-dev
+
+* Bump @xmldom/xmldom ([023e18](https://github.com/UN-OCHA/numbers-site/commit/023e187ceaec6837e03969b1ac51c929ce770708))
+
 ## Initial version (2022-12-07)
 
 ### Features
