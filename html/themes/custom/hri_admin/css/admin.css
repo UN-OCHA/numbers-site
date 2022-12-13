@@ -278,12 +278,22 @@
   text-overflow: ellipsis;
 }
 
-
 .field--name-field-figures .form-checkboxes--checkbox {
-  margin: 0.5rem 0;
+  break-inside: avoid;
+  margin: 0;
+  padding: 0.25rem;
+}
+
+.field--name-field-figures .form-checkboxes--checkbox:hover {
+  background: #0001;
+  transition: background .1666s ease-in;
 }
 
 .field--name-field-figures .form-checkboxes--extra {
-  padding-left: 2rem;
+  padding-inline-start: 1.1rem;
   font-size: 90%;
+}
+
+.field--name-field-figures .form-checkboxes--extra label {
+  padding-inline-start: .333rem;
 }
