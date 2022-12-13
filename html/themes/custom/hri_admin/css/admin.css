@@ -277,3 +277,13 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+
+.field--name-field-figures .form-checkboxes--checkbox {
+  margin: 0.5rem 0;
+}
+
+.field--name-field-figures .form-checkboxes--extra {
+  padding-left: 2rem;
+  font-size: 90%;
+}

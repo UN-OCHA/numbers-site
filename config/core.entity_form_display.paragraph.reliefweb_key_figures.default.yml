@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.reliefweb_key_figures.field_active_sparklines
     - field.field.paragraph.reliefweb_key_figures.field_country
     - field.field.paragraph.reliefweb_key_figures.field_figures
     - field.field.paragraph.reliefweb_key_figures.field_show_sparklines
@@ -14,6 +15,12 @@ targetEntityType: paragraph
 bundle: reliefweb_key_figures
 mode: default
 content:
+  field_active_sparklines:
+    type: options_buttons
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_country:
     type: options_select
     weight: 1

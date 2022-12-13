@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.reliefweb_key_figures.field_active_sparklines
     - field.field.paragraph.reliefweb_key_figures.field_country
     - field.field.paragraph.reliefweb_key_figures.field_figures
     - field.field.paragraph.reliefweb_key_figures.field_show_sparklines
@@ -23,6 +24,7 @@ content:
     weight: 0
     region: content
 hidden:
+  field_active_sparklines: true
   field_country: true
   field_figures: true
   field_show_sparklines: true
