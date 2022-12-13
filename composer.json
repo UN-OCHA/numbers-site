@@ -40,6 +40,7 @@
         "drupal/core-project-message": "^9",
         "drupal/core-recommended": "^9",
         "drupal/csp": "^1.16",
+        "drupal/formdazzle": "^2.1",
         "drupal/google_tag": "^1.4",
         "drupal/group": "^1.4",
         "drupal/inline_entity_form": "^1.0@RC",

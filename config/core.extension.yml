@@ -66,6 +66,7 @@ module:
   pathauto: 1
   xmlsitemap: 1
   content_translation: 10
+  formdazzle: 10
   views: 10
   paragraphs: 11
   minimal: 1000

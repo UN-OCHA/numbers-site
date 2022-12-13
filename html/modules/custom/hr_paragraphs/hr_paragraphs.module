@@ -476,6 +476,25 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       $json_data[$row['name']] = $row['value'];
     }
 
+    // Hide individual sparklines.
+    if ($sparklines) {
+      $with_sparkline = [];
+      if ($paragraph->hasField('field_active_sparklines') && !$paragraph->field_active_sparklines->isEmpty()) {
+        foreach ($paragraph->field_active_sparklines->getValue() as $figure) {
+          $with_sparkline[$figure['value']] = $figure['value'];
+        }
+      }
+
+      if (!empty($with_sparkline)) {
+        foreach ($data as &$figure) {
+          if (!in_array($figure['name'], $with_sparkline)) {
+            unset($figure['trend']);
+            unset($figure['sparkline']);
+          }
+        }
+      }
+    }
+
     // @todo Find a better text.
     $first = reset($data);
     $country = $first['country'];
