@@ -7,6 +7,7 @@
 
   Drupal.behaviors.hri_keyfigures = {
     attach: function (context) {
+      let separator = '|-|';
       let figures = context.querySelector('[data-drupal-selector="edit-field-figures"]');
       if (!figures) {
         return;
@@ -21,9 +22,39 @@
         activeLabel.innerText = 'Show sparkline?';
         figure.closest('.form-checkboxes--child').nextElementSibling.appendChild(activeFigure);
         figure.closest('.form-checkboxes--child').nextElementSibling.appendChild(activeLabel);
+
+        // Add dataId for sorting.
+        activeFigure.closest('.form-checkboxes--checkbox').setAttribute('data-id', activeFigure.value);
       }
 
       activeFigures.closest('.field--name-field-active-sparklines').remove();
+      context.querySelector('[data-drupal-selector="edit-field-sorted-sparklines-wrapper"]').style.display = 'none';
+
+      var el = document.querySelector('#field-figures-wrapper .form-checkboxes');
+      var sortable = Sortable.create(el, {
+        store: {
+          /**
+           * Get the order of elements. Called once during initialization.
+           * @param   {Sortable}  sortable
+           * @returns {Array}
+           */
+          get: function (sortable) {
+            var storage = context.querySelector('[data-drupal-selector="edit-field-sorted-sparklines-0-value"]');
+            var order = storage.value;
+            return order ? order.split(separator) : [];
+          },
+
+          /**
+           * Save the order of elements. Called onEnd (when the item is dropped).
+           * @param {Sortable}  sortable
+           */
+          set: function (sortable) {
+            var order = sortable.toArray();
+            var storage = context.querySelector('[data-drupal-selector="edit-field-sorted-sparklines-0-value"]');
+            storage.value = order.join(separator);
+          }
+        }
+      });
     }
   };
 
