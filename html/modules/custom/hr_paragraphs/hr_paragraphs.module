@@ -1070,7 +1070,24 @@ function hr_paragraphs_metadata_by_type(string $bundle) {
 
   }
 
-  return [];
+  // Default to OCHA.
+  return [
+    'publisher' => [
+      '@type' => 'Organization',
+      'sameAs' => 'https://ror.org/00aahzn97',
+      'name' => 'United Nations Office for the Coordination of Humanitarian Affairs',
+    ],
+    'creator' => [
+      '@type' => 'Organization',
+      'sameAs' => 'https://ror.org/00aahzn97',
+      'name' => 'United Nations Office for the Coordination of Humanitarian Affairs',
+    ],
+    'license' => [
+      '@type' => 'CreativeWork',
+      'name' => 'Creative Commons Attribution International',
+      'url' => 'https://data.humdata.org/faqs/licenses#auto-faq-_Data_Licenses_Content_-Creative_Commons_Attribution_International_CC_BY_-a',
+    ],
+  ];
 }
 
 /**
