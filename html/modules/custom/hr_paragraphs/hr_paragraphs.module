@@ -364,6 +364,7 @@ function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
   /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
   $variables['view_all'] = FALSE;
+  $variables['jsonld_description'] = 'Financial requirements for humanitarian operations in @country';
 
   hr_paragraphs_keyfigures($variables, $controller);
 }
@@ -419,6 +420,7 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   $view_all = $variables['view_all'];
+  $provider_description = $variables['jsonld_description'] ?: 'Humanitarian data for @country';
 
   // Make sure Country is set.
   if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
@@ -505,10 +507,10 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       $data = array_merge($order, $data);
     }
 
-    // @todo Find a better text.
+    // Structured data description.
     $first = reset($data);
     $country = $first['country'];
-    $description = 'This needs to at least 50 characters according to google. FTS Data for ' . $country;
+    $description = t($provider_description, ['@country' => $country]);
 
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_rw_key_figures',
