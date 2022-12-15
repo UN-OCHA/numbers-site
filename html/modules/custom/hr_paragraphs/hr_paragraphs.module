@@ -517,7 +517,7 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       'name' => $name,
       'spatialCoverage' => $country,
       'description' => $description,
-      'temporalCoverage' => $year ?? '2000-01-01/..',
+      'temporalCoverage' => $year === FALSE ? '2000-01-01/..' : $year,
     ];
 
     $variables['content']['key_figures'] = [
