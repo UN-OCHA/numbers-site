@@ -508,9 +508,14 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     // Add meta data.
     $first = reset($data);
     $country = $first['country'];
-    $name = $paragraph->field_title->value ?? 'Key figures';
-    $name .= ' of ' . $country;
-    $description = 'Easily discoverable topline numbers for humanitarian crises in ' . $country;
+
+    $name = t('@title of @country', [
+      '@title' => $paragraph->field_title->value ?? 'Key figures',
+      '@country' => $country,
+    ]);
+    $description = t('Easily discoverable topline numbers for humanitarian crises in @country', [
+      '@country' => $country,
+    ]);
 
     $metadata = hr_paragraphs_metadata_by_type($paragraph->bundle());
     $metadata += [
