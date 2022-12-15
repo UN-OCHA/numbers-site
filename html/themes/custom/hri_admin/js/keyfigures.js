@@ -27,9 +27,14 @@
         activeFigure.closest('.form-checkboxes--checkbox').setAttribute('data-id', activeFigure.value);
       }
 
+      // Drop the non-JS sparkline field from DOM.
       activeFigures.closest('.field--name-field-active-sparklines').remove();
       context.querySelector('[data-drupal-selector="edit-field-sorted-sparklines-wrapper"]').style.display = 'none';
 
+      // Update instructions on the sortable figures field.
+      figures.querySelector('.description').innerText += ' Drag and drop the figures to change their display order.';
+
+      // Initialize drag and drop sorting.
       var el = document.querySelector('#field-figures-wrapper .form-checkboxes');
       var sortable = Sortable.create(el, {
         store: {
