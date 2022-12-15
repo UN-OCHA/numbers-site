@@ -520,6 +520,7 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     $metadata = hr_paragraphs_metadata_by_type($paragraph->bundle());
     $metadata += [
       'name' => $name,
+      'short_name' => $paragraph->field_title->value ?? 'Key figures',
       'spatialCoverage' => $country,
       'description' => $description,
       'temporalCoverage' => $year === FALSE ? '2000-01-01/..' : $year,
@@ -1104,7 +1105,7 @@ function hr_paragraphs_add_jsonld_data($metadata, $data) {
   $keywords = [];
 
   // Default keyword.
-  $keywords[] = 'ReliefWeb > Numbers > ' . $metadata['spatialCoverage'] . ' > ' . $metadata['name'];
+  $keywords[] = 'ReliefWeb > Numbers > ' . $metadata['spatialCoverage'] . ' > ' . $metadata['short_name'];
 
   foreach ($data as $label => $value) {
     $label_column[] = [
@@ -1117,7 +1118,7 @@ function hr_paragraphs_add_jsonld_data($metadata, $data) {
       'csvw:primaryKey' => $value,
     ];
 
-    $keywords[] = 'ReliefWeb > Numbers > ' . $metadata['spatialCoverage'] . ' > ' . $metadata['name'] . ' > ' . $label;
+    $keywords[] = 'ReliefWeb > Numbers > ' . $metadata['spatialCoverage'] . ' > ' . $metadata['short_name'] . ' > ' . $label;
   }
 
   $json_ld = [
