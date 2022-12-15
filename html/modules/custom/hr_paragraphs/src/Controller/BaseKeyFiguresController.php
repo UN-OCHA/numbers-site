@@ -259,13 +259,13 @@ class BaseKeyFiguresController extends ControllerBase {
             '@days' => $days_ago,
           ]);
         }
-        $recent[] = $item;
+        $recent[$item['name']] = $item;
       }
       else {
         $item['updated'] = $this->t('Updated @date', [
           '@date' => $item['date']->format('j M Y'),
         ]);
-        $standard[] = $item;
+        $standard[$item['name']] = $item;
       }
     }
 

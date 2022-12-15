@@ -3,6 +3,7 @@ global-styling:
     theme:
       css/admin.css: {}
   js:
+    js/Sortable.min.js: {}
     js/keyfigures.js: {}
   dependencies:
     - common_design/cd-alert
