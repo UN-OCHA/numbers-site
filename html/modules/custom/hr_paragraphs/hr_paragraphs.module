@@ -476,17 +476,62 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       $json_data[$row['name']] = $row['value'];
     }
 
-    // @todo Find a better text.
+    // Hide individual sparklines.
+    if ($sparklines) {
+      $with_sparkline = [];
+      if ($paragraph->hasField('field_active_sparklines') && !$paragraph->field_active_sparklines->isEmpty()) {
+        foreach ($paragraph->field_active_sparklines->getValue() as $figure) {
+          $with_sparkline[$figure['value']] = $figure['value'];
+        }
+      }
+
+      if (!empty($with_sparkline)) {
+        foreach ($data as &$figure) {
+          if (!in_array($figure['name'], $with_sparkline)) {
+            unset($figure['trend']);
+            unset($figure['sparkline']);
+          }
+        }
+      }
+    }
+
+    // Use a custom sort order?
+    if ($paragraph->hasField('field_sorted_sparklines') && !$paragraph->field_sorted_sparklines->isEmpty()) {
+      $separator = '|-|';
+      $order = $paragraph->field_sorted_sparklines->value;
+      $order = explode($separator, $order);
+      $order = array_flip($order);
+      $order = array_intersect_key($order, $data);
+      $data = array_merge($order, $data);
+    }
+
+    // Add meta data.
     $first = reset($data);
     $country = $first['country'];
-    $description = 'This needs to at least 50 characters according to google. FTS Data for ' . $country;
+
+    $name = t('@title of @country', [
+      '@title' => $paragraph->field_title->value ?? 'Key figures',
+      '@country' => $country,
+    ]);
+    $description = t('Easily discoverable topline numbers for humanitarian crises in @country', [
+      '@country' => $country,
+    ]);
+
+    $metadata = hr_paragraphs_metadata_by_type($paragraph->bundle());
+    $metadata += [
+      'name' => $name,
+      'short_name' => $paragraph->field_title->value ?? 'Key figures',
+      'spatialCoverage' => $country,
+      'description' => $description,
+      'temporalCoverage' => $year === FALSE ? '2000-01-01/..' : $year,
+    ];
 
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_rw_key_figures',
       '#country_iso' => $iso3,
       '#country_name' => $country,
       '#data' => $data,
-      '#jsonld' => hr_paragraphs_add_jsonld_data($country, $description, $json_data),
+      '#jsonld' => hr_paragraphs_add_jsonld_data($metadata, $json_data),
       '#view_all' => $view_all,
       '#weight' => 99,
       '#cache' => [
@@ -952,11 +997,115 @@ function hr_paragraphs_allowed_figures(FieldStorageConfig $definition, ContentEn
 }
 
 /**
+ * Metadata by type.
+ */
+function hr_paragraphs_metadata_by_type(string $bundle) {
+  switch ($bundle) {
+    case 'fts_key_figures':
+      return [
+        'publisher' => [
+          '@type' => 'Organization',
+          'sameAs' => 'https://ror.org/00aahzn97',
+          'name' => 'OCHA Financial Tracking System (FTS)',
+        ],
+        'creator' => [
+          '@type' => 'Organization',
+          'sameAs' => 'https://ror.org/00aahzn97',
+          'name' => 'OCHA Financial Tracking System (FTS)',
+        ],
+        'license' => [
+          '@type' => 'CreativeWork',
+          'name' => 'Creative Commons Attribution for Intergovernmental Organisations',
+          'url' => 'https://data.humdata.org/faqs/licenses#auto-faq-_Data_Licenses_Content_-Creative_Commons_Attribution_for_Intergovernmental_Organisations__CC_BY_IGO_-a',
+        ],
+      ];
+
+    case 'reliefweb_key_figures':
+      return [
+        'publisher' => [
+          '@type' => 'Organization',
+          'name' => 'ReliefWeb',
+        ],
+        'creator' => [
+          '@type' => 'Organization',
+          'name' => 'ReliefWeb',
+        ],
+        'license' => [
+          '@type' => 'CreativeWork',
+          'name' => 'Creative Commons Attribution for Intergovernmental Organisations',
+          'url' => 'https://data.humdata.org/faqs/licenses#auto-faq-_Data_Licenses_Content_-Creative_Commons_Attribution_for_Intergovernmental_Organisations__CC_BY_IGO_-a',
+        ],
+      ];
+
+    case 'inform_key_figures':
+      return [
+        'publisher' => [
+          '@type' => 'Organization',
+          'name' => 'ACAPS',
+        ],
+        'creator' => [
+          '@type' => 'Organization',
+          'name' => 'ACAPS',
+        ],
+        'license' => [
+          '@type' => 'CreativeWork',
+          'name' => 'Creative Commons Attribution International',
+          'url' => 'https://data.humdata.org/faqs/licenses#auto-faq-_Data_Licenses_Content_-Creative_Commons_Attribution_International_CC_BY_-a',
+        ],
+      ];
+
+    case 'cbpf_key_figures':
+    case 'cerf_key_figures':
+      return [
+        'publisher' => [
+          '@type' => 'Organization',
+          'sameAs' => 'https://ror.org/00aahzn97',
+          'name' => 'United Nations Office for the Coordination of Humanitarian Affairs',
+        ],
+        'creator' => [
+          '@type' => 'Organization',
+          'sameAs' => 'https://ror.org/00aahzn97',
+          'name' => 'United Nations Office for the Coordination of Humanitarian Affairs',
+        ],
+        'license' => [
+          '@type' => 'CreativeWork',
+          'name' => 'Creative Commons Attribution International',
+          'url' => 'https://data.humdata.org/faqs/licenses#auto-faq-_Data_Licenses_Content_-Creative_Commons_Attribution_International_CC_BY_-a',
+        ],
+      ];
+
+  }
+
+  // Default to OCHA.
+  return [
+    'publisher' => [
+      '@type' => 'Organization',
+      'sameAs' => 'https://ror.org/00aahzn97',
+      'name' => 'United Nations Office for the Coordination of Humanitarian Affairs',
+    ],
+    'creator' => [
+      '@type' => 'Organization',
+      'sameAs' => 'https://ror.org/00aahzn97',
+      'name' => 'United Nations Office for the Coordination of Humanitarian Affairs',
+    ],
+    'license' => [
+      '@type' => 'CreativeWork',
+      'name' => 'Creative Commons Attribution International',
+      'url' => 'https://data.humdata.org/faqs/licenses#auto-faq-_Data_Licenses_Content_-Creative_Commons_Attribution_International_CC_BY_-a',
+    ],
+  ];
+}
+
+/**
  * Add json ld data.
  */
-function hr_paragraphs_add_jsonld_data($name, $description, $data) {
+function hr_paragraphs_add_jsonld_data($metadata, $data) {
   $label_column = [];
   $value_column = [];
+  $keywords = [];
+
+  // Default keyword.
+  $keywords[] = 'ReliefWeb > Numbers > ' . $metadata['spatialCoverage'] . ' > ' . $metadata['short_name'];
 
   foreach ($data as $label => $value) {
     $label_column[] = [
@@ -968,6 +1117,8 @@ function hr_paragraphs_add_jsonld_data($name, $description, $data) {
       'csvw:value' => $value,
       'csvw:primaryKey' => $value,
     ];
+
+    $keywords[] = 'ReliefWeb > Numbers > ' . $metadata['spatialCoverage'] . ' > ' . $metadata['short_name'] . ' > ' . $label;
   }
 
   $json_ld = [
@@ -978,12 +1129,8 @@ function hr_paragraphs_add_jsonld_data($name, $description, $data) {
       ],
     ],
     '@type' => 'Dataset',
-    'name' => $name,
-    'description' => $description,
-    'publisher' => [
-      '@type' => 'Organization',
-      'name' => 'ReliefWeb',
-    ],
+    'keywords' => $keywords,
+    'isAccessibleForFree' => TRUE,
     'mainEntity' => [
       '@type' => 'csvw:Table',
       'csvw:tableSchema' => [
@@ -1001,7 +1148,7 @@ function hr_paragraphs_add_jsonld_data($name, $description, $data) {
         ],
       ],
     ],
-  ];
+  ] + $metadata;
 
   return json_encode($json_ld);
 }

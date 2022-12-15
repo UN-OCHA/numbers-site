@@ -38,6 +38,7 @@ module:
   metatag: 0
   mysql: 0
   node: 0
+  ocha_search: 0
   options: 0
   page_cache: 0
   paragraphs_group_permissions: 0
@@ -66,6 +67,7 @@ module:
   pathauto: 1
   xmlsitemap: 1
   content_translation: 10
+  formdazzle: 10
   views: 10
   paragraphs: 11
   minimal: 1000

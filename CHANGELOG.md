@@ -4,6 +4,29 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.1.2](https://github.com/UN-OCHA/numbers-site/compare/0.1.1...v0.1.2) (2022-12-15)
+
+### Features
+
+* Allow sparkline per number [#NUM-56](https://https://humanitarian.atlassian.net/browse/NUM-56) ([11754d](https://github.com/UN-OCHA/numbers-site/commit/11754dc51c076974825c748bd84a5f3a957606bb))
+* OCHA search [#NUM-48](https://https://humanitarian.atlassian.net/browse/NUM-48) ([eadb7c](https://github.com/UN-OCHA/numbers-site/commit/eadb7c6d4c08dfda244e54727da596ef2a972623))
+* Sort key figures [#NUM-69](https://https://humanitarian.atlassian.net/browse/NUM-69) ([f81dc9](https://github.com/UN-OCHA/numbers-site/commit/f81dc94ab7a1a0736672331fd3e8195006395ff9))
+* Structured data improvements [#NUM-27](https://https://humanitarian.atlassian.net/browse/NUM-27), [#NUM-27](https://https://humanitarian.atlassian.net/browse/NUM-27), [#NUM-27](https://https://humanitarian.atlassian.net/browse/NUM-27) ([467c43](https://github.com/UN-OCHA/numbers-site/commit/467c43d455d3fc1eed38cf33d30e6a7d49a30b3d), [096f0b](https://github.com/UN-OCHA/numbers-site/commit/096f0b08cbd05c3231bc2630b1af5a97ed1692b8), [d96ea1](https://github.com/UN-OCHA/numbers-site/commit/d96ea1be57d4d20ea2241a6205e09b7b82a407fe))
+
+### Bug Fixes
+
+* Restore JS for generic ToC paragraph ([f6d95f](https://github.com/UN-OCHA/numbers-site/commit/f6d95fd65005bd88b45ae8c2720340de8e0b952c))
+
+##### Admin
+
+* Adjust layout of individual sparklines ([78cca9](https://github.com/UN-OCHA/numbers-site/commit/78cca982612271d6e6448bf0712a540c474dbc69))
+* Instructions to drag and drop on the field ([acbc77](https://github.com/UN-OCHA/numbers-site/commit/acbc77d0bce000eda87af58e3e658c0dd6b54509))
+* Use cursor to indicate figures can be dragged ([b93f43](https://github.com/UN-OCHA/numbers-site/commit/b93f43e1eb80e16790c38517d4b05158f627c6db))
+
+### Chores
+
+* Use config split ([0f0cf0](https://github.com/UN-OCHA/numbers-site/commit/0f0cf0c7504ba6765a4ddc0aab3af74396700c0f))
+
 ## [0.1.1](https://github.com/UN-OCHA/numbers-site/compare/0.1.0...v0.1.1) (2022-12-12)
 
 ### Features
