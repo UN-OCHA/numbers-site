@@ -508,14 +508,14 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     // @todo Find a better text.
     $first = reset($data);
     $country = $first['country'];
-    $description = 'This needs to at least 50 characters according to google. FTS Data for ' . $country;
+    $description = 'Easily discoverable topline numbers for humanitarian crises in ' . $country;
 
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_rw_key_figures',
       '#country_iso' => $iso3,
       '#country_name' => $country,
       '#data' => $data,
-      '#jsonld' => hr_paragraphs_add_jsonld_data($country, $description, $json_data),
+      '#jsonld' => hr_paragraphs_add_jsonld_data($country, $description, $json_data, $year),
       '#view_all' => $view_all,
       '#weight' => 99,
       '#cache' => [
@@ -983,9 +983,18 @@ function hr_paragraphs_allowed_figures(FieldStorageConfig $definition, ContentEn
 /**
  * Add json ld data.
  */
-function hr_paragraphs_add_jsonld_data($name, $description, $data) {
+function hr_paragraphs_add_jsonld_data($name, $description, $data, $year) {
   $label_column = [];
   $value_column = [];
+  $keywords = [];
+
+  // Open ended period.
+  if (empty($year)) {
+    $year = '2000-01-01/..';
+  }
+
+  // Default keyword.
+  $keywords[] = 'ReliefWeb > Numbers > ' . $name;
 
   foreach ($data as $label => $value) {
     $label_column[] = [
@@ -997,6 +1006,8 @@ function hr_paragraphs_add_jsonld_data($name, $description, $data) {
       'csvw:value' => $value,
       'csvw:primaryKey' => $value,
     ];
+
+    $keywords[] = 'ReliefWeb > Numbers > ' . $name . ' > ' . $label;
   }
 
   $json_ld = [
@@ -1008,7 +1019,11 @@ function hr_paragraphs_add_jsonld_data($name, $description, $data) {
     ],
     '@type' => 'Dataset',
     'name' => $name,
+    'spatialCoverage' => $name,
     'description' => $description,
+    'temporalCoverage' => $year,
+    'keywords' => $keywords,
+    'isAccessibleForFree' => TRUE,
     'publisher' => [
       '@type' => 'Organization',
       'name' => 'ReliefWeb',
