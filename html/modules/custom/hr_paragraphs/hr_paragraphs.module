@@ -363,7 +363,7 @@ function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) 
 function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
   /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-  $variables['view_all'] = FALSE;
+  $variables['financial'] = TRUE;
 
   hr_paragraphs_keyfigures($variables, $controller);
 }
@@ -374,7 +374,6 @@ function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
 function hr_paragraphs_preprocess_paragraph__idps_key_figures(&$variables) {
   /** @var \Drupal\hr_paragraphs\Controller\IdpsKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.idps_figures_controller');
-  $variables['view_all'] = FALSE;
 
   hr_paragraphs_keyfigures($variables, $controller);
 }
@@ -385,7 +384,6 @@ function hr_paragraphs_preprocess_paragraph__idps_key_figures(&$variables) {
 function hr_paragraphs_preprocess_paragraph__cbpf_key_figures(&$variables) {
   /** @var \Drupal\hr_paragraphs\Controller\CbpfKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.cbpf_key_figures_controller');
-  $variables['view_all'] = FALSE;
 
   hr_paragraphs_keyfigures($variables, $controller);
 }
@@ -396,7 +394,6 @@ function hr_paragraphs_preprocess_paragraph__cbpf_key_figures(&$variables) {
 function hr_paragraphs_preprocess_paragraph__inform_key_figures(&$variables) {
   /** @var \Drupal\hr_paragraphs\Controller\InformKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.inform_key_figures_controller');
-  $variables['view_all'] = FALSE;
 
   hr_paragraphs_keyfigures($variables, $controller);
 }
@@ -407,7 +404,6 @@ function hr_paragraphs_preprocess_paragraph__inform_key_figures(&$variables) {
 function hr_paragraphs_preprocess_paragraph__cerf_key_figures(&$variables) {
   /** @var \Drupal\hr_paragraphs\Controller\CerfKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.cerf_key_figures_controller');
-  $variables['view_all'] = FALSE;
 
   hr_paragraphs_keyfigures($variables, $controller);
 }
@@ -418,7 +414,8 @@ function hr_paragraphs_preprocess_paragraph__cerf_key_figures(&$variables) {
 function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $controller) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
-  $view_all = $variables['view_all'];
+  $view_all = $variables['view_all'] ?: FALSE;
+  $financial = $variables['financial'] ?: FALSE;
 
   // Make sure Country is set.
   if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
@@ -471,9 +468,11 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       return;
     }
 
-    $json_data = [];
-    foreach ($data as $row) {
-      $json_data[$row['name']] = $row['value'];
+    // Set dollar-sign prefix if data is financial.
+    if ($financial) {
+      foreach ($data as &$fig) {
+        $fig['prefix'] = '$';
+      }
     }
 
     // Hide individual sparklines.
@@ -505,7 +504,13 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       $data = array_merge($order, $data);
     }
 
-    // Add meta data.
+    // Initialize data for JSON-LD.
+    $json_data = [];
+    foreach ($data as $row) {
+      $json_data[$row['name']] = $row['value'];
+    }
+
+    // Add metadata to JSON-LD.
     $first = reset($data);
     $country = $first['country'];
 
