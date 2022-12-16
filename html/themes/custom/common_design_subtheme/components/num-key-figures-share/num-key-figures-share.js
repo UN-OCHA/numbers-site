@@ -31,7 +31,8 @@
         let sharetext = [
           keyFigure.querySelector('.rw-key-figures__figure__label').innerHTML,
           ': ',
-          keyFigure.querySelector('.rw-key-figures__figure__value').innerHTML
+          keyFigure.querySelector('.rw-key-figures__figure__value').innerHTML,
+          '\n',
         ].join('');
 
         // Hide share button while capturing an image of the figure.
