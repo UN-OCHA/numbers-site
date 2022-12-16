@@ -35,7 +35,7 @@
         ].join('');
 
         // Hide share button while capturing an image of the figure.
-        shareButton.classList.add('visually-hidden');
+        keyFigure.classList.add('is--capturing');
 
         // Try sharing image.
         html2canvas(keyFigure).then((canvas) => {
@@ -90,7 +90,7 @@
         });
 
         // Show share button now that image capture was attempted.
-        shareButton.classList.remove('visually-hidden');
+        keyFigure.classList.remove('is--capturing');
       });
 
       // Insert button into DOM.
