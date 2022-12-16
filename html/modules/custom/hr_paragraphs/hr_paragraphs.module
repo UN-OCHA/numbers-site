@@ -414,8 +414,8 @@ function hr_paragraphs_preprocess_paragraph__cerf_key_figures(&$variables) {
 function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $controller) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
-  $view_all = $variables['view_all'] ?: FALSE;
-  $financial = $variables['financial'] ?: FALSE;
+  $view_all = $variables['view_all'] ?? FALSE;
+  $financial = $variables['financial'] ?? FALSE;
 
   // Make sure Country is set.
   if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
