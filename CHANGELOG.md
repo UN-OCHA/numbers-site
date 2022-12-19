@@ -4,6 +4,19 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.1.3](https://github.com/UN-OCHA/numbers-site/compare/0.1.2...v0.1.3) (2022-12-19)
+
+### Features
+
+* Add metatag ([cfca80](https://github.com/UN-OCHA/numbers-site/commit/cfca80e8113cf8a98332c4f14ec55e25eca3dc66))
+
+### Bug Fixes
+
+* Add dollar-sign prefix to FTS ([4d90f8](https://github.com/UN-OCHA/numbers-site/commit/4d90f8af84feffe09552a3708123a5e0a32418bf))
+* Correct operator for default values ([953c12](https://github.com/UN-OCHA/numbers-site/commit/953c125120d86928ad7b608bf419e83e5ec2251b))
+* Insert newline after share text ([7ea671](https://github.com/UN-OCHA/numbers-site/commit/7ea67172cb35dc0f9f4a86ce61e5767f0dca059a))
+* Remove underline from source when sharing image ([b20f18](https://github.com/UN-OCHA/numbers-site/commit/b20f184c065a49bbe305c11393ca31a02c598f07))
+
 ## [0.1.2](https://github.com/UN-OCHA/numbers-site/compare/0.1.1...v0.1.2) (2022-12-15)
 
 ### Features

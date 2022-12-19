@@ -29,6 +29,17 @@ html[dir="rtl"] .rw-key-figures__share-button {
   display: block;
 }
 
-.is--hidden {
+/**
+ * While the figure is being rasterized for sharing, we make the following
+ * modifications.
+ */
+
+/* hide share button */
+.is--capturing .rw-key-figures__share-button {
   display: none;
+}
+
+/* remove underline from hyperlinked sources */
+.is--capturing .rw-key-figures__figure__source a {
+  text-decoration: none;
 }
