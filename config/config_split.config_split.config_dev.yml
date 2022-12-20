@@ -1,0 +1,25 @@
+uuid: 514734ad-d56f-48ab-bbe3-18d6aac76592
+langcode: en
+status: true
+dependencies: {  }
+id: config_dev
+label: config_dev
+description: 'Dev modules and settings not suitable for production.'
+weight: 0
+folder: ../config_dev
+module:
+  config_filter: 0
+  dblog: 0
+  devel: 0
+  views_ui: 0
+  webprofiler: 0
+theme: {  }
+blacklist:
+  - config_split.config_split.config_dev
+  - dblog.settings
+  - devel.settings
+  - devel.toolbar.settings
+  - webprofiler.config
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
