@@ -1,0 +1,8 @@
+uuid: 37d41ba5-d3f5-478b-926e-e54db091e875
+langcode: en
+status: true
+dependencies: {  }
+id: social_auth_hid.redirect_to_hid
+label: /user/login/hid
+tags:
+  robots: noindex

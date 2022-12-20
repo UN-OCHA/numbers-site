@@ -8,6 +8,7 @@ id: global
 label: Global
 tags:
   canonical_url: '[current-page:url]'
-  description: 'ReliefWeb Numbers provide a quick overview.'
+  description: 'The new ReliefWeb Numbers site aims to deliver easily discoverable topline numbers on the world''s most pressing humanitarian crises'
   google: notranslate
+  keywords: 'ReliefWeb,Key figures,Topline numbers,OCHA,UN'
   title: '[current-page:title] | [site:name]'
