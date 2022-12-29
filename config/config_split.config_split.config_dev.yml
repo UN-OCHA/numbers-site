@@ -1,6 +1,6 @@
 uuid: 514734ad-d56f-48ab-bbe3-18d6aac76592
 langcode: en
-status: true
+status: false
 dependencies: {  }
 id: config_dev
 label: config_dev
