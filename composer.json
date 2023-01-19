@@ -33,7 +33,7 @@
     "require": {
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
-        "drupal/admin_denied": "^1.1",
+        "drupal/admin_denied": "^2.0",
         "drupal/advagg": "^5.0",
         "drupal/components": "^2.4",
         "drupal/config_filter": "^2.4",
