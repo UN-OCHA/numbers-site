@@ -18,6 +18,7 @@
      <exclude name="Drupal.Commenting.FunctionComment.ParamTypeSpaces" />
      <exclude name="Drupal.Commenting.FunctionComment.InvalidReturn" />
      <exclude name="Drupal.Commenting.FunctionComment.ReturnTypeSpaces" />
+     <exclude name="Squiz.Arrays.ArrayDeclaration.NoKeySpecified" />
   </rule>
   <rule ref="DrupalPractice">
   </rule>
