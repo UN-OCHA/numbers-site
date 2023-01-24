@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.featured_number.field_country
     - field.field.paragraph.featured_number.field_figures
+    - field.field.paragraph.featured_number.field_show_sparklines
     - field.field.paragraph.featured_number.field_source
     - field.field.paragraph.featured_number.field_year
     - paragraphs.paragraphs_type.featured_number
@@ -17,30 +18,40 @@ mode: default
 content:
   field_country:
     type: list_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
   field_figures:
     type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 2
-    region: content
-  field_source:
-    type: list_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
     weight: 3
     region: content
-  field_year:
+  field_show_sparklines:
+    type: boolean
+    label: inline
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_source:
     type: list_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 0
+    region: content
+  field_year:
+    type: list_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
     region: content
 hidden: {  }

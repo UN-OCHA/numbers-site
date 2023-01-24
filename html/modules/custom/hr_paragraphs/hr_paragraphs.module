@@ -18,6 +18,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupContent;
 use Drupal\hr_paragraphs\Controller\BaseKeyFiguresController;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\path_alias\Entity\PathAlias;
 
 /**
@@ -428,63 +429,26 @@ function hr_paragraphs_preprocess_paragraph__featured_numbers(&$variables) {
       return;
     }
 
-    // @todo refactor it.
-    try {
-      /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController $controller */
-      $controller = hr_paragraphs_load_keyfigure_controller_by_entity($number);
+    /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController $controller */
+    $controller = hr_paragraphs_load_keyfigure_controller_by_entity($number);
 
-      if (!$controller) {
-        continue;
-      }
-
-      // Fetch country from user input.
-      $iso3 = $number->field_country->value;
-
-      $year = FALSE;
-      if (!$number->hasField('field_year') || !$number->field_year->isEmpty()) {
-        $year = $number->field_year->value;
-        if ($year === 'current') {
-          $year = date('Y');
-        }
-      }
-
-      // Selected figures.
-      $selected_figures = [];
-      if ($number->hasField('field_figures') && !$number->field_figures->isEmpty()) {
-        foreach ($number->field_figures->getValue() as $figure) {
-          $selected_figures[$figure['value']] = $figure['value'];
-        }
-      }
-
-      // Get the data.
-      $results = $controller->getKeyFigures($iso3, $year);
-
-      // Filter figures.
-      if (!empty($selected_figures)) {
-        $results = array_intersect_key($results, $selected_figures);
-      }
-      if (empty($results)) {
-        continue;
-      }
-
-      // Build figures.
-      $data = $controller->buildKeyFigures($results, FALSE);
-      if (empty($data)) {
-        continue;
-      }
-
-      // Set dollar-sign prefix if data is financial.
-      if ($controller->isFinancial()) {
-        foreach ($data as &$fig) {
-          $fig['prefix'] = '$';
-        }
-      }
-
-      $key_figures = array_merge($key_figures, $data);
+    if (!$controller) {
+      continue;
     }
-    catch (\Exception $e) {
 
+    // Do we need sparklines.
+    $sparklines = FALSE;
+    if ($number->hasField('field_show_sparklines') && $number->field_show_sparklines->value) {
+      $sparklines = TRUE;
     }
+
+    // Get the data.
+    $data = hr_paragraphs_get_keyfigure_data($number, $controller, $sparklines);
+    if (empty($data)) {
+      continue;
+    }
+
+    $key_figures = array_merge($key_figures, $data);
   }
 
   if (!empty($key_figures)) {
@@ -493,13 +457,8 @@ function hr_paragraphs_preprocess_paragraph__featured_numbers(&$variables) {
       $key_figure['name'] = $key_figure['country'] . ' - ' . $key_figure['name'];
     }
 
-    $first = reset($data);
-    $country = $first['country'];
-
     $variables['content']['key_figures'] = [
       '#theme' => 'hr_paragraphs_rw_key_figures',
-      '#country_iso' => $iso3,
-      '#country_name' => $country,
       '#data' => $key_figures,
       '#view_all' => $view_all,
       '#weight' => 99,
@@ -513,11 +472,7 @@ function hr_paragraphs_preprocess_paragraph__featured_numbers(&$variables) {
 /**
  * Helper function to render Numbers paragraphs.
  */
-function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $controller) {
-  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
-  $paragraph = $variables['paragraph'];
-  $view_all = $variables['view_all'] ?? FALSE;
-
+function hr_paragraphs_get_keyfigure_data(Paragraph $paragraph, BaseKeyFiguresController $controller, $sparklines = FALSE) {
   // Make sure Country is set.
   if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
     return;
@@ -542,11 +497,6 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     }
   }
 
-  $sparklines = FALSE;
-  if ($paragraph->hasField('field_show_sparklines') && $paragraph->field_show_sparklines->value) {
-    $sparklines = TRUE;
-  }
-
   try {
     // Get the data.
     $results = $controller->getKeyFigures($iso3, $year);
@@ -559,14 +509,7 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     // Build figures.
     $data = $controller->buildKeyFigures($results, $sparklines);
     if (empty($data)) {
-      $variables['content']['key_figures'] = [
-        '#type' => 'markup',
-        '#markup' => t('No data available.'),
-        '#prefix' => '<div class="response-error response-error-api response-error-fts">',
-        '#suffix' => '</div>',
-      ];
-
-      return;
+      return FALSE;
     }
 
     // Set dollar-sign prefix if data is financial.
@@ -605,55 +548,93 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       $data = array_merge($order, $data);
     }
 
-    // Initialize data for JSON-LD.
-    $json_data = [];
-    foreach ($data as $row) {
-      $json_data[$row['name']] = $row['value'];
-    }
-
-    // Add metadata to JSON-LD.
-    $first = reset($data);
-    $country = $first['country'];
-
-    $name = t('@title of @country', [
-      '@title' => $paragraph->field_title->value ?? 'Key figures',
-      '@country' => $country,
-    ]);
-    $description = t('Easily discoverable topline numbers for humanitarian crises in @country', [
-      '@country' => $country,
-    ]);
-
-    $metadata = hr_paragraphs_metadata_by_type($paragraph->bundle());
-    $metadata += [
-      'name' => $name,
-      'short_name' => $paragraph->field_title->value ?? 'Key figures',
-      'spatialCoverage' => $country,
-      'description' => $description,
-      'temporalCoverage' => $year === FALSE ? '2000-01-01/..' : $year,
-    ];
-
-    $variables['content']['key_figures'] = [
-      '#theme' => 'hr_paragraphs_rw_key_figures',
-      '#country_iso' => $iso3,
-      '#country_name' => $country,
-      '#data' => $data,
-      '#jsonld' => hr_paragraphs_add_jsonld_data($metadata, $json_data),
-      '#view_all' => $view_all,
-      '#weight' => 99,
-      '#cache' => [
-        'max-age' => 12 * 60 * 60,
-      ],
-    ];
-
+    return $data;
   }
   catch (\Exception $exception) {
+    return FALSE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Helper function to render Numbers paragraphs.
+ */
+function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $controller) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $view_all = $variables['view_all'] ?? FALSE;
+
+  // Do we need sparklines.
+  $sparklines = FALSE;
+  if ($paragraph->hasField('field_show_sparklines') && $paragraph->field_show_sparklines->value) {
+    $sparklines = TRUE;
+  }
+
+  // Get the data.
+  $data = hr_paragraphs_get_keyfigure_data($paragraph, $controller, $sparklines);
+
+  if (!$data or empty($data)) {
     $variables['content']['key_figures'] = [
       '#type' => 'markup',
       '#markup' => t('Key figure data is currently not available.'),
       '#prefix' => '<div class="response-error response-error-api response-error-fts">',
       '#suffix' => '</div>',
     ];
+
+    return;
   }
+
+  // Initialize data for JSON-LD.
+  $json_data = [];
+  foreach ($data as $row) {
+    $json_data[$row['name']] = $row['value'];
+  }
+
+  // Add metadata to JSON-LD.
+  // Fetch country from user input.
+  $iso3 = $paragraph->field_country->value;
+
+  $year = FALSE;
+  if (!$paragraph->hasField('field_year') || !$paragraph->field_year->isEmpty()) {
+    $year = $paragraph->field_year->value;
+    if ($year === 'current') {
+      $year = date('Y');
+    }
+  }
+
+  $first = reset($data);
+  $country = $first['country'];
+
+  $name = t('@title of @country', [
+    '@title' => $paragraph->field_title->value ?? 'Key figures',
+    '@country' => $country,
+  ]);
+  $description = t('Easily discoverable topline numbers for humanitarian crises in @country', [
+    '@country' => $country,
+  ]);
+
+  $metadata = hr_paragraphs_metadata_by_type($paragraph->bundle());
+  $metadata += [
+    'name' => $name,
+    'short_name' => $paragraph->field_title->value ?? 'Key figures',
+    'spatialCoverage' => $country,
+    'description' => $description,
+    'temporalCoverage' => $year === FALSE ? '2000-01-01/..' : $year,
+  ];
+
+  $variables['content']['key_figures'] = [
+    '#theme' => 'hr_paragraphs_rw_key_figures',
+    '#country_iso' => $iso3,
+    '#country_name' => $country,
+    '#data' => $data,
+    '#jsonld' => hr_paragraphs_add_jsonld_data($metadata, $json_data),
+    '#view_all' => $view_all,
+    '#weight' => 99,
+    '#cache' => [
+      'max-age' => 12 * 60 * 60,
+    ],
+  ];
 }
 
 /**
