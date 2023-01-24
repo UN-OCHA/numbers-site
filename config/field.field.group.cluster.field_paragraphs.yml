@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.storage.group.field_paragraphs
     - group.type.cluster
+    - paragraphs.paragraphs_type.featured_number
+    - paragraphs.paragraphs_type.featured_numbers
   module:
     - entity_reference_revisions
 id: group.cluster.field_paragraphs
@@ -21,55 +23,44 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      child_groups: child_groups
+      featured_number: featured_number
+      featured_numbers: featured_numbers
     negate: 1
     target_bundles_drag_drop:
-      card_list:
-        weight: -35
+      cbpf_key_figures:
+        weight: 13
         enabled: false
-      featured_highlight:
-        weight: -32
+      cerf_key_figures:
+        weight: 14
         enabled: false
-      group_pages:
-        weight: -25
+      featured_number:
+        weight: 15
         enabled: true
-      hdx_river:
-        weight: -31
+      featured_numbers:
+        weight: 16
+        enabled: true
+      fts_key_figures:
+        weight: 17
         enabled: false
       heading:
         weight: -30
         enabled: false
-      iframe:
-        weight: -29
+      idps_key_figures:
+        weight: 19
         enabled: false
-      layout:
-        weight: -28
-        enabled: true
-      menu_block:
-        weight: -27
+      inform_key_figures:
+        weight: 20
         enabled: false
-      reliefweb_document:
-        weight: -24
+      locations_list:
+        weight: 21
         enabled: false
       reliefweb_key_figures:
         weight: -22
-        enabled: false
-      reliefweb_river:
-        weight: -23
-        enabled: false
-      rss_feed:
-        weight: -21
         enabled: false
       table_of_contents:
         weight: -20
         enabled: false
       text_block:
         weight: -34
-        enabled: false
-      twitter_feed:
-        weight: -19
-        enabled: true
-      upcoming_events:
-        weight: -33
         enabled: false
 field_type: entity_reference_revisions

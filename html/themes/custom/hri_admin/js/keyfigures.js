@@ -14,6 +14,9 @@
       }
 
       let activeFigures = context.querySelector('[data-drupal-selector="edit-field-active-sparklines"]');
+      if (!activeFigures) {
+        return;
+      }
 
       for (var figure of figures.querySelectorAll('.form-checkbox')) {
         let activeFigure = activeFigures.querySelector('.form-checkbox[value="' + figure.value + '"]');
