@@ -1,0 +1,21 @@
+uuid: 514734ad-d56f-48ab-bbe3-18d6aac76592
+langcode: en
+status: false
+dependencies: {  }
+id: config_dev
+label: config_dev
+description: 'Dev modules and settings not suitable for production.'
+weight: 0
+stackable: false
+storage: folder
+folder: ../config_dev
+module:
+  dev_mode: 49
+  config_filter: 0
+  dblog: 0
+  devel: 0
+  views_ui: 0
+  webprofiler: 0
+theme: {  }
+complete_list: {  }
+partial_list: {  }
