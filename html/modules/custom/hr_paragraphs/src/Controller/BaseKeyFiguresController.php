@@ -102,23 +102,21 @@ class BaseKeyFiguresController extends ControllerBase {
       $row['date'] = new \DateTime($row['year'] . '-01-01');
     }
 
+    $results = [];
     if (!$grouped) {
-      $results = [];
       foreach ($data as $row) {
         $results[$row['name']] = $row;
       }
-
-      return $results;
     }
-
-    $results = [];
-    foreach ($data as $row) {
-      if (!isset($results[$row['name']])) {
-        $results[$row['name']] = $row;
-        $results[$row['name']]['values'] = [$row];
-      }
-      else {
-        $results[$row['name']]['values'][] = $row;
+    else {
+      foreach ($data as $row) {
+        if (!isset($results[$row['name']])) {
+          $results[$row['name']] = $row;
+          $results[$row['name']]['values'] = [$row];
+        }
+        else {
+          $results[$row['name']]['values'][] = $row;
+        }
       }
     }
 
@@ -416,6 +414,14 @@ class BaseKeyFiguresController extends ControllerBase {
     $this->cacheBackend->set($cid, $years, time() + $this->cacheDuration);
 
     return $years;
+  }
+
+  /**
+   * Invalidate cache.
+   */
+  public function invalidateCache() {
+    $this->cacheBackend->invalidate($this->cacheId . ':countries');
+    $this->cacheBackend->invalidate($this->cacheId . ':years');
   }
 
 }
