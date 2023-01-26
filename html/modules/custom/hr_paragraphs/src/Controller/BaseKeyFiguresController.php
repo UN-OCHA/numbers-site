@@ -57,6 +57,13 @@ class BaseKeyFiguresController extends ControllerBase {
   protected $cacheDuration = 60 * 60;
 
   /**
+   * Financial data.
+   *
+   * @var bool
+   */
+  protected $financialData = FALSE;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
@@ -65,6 +72,13 @@ class BaseKeyFiguresController extends ControllerBase {
 
     $this->apiUrl = $this->config('hr_paragraphs.settings')->get('ocha_api_url');
     $this->apiKey = $this->config('hr_paragraphs.settings')->get('ocha_api_key');
+  }
+
+  /**
+   * Is financial data.
+   */
+  public function isFinancial() {
+    return $this->financialData;
   }
 
   /**
@@ -78,7 +92,7 @@ class BaseKeyFiguresController extends ControllerBase {
    * @return array<string, mixed>
    *   Raw results.
    */
-  public function getKeyFigures(string $iso3, $year) : array {
+  public function getKeyFigures(string $iso3, $year = '') : array {
     $query = [
       'iso3' => $iso3,
     ];

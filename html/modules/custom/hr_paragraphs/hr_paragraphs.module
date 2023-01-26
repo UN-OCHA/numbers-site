@@ -18,6 +18,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupContent;
 use Drupal\hr_paragraphs\Controller\BaseKeyFiguresController;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\path_alias\Entity\PathAlias;
 
 /**
@@ -350,7 +351,7 @@ function hr_paragraphs_preprocess_paragraph(&$variables) {
  * Implements hook_preprocess_paragraph__type().
  */
 function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) {
-  /** @var \Drupal\hr_paragraphs\Controller\KeyFiguresController */
+  /** @var \Drupal\hr_paragraphs\Controller\RWCrisisKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.rw_key_figures_controller');
   $variables['view_all'] = TRUE;
 
@@ -363,7 +364,6 @@ function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) 
 function hr_paragraphs_preprocess_paragraph__fts_key_figures(&$variables) {
   /** @var \Drupal\hr_paragraphs\Controller\FtsKeyFiguresController */
   $controller = \Drupal::service('hr_paragraphs.fts_figures_controller');
-  $variables['financial'] = TRUE;
 
   hr_paragraphs_keyfigures($variables, $controller);
 }
@@ -409,14 +409,70 @@ function hr_paragraphs_preprocess_paragraph__cerf_key_figures(&$variables) {
 }
 
 /**
- * Helper function to render Numbers paragraphs.
+ * Implements hook_preprocess_paragraph__type().
  */
-function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $controller) {
+function hr_paragraphs_preprocess_paragraph__featured_numbers(&$variables) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   $view_all = $variables['view_all'] ?? FALSE;
-  $financial = $variables['financial'] ?? FALSE;
 
+  // Make sure numbers are set.
+  if (!$paragraph->hasField('field_numbers') || $paragraph->field_numbers->isEmpty()) {
+    return;
+  }
+
+  $key_figures = [];
+  /** @var \Drupal\paragraphs\Entity\Paragraph $number */
+  foreach ($paragraph->field_numbers->referencedEntities() as $number) {
+    // Make sure Country is set.
+    if (!$number->hasField('field_country') || $number->field_country->isEmpty()) {
+      return;
+    }
+
+    /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController $controller */
+    $controller = hr_paragraphs_load_keyfigure_controller_by_entity($number);
+
+    if (!$controller) {
+      continue;
+    }
+
+    // Do we need sparklines.
+    $sparklines = FALSE;
+    if ($number->hasField('field_show_sparklines') && $number->field_show_sparklines->value) {
+      $sparklines = TRUE;
+    }
+
+    // Get the data.
+    $data = hr_paragraphs_get_keyfigure_data($number, $controller, $sparklines);
+    if (empty($data)) {
+      continue;
+    }
+
+    $key_figures = array_merge($key_figures, $data);
+  }
+
+  if (!empty($key_figures)) {
+    // Add year to name.
+    foreach ($key_figures as &$key_figure) {
+      $key_figure['name'] = $key_figure['country'] . ' - ' . $key_figure['name'];
+    }
+
+    $variables['content']['key_figures'] = [
+      '#theme' => 'hr_paragraphs_rw_key_figures',
+      '#data' => $key_figures,
+      '#view_all' => $view_all,
+      '#weight' => 99,
+      '#cache' => [
+        'max-age' => 12 * 60 * 60,
+      ],
+    ];
+  }
+}
+
+/**
+ * Helper function to render Numbers paragraphs.
+ */
+function hr_paragraphs_get_keyfigure_data(Paragraph $paragraph, BaseKeyFiguresController $controller, $sparklines = FALSE) {
   // Make sure Country is set.
   if (!$paragraph->hasField('field_country') || $paragraph->field_country->isEmpty()) {
     return;
@@ -441,11 +497,6 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     }
   }
 
-  $sparklines = FALSE;
-  if ($paragraph->hasField('field_show_sparklines') && $paragraph->field_show_sparklines->value) {
-    $sparklines = TRUE;
-  }
-
   try {
     // Get the data.
     $results = $controller->getKeyFigures($iso3, $year);
@@ -458,18 +509,11 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
     // Build figures.
     $data = $controller->buildKeyFigures($results, $sparklines);
     if (empty($data)) {
-      $variables['content']['key_figures'] = [
-        '#type' => 'markup',
-        '#markup' => t('No data available.'),
-        '#prefix' => '<div class="response-error response-error-api response-error-fts">',
-        '#suffix' => '</div>',
-      ];
-
-      return;
+      return FALSE;
     }
 
     // Set dollar-sign prefix if data is financial.
-    if ($financial) {
+    if ($controller->isFinancial()) {
       foreach ($data as &$fig) {
         $fig['prefix'] = '$';
       }
@@ -504,55 +548,93 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
       $data = array_merge($order, $data);
     }
 
-    // Initialize data for JSON-LD.
-    $json_data = [];
-    foreach ($data as $row) {
-      $json_data[$row['name']] = $row['value'];
-    }
-
-    // Add metadata to JSON-LD.
-    $first = reset($data);
-    $country = $first['country'];
-
-    $name = t('@title of @country', [
-      '@title' => $paragraph->field_title->value ?? 'Key figures',
-      '@country' => $country,
-    ]);
-    $description = t('Easily discoverable topline numbers for humanitarian crises in @country', [
-      '@country' => $country,
-    ]);
-
-    $metadata = hr_paragraphs_metadata_by_type($paragraph->bundle());
-    $metadata += [
-      'name' => $name,
-      'short_name' => $paragraph->field_title->value ?? 'Key figures',
-      'spatialCoverage' => $country,
-      'description' => $description,
-      'temporalCoverage' => $year === FALSE ? '2000-01-01/..' : $year,
-    ];
-
-    $variables['content']['key_figures'] = [
-      '#theme' => 'hr_paragraphs_rw_key_figures',
-      '#country_iso' => $iso3,
-      '#country_name' => $country,
-      '#data' => $data,
-      '#jsonld' => hr_paragraphs_add_jsonld_data($metadata, $json_data),
-      '#view_all' => $view_all,
-      '#weight' => 99,
-      '#cache' => [
-        'max-age' => 12 * 60 * 60,
-      ],
-    ];
-
+    return $data;
   }
   catch (\Exception $exception) {
+    return FALSE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Helper function to render Numbers paragraphs.
+ */
+function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $controller) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $view_all = $variables['view_all'] ?? FALSE;
+
+  // Do we need sparklines.
+  $sparklines = FALSE;
+  if ($paragraph->hasField('field_show_sparklines') && $paragraph->field_show_sparklines->value) {
+    $sparklines = TRUE;
+  }
+
+  // Get the data.
+  $data = hr_paragraphs_get_keyfigure_data($paragraph, $controller, $sparklines);
+
+  if (!$data or empty($data)) {
     $variables['content']['key_figures'] = [
       '#type' => 'markup',
       '#markup' => t('Key figure data is currently not available.'),
       '#prefix' => '<div class="response-error response-error-api response-error-fts">',
       '#suffix' => '</div>',
     ];
+
+    return;
   }
+
+  // Initialize data for JSON-LD.
+  $json_data = [];
+  foreach ($data as $row) {
+    $json_data[$row['name']] = $row['value'];
+  }
+
+  // Add metadata to JSON-LD.
+  // Fetch country from user input.
+  $iso3 = $paragraph->field_country->value;
+
+  $year = FALSE;
+  if (!$paragraph->hasField('field_year') || !$paragraph->field_year->isEmpty()) {
+    $year = $paragraph->field_year->value;
+    if ($year === 'current') {
+      $year = date('Y');
+    }
+  }
+
+  $first = reset($data);
+  $country = $first['country'];
+
+  $name = t('@title of @country', [
+    '@title' => $paragraph->field_title->value ?? 'Key figures',
+    '@country' => $country,
+  ]);
+  $description = t('Easily discoverable topline numbers for humanitarian crises in @country', [
+    '@country' => $country,
+  ]);
+
+  $metadata = hr_paragraphs_metadata_by_type($paragraph->bundle());
+  $metadata += [
+    'name' => $name,
+    'short_name' => $paragraph->field_title->value ?? 'Key figures',
+    'spatialCoverage' => $country,
+    'description' => $description,
+    'temporalCoverage' => $year === FALSE ? '2000-01-01/..' : $year,
+  ];
+
+  $variables['content']['key_figures'] = [
+    '#theme' => 'hr_paragraphs_rw_key_figures',
+    '#country_iso' => $iso3,
+    '#country_name' => $country,
+    '#data' => $data,
+    '#jsonld' => hr_paragraphs_add_jsonld_data($metadata, $json_data),
+    '#view_all' => $view_all,
+    '#weight' => 99,
+    '#cache' => [
+      'max-age' => 12 * 60 * 60,
+    ],
+  ];
 }
 
 /**
@@ -908,6 +990,21 @@ function hr_paragraphs_form_views_exposed_form_alter(&$form, $form_state, $form_
 }
 
 /**
+ * Load controller by entity.
+ */
+function hr_paragraphs_load_keyfigure_controller_by_entity(ContentEntityInterface $entity) {
+  if ($entity->bundle() == 'featured_number') {
+    if ($entity->hasField('field_source') && !$entity->field_source->isEmpty()) {
+      return hr_paragraphs_load_keyfigure_controller($entity->field_source->value);
+    }
+
+    return \Drupal::service('hr_paragraphs.rw_key_figures_controller');
+  }
+
+  return hr_paragraphs_load_keyfigure_controller($entity->bundle());
+}
+
+/**
  * Load controller by bundle.
  */
 function hr_paragraphs_load_keyfigure_controller($bundle) {
@@ -940,9 +1037,11 @@ function hr_paragraphs_load_keyfigure_controller($bundle) {
  */
 function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
   /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
-  $controller = hr_paragraphs_load_keyfigure_controller($entity->bundle());
+  $controller = hr_paragraphs_load_keyfigure_controller_by_entity($entity);
 
   if (!$controller) {
+    \Drupal::logger('years')->alert('controller not found 1');
+    \Drupal::logger('years')->error($entity->bundle());
     return [];
   }
 
@@ -957,27 +1056,31 @@ function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEnti
 }
 
 /**
- * Allowed years.
+ * Allowed countries.
  */
 function hr_paragraphs_allowed_countries(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
   /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
-  $controller = hr_paragraphs_load_keyfigure_controller($entity->bundle());
+  $controller = hr_paragraphs_load_keyfigure_controller_by_entity($entity);
 
   if (!$controller) {
+    \Drupal::logger('countries')->alert('controller not found 2');
+    \Drupal::logger('countries')->error($entity->bundle());
     return [];
   }
-
+  \Drupal::logger('countries')->error($entity->bundle());
   return $controller->getCountries();
 }
 
 /**
- * Allowed years.
+ * Allowed figures.
  */
 function hr_paragraphs_allowed_figures(FieldStorageConfig $definition, ContentEntityInterface $entity = NULL, $cacheable) {
   /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
-  $controller = hr_paragraphs_load_keyfigure_controller($entity->bundle());
+  $controller = hr_paragraphs_load_keyfigure_controller_by_entity($entity);
 
   if (!$controller) {
+    \Drupal::logger('figures')->alert('controller not found 3');
+    \Drupal::logger('figures')->error($entity->bundle());
     return [];
   }
 
@@ -997,7 +1100,7 @@ function hr_paragraphs_allowed_figures(FieldStorageConfig $definition, ContentEn
 
   $figures = $controller->getKeyFigures($iso3, $year);
   $figures = array_keys($figures);
-
+  \Drupal::logger('allowed figures')->alert(print_r($figures, TRUE));
   return array_combine($figures, $figures);
 }
 
@@ -1170,6 +1273,51 @@ function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormS
   $form['field_figures']['#prefix'] = '<div id="field-figures-wrapper">';
   $form['field_figures']['#suffix'] = '</div>';
 
+  // Add callback for source if needed.
+  if (isset($form['field_source'])) {
+    // Add wrapper to years.
+    $form['field_country']['#prefix'] = '<div id="field-countries-wrapper">';
+    $form['field_country']['#suffix'] = '</div>';
+
+    $form['field_source']['widget']['#ajax'] = [
+      'callback' => 'hr_paragraphs_load_source_countries_callback',
+      'wrapper' => 'field-countries-wrapper',
+      'event' => 'change',
+      'progress' => [
+        'type' => 'throbber',
+        'message' => t('Fetching countries...'),
+      ],
+    ];
+
+    // Force single select for figure.
+    $form['field_figures']['widget']['#multiple'] = FALSE;
+
+    // Add states.
+    $form['field_country']['widget']['#states'] = [
+      'visible' => [
+        ':input[name="field_source"]' => ['!value' => '_none'],
+      ],
+    ];
+
+    $form['field_year']['widget']['#states'] = [
+      'visible' => [
+        ':input[name="field_source"]' => ['!value' => '_none'],
+        'and',
+        ':input[name="field_country"]' => ['!value' => '_none'],
+      ],
+    ];
+
+    $form['field_figures']['widget']['#states'] = [
+      'visible' => [
+        ':input[name="field_source"]' => ['!value' => '_none'],
+        'and',
+        ':input[name="field_country"]' => ['!value' => '_none'],
+        'and',
+        ':input[name="field_year"]' => ['!value' => '_none'],
+      ],
+    ];
+  }
+
   // Add ajax to countries.
   $form['field_country']['widget']['#ajax'] = [
     'callback' => 'hr_paragraphs_load_country_figures_callback',
@@ -1181,7 +1329,7 @@ function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormS
     ],
   ];
 
-  // Add ajax to countries.
+  // Add ajax to years.
   $form['field_year']['widget']['#ajax'] = [
     'callback' => 'hr_paragraphs_load_country_figures_callback',
     'wrapper' => 'field-figures-wrapper',
@@ -1195,7 +1343,17 @@ function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormS
   // Get bundle and fields.
   /** @var Drupal\layout_paragraphs\Form\ComponentFormBase $component_form */
   $component_form = $form_state->getFormObject();
-  $bundle = $component_form->getParagraph()->bundle();
+  $paragraph = $component_form->getParagraph();
+
+  if (isset($form['field_source'])) {
+    $source = $form_state->getValue('field_source');
+    if (!empty($source)) {
+      $source = $source[0]['value'];
+    }
+    else {
+      $source = $form['field_source']['widget']['#default_value'][0] ?? NULL;
+    }
+  }
 
   $country = $form_state->getValue('field_country');
   if (!empty($country)) {
@@ -1214,7 +1372,7 @@ function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormS
   }
 
   if ($country) {
-    $form['field_figures']['widget']['#options'] = hr_paragraphs_load_country_figures($bundle, $country, $year);
+    $form['field_figures']['widget']['#options'] = hr_paragraphs_load_country_figures($paragraph, $country, $year, $source);
   }
   else {
     $form['field_figures']['widget']['#options'] = [];
@@ -1225,20 +1383,27 @@ function hr_paragraphs_form_layout_paragraphs_component_form_alter(&$form, FormS
  * Callback.
  */
 function hr_paragraphs_load_country_figures_callback(array $form, $form_state) {
-  // Get bundle and fields.
-  $bundle = $form_state->getFormObject()->getParagraph()->bundle();
+  // Get paragraph fields.
+  $paragraph = $form_state->getFormObject()->getParagraph();
 
+  $source = $form_state->getValue('field_source');
   $country = $form_state->getValue('field_country');
   $year = $form_state->getValue('field_year');
 
-  if (!empty($country)) {
-    $country = $country[0]['value'];
+  if (!empty($source)) {
+    $source = $source[0]['value'];
+  }
+
+  if (!empty($year)) {
     $year = $year[0]['value'];
     if ($year === 'current') {
       $year = date('Y');
     }
+  }
 
-    $form['field_figures']['widget']['#options'] = hr_paragraphs_load_country_figures($bundle, $country, $year);
+  if (!empty($country)) {
+    $country = $country[0]['value'];
+    $form['field_figures']['widget']['#options'] = hr_paragraphs_load_country_figures($paragraph, $country, $year, $source);
   }
   else {
     $form['field_figures']['widget']['#options'] = [];
@@ -1250,9 +1415,14 @@ function hr_paragraphs_load_country_figures_callback(array $form, $form_state) {
 /**
  * Load figures for a country.
  */
-function hr_paragraphs_load_country_figures($bundle, $iso3, $year) {
+function hr_paragraphs_load_country_figures(ContentEntityInterface $paragraph, $iso3, $year, $source = '') {
   /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
-  $controller = hr_paragraphs_load_keyfigure_controller($bundle);
+  if ($source) {
+    $controller = hr_paragraphs_load_keyfigure_controller($source);
+  }
+  else {
+    $controller = hr_paragraphs_load_keyfigure_controller_by_entity($paragraph);
+  }
 
   if (!$controller) {
     return [];
@@ -1263,4 +1433,26 @@ function hr_paragraphs_load_country_figures($bundle, $iso3, $year) {
   sort($figures);
 
   return array_combine($figures, $figures);
+}
+
+/**
+ * Callback.
+ */
+function hr_paragraphs_load_source_countries_callback(array $form, $form_state) {
+  $source = $form_state->getValue('field_source');
+
+  if (!empty($source)) {
+    $source = $source[0]['value'];
+
+    /** @var \Drupal\hr_paragraphs\Controller\BaseKeyFiguresController */
+    $controller = hr_paragraphs_load_keyfigure_controller($source);
+
+    $countries = $controller->getCountries();
+    $form['field_country']['widget']['#options'] = $countries;
+  }
+  else {
+    $form['field_country']['widget']['#options'] = [];
+  }
+
+  return $form['field_country'];
 }

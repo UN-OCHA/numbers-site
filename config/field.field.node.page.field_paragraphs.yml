@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_paragraphs
     - node.type.page
+    - paragraphs.paragraphs_type.featured_number
   module:
     - entity_reference_revisions
 id: node.page.field_paragraphs
@@ -20,37 +21,44 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    target_bundles: null
+    target_bundles:
+      featured_number: featured_number
     negate: 1
     target_bundles_drag_drop:
       cbpf_key_figures:
-        weight: -19
+        weight: -21
         enabled: false
       cerf_key_figures:
-        weight: -18
-        enabled: false
-      fts_key_figures:
-        weight: -17
-        enabled: false
-      heading:
-        weight: -30
-        enabled: false
-      idps_key_figures:
-        weight: -16
-        enabled: false
-      inform_key_figures:
-        weight: -15
-        enabled: false
-      locations_list:
-        weight: -14
-        enabled: false
-      reliefweb_key_figures:
         weight: -20
         enabled: false
+      featured_number:
+        weight: -14
+        enabled: true
+      featured_numbers:
+        weight: -23
+        enabled: false
+      fts_key_figures:
+        weight: -19
+        enabled: false
+      heading:
+        weight: -25
+        enabled: false
+      idps_key_figures:
+        weight: -18
+        enabled: false
+      inform_key_figures:
+        weight: -17
+        enabled: false
+      locations_list:
+        weight: -16
+        enabled: false
+      reliefweb_key_figures:
+        weight: -22
+        enabled: false
       table_of_contents:
-        weight: -13
+        weight: -15
         enabled: false
       text_block:
-        weight: -21
+        weight: -24
         enabled: false
 field_type: entity_reference_revisions
