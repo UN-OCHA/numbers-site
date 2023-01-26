@@ -1,4 +1,8 @@
 services:
+  hr_paragraphs.webhook_controller:
+    class: \Drupal\hr_paragraphs\Controller\WebhookController
+    arguments: ['@logger.factory', '@entity_type.manager']
+
   hr_paragraphs.rw_key_figures_controller:
     class: \Drupal\hr_paragraphs\Controller\RWCrisisKeyFiguresController
     arguments: ['@http_client', '@hr_paragraphs.cache.rw_crisis']
