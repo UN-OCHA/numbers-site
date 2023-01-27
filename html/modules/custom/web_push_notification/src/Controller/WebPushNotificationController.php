@@ -108,18 +108,18 @@ class WebPushNotificationController extends ControllerBase {
           'key' => $key,
           'token' => $token,
           'endpoint' => $endpoint,
-          'iso3' => $para_id,
+          'para_ids' => $para_id,
         ]);
         $subscription->save();
       }
       else {
         if (!empty($para_id)) {
           $subscription = Subscription::load(reset($ids));
-          $para_ids = $subscription->iso3->value;
+          $para_ids = $subscription->para_ids->value;
           $para_ids = explode(',', $para_ids);
           $para_ids[] = $para_id;
           $para_ids = array_unique($para_ids);
-          $subscription->iso3 = implode(',', $para_ids);
+          $subscription->para_ids = implode(',', $para_ids);
           $subscription->save();
         }
       }
@@ -151,12 +151,12 @@ class WebPushNotificationController extends ControllerBase {
         ->execute();
       if (!empty($ids)) {
         $subscription = Subscription::load(reset($ids));
-        $para_ids = $subscription->iso3->value;
+        $para_ids = $subscription->para_ids->value;
         $para_ids = explode(',', $para_ids);
 
         if ($index = array_search($para_id, $para_ids)) {
           unset($para_ids[$index]);
-          $subscription->iso3 = implode(',', $para_ids);
+          $subscription->para_ids = implode(',', $para_ids);
           $subscription->save();
         }
       }
@@ -188,7 +188,7 @@ class WebPushNotificationController extends ControllerBase {
       }
       else {
         $subscription = Subscription::load(reset($ids));
-        return new JsonResponse(['para_ids' => $subscription->iso3->value]);
+        return new JsonResponse(['para_ids' => $subscription->para_ids->value]);
       }
     }
     else {
@@ -216,7 +216,7 @@ class WebPushNotificationController extends ControllerBase {
       }
       else {
         $subscription = Subscription::load(reset($ids));
-        return new JsonResponse(['para_ids' => $subscription->iso3->value]);
+        return new JsonResponse(['para_ids' => $subscription->para_ids->value]);
       }
     }
     else {

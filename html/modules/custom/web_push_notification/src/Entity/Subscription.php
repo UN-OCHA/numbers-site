@@ -136,11 +136,11 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
       ])
       ->setRequired(TRUE);
 
-    $fields['iso3'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('iso3'))
-      ->setDescription(t('Country codes.'))
+    $fields['para_ids'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Paragraph Ids'))
+      ->setDescription(t('Paragraph Ids.'))
       ->setSettings([
-        'max_length' => 512,
+        'max_length' => 2048,
       ])
       ->setRequired(TRUE);
 
