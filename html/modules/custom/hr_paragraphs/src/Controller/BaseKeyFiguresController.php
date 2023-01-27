@@ -114,6 +114,9 @@ class BaseKeyFiguresController extends ControllerBase {
 
     foreach ($data as &$row) {
       $row['date'] = new \DateTime($row['year'] . '-01-01');
+      if (isset($row['updated']) && !empty($row['updated'])) {
+        $row['date'] = new \DateTime(substr($row['updated'], 0, 10));
+      }
     }
 
     $results = [];
