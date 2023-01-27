@@ -167,7 +167,7 @@
       const contentEncoding = (PushManager.supportedContentEncodings || ['aesgcm'])[0];
 
       return fetch(drupalSettings.webPushNotification.subscribeUrl, {
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify({
           endpoint: subscription.endpoint,
           key: key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
