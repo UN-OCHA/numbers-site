@@ -19,8 +19,8 @@
             "https://www.drupal.org/project/group/issues/3210808": "https://www.drupal.org/files/issues/2021-04-26/uasort-comparison-3210808-2.patch"
         },
         "drupal/user_expire": {
-            "Allow the notification email to be customised": "https://git.drupalcode.org/project/user_expire/-/merge_requests/5.diff",
-            "Reset expiration when user is reactivated": "https://git.drupalcode.org/project/user_expire/-/merge_requests/6.diff"
+            "Allow the notification email to be customised": "PATCHES/user_expire-customize-notification-email.patch",
+            "Reset expiration when user is reactivated": "PATCHES/user_expire-reset-expiration-on-reactivation.patch"
         }
     }
 }
