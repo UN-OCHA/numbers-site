@@ -144,7 +144,7 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
       ])
       ->setRequired(TRUE);
 
-      $fields['created'] = BaseFieldDefinition::create('created')
+    $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the subscription was created.'));
 

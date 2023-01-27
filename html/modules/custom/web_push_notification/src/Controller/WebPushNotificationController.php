@@ -3,6 +3,7 @@
 namespace Drupal\web_push_notification\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\web_push_notification\Entity\Subscription;
 use Drupal\web_push_notification\KeysHelper;
@@ -20,14 +21,25 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 class WebPushNotificationController extends ControllerBase {
 
   /**
+   * Module handler.
+   *
    * @var \Drupal\Core\Extension\ModuleHandler
    */
   protected $moduleHandler;
 
   /**
+   * Keys helper.
+   *
    * @var \Drupal\web_push_notification\KeysHelper
    */
   protected $keysHelper;
+
+  /**
+   * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * WebPushNotificationController constructor.
@@ -36,10 +48,13 @@ class WebPushNotificationController extends ControllerBase {
    *   The module handler service.
    * @param \Drupal\web_push_notification\KeysHelper $keysHelper
    *   The notification keys helper service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   Entity type manager.
    */
-  public function __construct(ModuleHandler $moduleHandler, KeysHelper $keysHelper) {
+  public function __construct(ModuleHandler $moduleHandler, KeysHelper $keysHelper, EntityTypeManagerInterface $entity_type_manager) {
     $this->moduleHandler = $moduleHandler;
     $this->keysHelper = $keysHelper;
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
@@ -48,7 +63,8 @@ class WebPushNotificationController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('module_handler'),
-      $container->get('web_push_notification.keys_helper')
+      $container->get('web_push_notification.keys_helper'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -56,7 +72,7 @@ class WebPushNotificationController extends ControllerBase {
    * Gets the service worker javascript handler.
    *
    * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-   *  The service worker content.
+   *   The service worker content.
    */
   public function serviceWorker() {
     $module_path = $this->moduleHandler->getModule('web_push_notification')->getPath();
@@ -73,18 +89,7 @@ class WebPushNotificationController extends ControllerBase {
   }
 
   /**
-   * Accepts a user confirmation for notifications subscribe.
-   *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The request.
-   *
-   * @return \Symfony\Component\HttpFoundation\JsonResponse
-   *
-   * @throws \Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException
-   *   When public and private keys are empty.
-   * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-   *   When required parameter (key, token, endpoint) is missing.
-   * @throws \Drupal\Core\Entity\EntityStorageException
+   * Subscribe.
    */
   public function subscribe(Request $request) {
     // Cannot accept a user confirmation when push keys are empty.
@@ -98,8 +103,8 @@ class WebPushNotificationController extends ControllerBase {
     $endpoint = $input['endpoint'];
     $para_id = $input['para_id'] ?? '';
 
-    //if (!empty($key) && !empty($token) && !empty($endpoint)) {
-      $ids = \Drupal::entityQuery('wpn_subscription')
+    if (!empty($key) && !empty($token)) {
+      $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();
@@ -123,15 +128,17 @@ class WebPushNotificationController extends ControllerBase {
           $subscription->save();
         }
       }
-    //}
-    //else {
-    //  throw new BadRequestHttpException();
-    //}
+    }
+    else {
+      throw new BadRequestHttpException();
+    }
 
-    return new JsonResponse(['status' => true]);
+    return new JsonResponse(['status' => TRUE]);
   }
 
-
+  /**
+   * Remove a paragraph id.
+   */
   public function unsubscribe(Request $request) {
     // Cannot accept a user confirmation when push keys are empty.
     if (!$this->keysHelper->isKeysDefined()) {
@@ -145,7 +152,7 @@ class WebPushNotificationController extends ControllerBase {
     $para_id = $input['para_id'];
 
     if (!empty($key) && !empty($token) && !empty($endpoint)) {
-      $ids = \Drupal::entityQuery('wpn_subscription')
+      $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();
@@ -165,9 +172,12 @@ class WebPushNotificationController extends ControllerBase {
       throw new BadRequestHttpException();
     }
 
-    return new JsonResponse(['status' => true]);
+    return new JsonResponse(['status' => TRUE]);
   }
 
+  /**
+   * Add a pragraph id.
+   */
   public function update(Request $request) {
     // Cannot accept a user confirmation when push keys are empty.
     if (!$this->keysHelper->isKeysDefined()) {
@@ -179,7 +189,7 @@ class WebPushNotificationController extends ControllerBase {
     $token = $input['token'];
 
     if (!empty($key) && !empty($token)) {
-      $ids = \Drupal::entityQuery('wpn_subscription')
+      $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();
@@ -196,6 +206,9 @@ class WebPushNotificationController extends ControllerBase {
     }
   }
 
+  /**
+   * Return active paragraph ids.
+   */
   public function info(Request $request) {
     // Cannot accept a user confirmation when push keys are empty.
     if (!$this->keysHelper->isKeysDefined()) {
@@ -207,7 +220,7 @@ class WebPushNotificationController extends ControllerBase {
     $token = $input['token'];
 
     if (!empty($key) && !empty($token) && !empty($endpoint)) {
-      $ids = \Drupal::entityQuery('wpn_subscription')
+      $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();
@@ -224,4 +237,5 @@ class WebPushNotificationController extends ControllerBase {
     }
 
   }
+
 }
