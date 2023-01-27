@@ -1,0 +1,13 @@
+_core:
+  default_config_hash: Jc9IWrM9NkaE7P5pMYJ3S3g_SLB2qGxMAjw0I_TZL-E
+public_key: BPEJ7uN1dfEeJRpGTUzsZgvSVqf4eF__OThzj8xT6373_4WdFijPcR5D_9gh_ryC4XPBYxnCOGyeQakRpa8ra4c
+private_key: AcAvBJbUiwjYNaxV_xhM302yO0-ttTwdQTknaMt4EI8
+queue_batch_size: '100'
+body_length: '100'
+push_ttl: '10'
+pages: xyzzy
+pages_mode: hide
+bundles:
+  landing_page: 0
+  page: 0
+fields: {  }
