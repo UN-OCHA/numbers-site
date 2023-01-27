@@ -65,6 +65,7 @@ module:
   user: 0
   user_expire: 0
   variationcache: 0
+  web_push_notification: 0
   pathauto: 1
   xmlsitemap: 1
   content_translation: 10

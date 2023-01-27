@@ -65,6 +65,7 @@
         "galbar/jsonpath": "^2.0",
         "league/commonmark": "1.6",
         "mailchimp/marketing": "^3.0",
+        "minishlink/web-push": "^8.0",
         "npm-asset/moment": "^2.29",
         "npm-asset/select2": "^4",
         "oomphinc/composer-installers-extender": "^2.0",

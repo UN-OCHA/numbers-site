@@ -416,6 +416,10 @@ function hr_paragraphs_preprocess_paragraph__featured_numbers(&$variables) {
   $paragraph = $variables['paragraph'];
   $view_all = $variables['view_all'] ?? FALSE;
 
+  // Allow push subscription.
+  $variables['attributes']['data-push-allowed'] = TRUE;
+  $variables['attributes']['data-push-id'] = $paragraph->id();
+
   // Make sure numbers are set.
   if (!$paragraph->hasField('field_numbers') || $paragraph->field_numbers->isEmpty()) {
     return;
@@ -564,6 +568,10 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   $view_all = $variables['view_all'] ?? FALSE;
+
+  // Allow push subscription.
+  $variables['attributes']['data-push-allowed'] = TRUE;
+  $variables['attributes']['data-push-id'] = $paragraph->id();
 
   // Do we need sparklines.
   $sparklines = FALSE;
