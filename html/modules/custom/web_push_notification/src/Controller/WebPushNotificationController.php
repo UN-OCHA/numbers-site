@@ -97,6 +97,7 @@ class WebPushNotificationController extends ControllerBase {
       throw new ServiceUnavailableHttpException();
     }
 
+    $subscription = FALSE;
     $input = json_decode($request->getContent(), TRUE);
     $key = $input['key'];
     $token = $input['token'];
@@ -118,8 +119,8 @@ class WebPushNotificationController extends ControllerBase {
         $subscription->save();
       }
       else {
+        $subscription = Subscription::load(reset($ids));
         if (!empty($para_id)) {
-          $subscription = Subscription::load(reset($ids));
           $para_ids = $subscription->para_ids->value;
           $para_ids = explode(',', $para_ids);
           $para_ids[] = $para_id;
@@ -127,6 +128,9 @@ class WebPushNotificationController extends ControllerBase {
           $subscription->para_ids = implode(',', $para_ids);
           $subscription->save();
         }
+      }
+      if ($subscription) {
+        return new JsonResponse(['para_ids' => $subscription->para_ids->value]);
       }
     }
     else {

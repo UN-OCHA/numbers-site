@@ -176,6 +176,10 @@
       })
       .then((response) => response.json())
       .then((data) => {
+        if (!data.para_ids) {
+          return;
+        }
+
         let paraIds = data.para_ids.split(',');
         const pushButtons = document.querySelectorAll('button[data-push-id]');
         if (!pushButtons) {
