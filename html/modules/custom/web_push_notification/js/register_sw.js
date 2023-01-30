@@ -77,15 +77,12 @@
         );
       });
 
-      navigator.serviceWorker.register(settings.webPushNotification.serviceWorkerUrl).then(
-        () => {
-          console.log('[SW] Service worker has been registered');
-          this.push_updateSubscription();
-        },
-        e => {
-          console.error('[SW] Service worker registration failed', e);
-        }
-      );
+      navigator.serviceWorker.register(settings.webPushNotification.serviceWorkerUrl).then(() => {
+        console.log('[SW] Service worker has been registered');
+        this.push_updateSubscription();
+      }).catch(err => {
+        console.error('[SW] Service worker registration failed', err);
+      })
     },
 
     urlBase64ToUint8Array: function (base64String) {
