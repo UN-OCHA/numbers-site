@@ -46,11 +46,13 @@
         pushButton.setAttribute('data-push-active', 0);
         pushButton.innerHTML = this.subscribeText;
         pushButton.classList.add(
-          'rw-key-figures__push-button',
+          'cd-button',
+          'cd-button--small',
         );
 
         if (this.disabled) {
           pushButton.setAttribute('disabled', 'disabled');
+          pushButton.setAttribute('title', 'Push notifications are disabled in your browser settings. If you want to use this button, re-enable push notifications for this domain.');
         }
 
         pushButton.addEventListener('click', function(e) {
