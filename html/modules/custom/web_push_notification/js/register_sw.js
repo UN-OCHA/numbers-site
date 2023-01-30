@@ -12,23 +12,19 @@
     attach: function (context, settings) {
 
       if (!('serviceWorker' in navigator)) {
-        console.warn('Service workers are not supported by this browser');
         return;
       }
 
       if (!('PushManager' in window)) {
-        console.warn('Push notifications are not supported by this browser');
         return;
       }
 
       if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-        console.warn('Notifications are not supported by this browser');
         return;
       }
 
       // Check the current Notification permission.
       if (Notification.permission === 'denied') {
-        console.warn('Notifications are denied by the user');
         this.disabled = true;
       }
 
@@ -78,7 +74,6 @@
       });
 
       navigator.serviceWorker.register(settings.webPushNotification.serviceWorkerUrl).then(() => {
-        console.log('[SW] Service worker has been registered');
         this.push_updateSubscription();
       }).catch(err => {
         console.error('[SW] Service worker registration failed', err);
@@ -139,12 +134,10 @@
         .catch(e => {
           if (Notification.permission === 'denied') {
             // The user denied the notification permission.
-            console.warn('Notifications are denied by the user.');
             this.disabled = true;
           } else {
             // A problem occurred with the subscription; common reasons
             // include network errors or the user skipped the permission
-            console.error('Impossible to subscribe to push notifications', e);
             this.disabled = true;
           }
         });
