@@ -417,8 +417,11 @@ function hr_paragraphs_preprocess_paragraph__featured_numbers(&$variables) {
   $view_all = $variables['view_all'] ?? FALSE;
 
   // Allow push subscription.
-  $variables['attributes']['data-push-allowed'] = TRUE;
-  $variables['attributes']['data-push-id'] = $paragraph->id();
+  $view_mode = $variables['view_mode'];
+  if ($view_mode !== 'preview') {
+    $variables['attributes']['data-push-allowed'] = TRUE;
+    $variables['attributes']['data-push-id'] = $paragraph->id();
+  }
 
   // Make sure numbers are set.
   if (!$paragraph->hasField('field_numbers') || $paragraph->field_numbers->isEmpty()) {
