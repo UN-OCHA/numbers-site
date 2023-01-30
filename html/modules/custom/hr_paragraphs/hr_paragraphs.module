@@ -573,8 +573,11 @@ function hr_paragraphs_keyfigures(&$variables, BaseKeyFiguresController $control
   $view_all = $variables['view_all'] ?? FALSE;
 
   // Allow push subscription.
-  $variables['attributes']['data-push-allowed'] = TRUE;
-  $variables['attributes']['data-push-id'] = $paragraph->id();
+  $view_mode = $variables['view_mode'];
+  if ($view_mode !== 'preview') {
+    $variables['attributes']['data-push-allowed'] = TRUE;
+    $variables['attributes']['data-push-id'] = $paragraph->id();
+  }
 
   // Do we need sparklines.
   $sparklines = FALSE;
