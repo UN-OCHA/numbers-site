@@ -109,6 +109,49 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
   /**
    * {@inheritdoc}
    */
+  public function getParaIds() {
+    return $this->get('para_ids')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setParaIds($para_ids) {
+    $this->set('para_ids', $para_ids);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addParaId($para_id) {
+    $para_ids = $this->get('para_ids')->value;
+    $para_ids = explode(',', $para_ids);
+    $para_ids[] = $para_id;
+    $para_ids = array_unique($para_ids);
+    $this->set('para_ids', $para_ids);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeParaId($para_id) {
+    $para_ids = $this->get('para_ids')->value;
+    $para_ids = explode(',', $para_ids);
+
+    if ($index = array_search($para_id, $para_ids)) {
+      unset($para_ids[$index]);
+    }
+
+    $para_ids = array_unique($para_ids);
+    $this->set('para_ids', $para_ids);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 

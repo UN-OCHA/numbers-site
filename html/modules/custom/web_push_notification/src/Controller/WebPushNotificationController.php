@@ -121,11 +121,7 @@ class WebPushNotificationController extends ControllerBase {
       else {
         $subscription = Subscription::load(reset($ids));
         if (!empty($para_id)) {
-          $para_ids = $subscription->para_ids->value;
-          $para_ids = explode(',', $para_ids);
-          $para_ids[] = $para_id;
-          $para_ids = array_unique($para_ids);
-          $subscription->para_ids = implode(',', $para_ids);
+          $subscription->addParaId($para_id);
           $subscription->save();
         }
       }
@@ -162,14 +158,8 @@ class WebPushNotificationController extends ControllerBase {
         ->execute();
       if (!empty($ids)) {
         $subscription = Subscription::load(reset($ids));
-        $para_ids = $subscription->para_ids->value;
-        $para_ids = explode(',', $para_ids);
-
-        if ($index = array_search($para_id, $para_ids)) {
-          unset($para_ids[$index]);
-          $subscription->para_ids = implode(',', $para_ids);
-          $subscription->save();
-        }
+        $subscription->removeParaId($para_id);
+        $subscription->save();
       }
     }
     else {
