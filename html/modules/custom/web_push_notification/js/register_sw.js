@@ -1,6 +1,6 @@
 /**
  * @file
- * Register service worker.
+ * Web Push Notifications.
  */
 
 (function (Drupal) {
@@ -32,7 +32,9 @@
         this.disabled = true;
       }
 
-      const paragraphs = document.querySelectorAll('[data-push-allowed]');
+      // Check for eligible paragraphs, excluding those which were already
+      // processed in an earlier invocation of the behavior.
+      const paragraphs = context.querySelectorAll('[data-push-allowed]:not(.web-push--processed)');
       if (!paragraphs) {
         return;
       }
@@ -65,7 +67,12 @@
 
         // Insert button into DOM.
         paragraph.append(pushButton);
-        paragraph.classList.add('rw-key-figures__can-push');
+
+        // Mark paragraph as processed.
+        paragraph.classList.add(
+          'rw-key-figures__can-push',
+          'web-push--processed',
+        );
       });
 
       navigator.serviceWorker.register(settings.webPushNotification.serviceWorkerUrl).then(
