@@ -160,6 +160,11 @@ num-key-figures-share:
     - common_design_subtheme/rw-key-figures
     - common_design/cd-social-links
 
+num-key-figures-push:
+  css:
+    state:
+      components/num-key-figures-push/num-key-figures-push.css: {}
+
 num-layout:
   css:
     component:
