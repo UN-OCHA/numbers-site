@@ -1,6 +1,6 @@
 /**
  * @file
- * Serviceworker file for browser push notification.
+ * Service Worker for web push notifications.
  */
 
 self.addEventListener('install', function(event) {

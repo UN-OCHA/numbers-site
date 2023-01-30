@@ -1,6 +1,6 @@
 /**
  * @file
- * Register service worker.
+ * Web Push Notifications.
  */
 
 (function (Drupal) {
@@ -12,27 +12,25 @@
     attach: function (context, settings) {
 
       if (!('serviceWorker' in navigator)) {
-        console.warn('Service workers are not supported by this browser');
         return;
       }
 
       if (!('PushManager' in window)) {
-        console.warn('Push notifications are not supported by this browser');
         return;
       }
 
       if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-        console.warn('Notifications are not supported by this browser');
         return;
       }
 
       // Check the current Notification permission.
       if (Notification.permission === 'denied') {
-        console.warn('Notifications are denied by the user');
         this.disabled = true;
       }
 
-      const paragraphs = document.querySelectorAll('[data-push-allowed]');
+      // Check for eligible paragraphs, excluding those which were already
+      // processed in an earlier invocation of the behavior.
+      const paragraphs = context.querySelectorAll('[data-push-allowed]:not(.web-push--processed)');
       if (!paragraphs) {
         return;
       }
@@ -44,11 +42,13 @@
         pushButton.setAttribute('data-push-active', 0);
         pushButton.innerHTML = this.subscribeText;
         pushButton.classList.add(
-          'rw-key-figures__push-button',
+          'cd-button',
+          'cd-button--small',
         );
 
         if (this.disabled) {
           pushButton.setAttribute('disabled', 'disabled');
+          pushButton.setAttribute('title', 'Push notifications are disabled in your browser settings. If you want to use this button, re-enable push notifications for this domain.');
         }
 
         pushButton.addEventListener('click', function(e) {
@@ -65,18 +65,19 @@
 
         // Insert button into DOM.
         paragraph.append(pushButton);
-        paragraph.classList.add('rw-key-figures__can-push');
+
+        // Mark paragraph as processed.
+        paragraph.classList.add(
+          'rw-key-figures__can-push',
+          'web-push--processed',
+        );
       });
 
-      navigator.serviceWorker.register(settings.webPushNotification.serviceWorkerUrl).then(
-        () => {
-          console.log('[SW] Service worker has been registered');
-          this.push_updateSubscription();
-        },
-        e => {
-          console.error('[SW] Service worker registration failed', e);
-        }
-      );
+      navigator.serviceWorker.register(settings.webPushNotification.serviceWorkerUrl).then(() => {
+        this.push_updateSubscription();
+      }).catch(err => {
+        console.error('[SW] Service worker registration failed', err);
+      })
     },
 
     urlBase64ToUint8Array: function (base64String) {
@@ -133,12 +134,10 @@
         .catch(e => {
           if (Notification.permission === 'denied') {
             // The user denied the notification permission.
-            console.warn('Notifications are denied by the user.');
             this.disabled = true;
           } else {
             // A problem occurred with the subscription; common reasons
             // include network errors or the user skipped the permission
-            console.error('Impossible to subscribe to push notifications', e);
             this.disabled = true;
           }
         });

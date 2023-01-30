@@ -23,6 +23,7 @@ function web_push_notification_page_attachments_alter(array &$attachments) {
 
   $url_options = [
     'absolute' => TRUE,
+    'https' => TRUE,
   ];
   $settings = [
     'publicKey' => $public_key,
