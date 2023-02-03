@@ -101,7 +101,19 @@ class WebhookController extends ControllerBase {
           // Get group to send emails.
           $parent = $paragraph->getParentEntity();
           if ($parent && $parent instanceof Group) {
-            $groups[$parent->id()] = $parent->id();
+            if (!isset($groups[$parent->id()])) {
+              $groups[$parent->id()] = [
+                'new' => [],
+                'updated' => [],
+              ];
+            }
+
+            if ($is_new) {
+              $groups[$parent->id()]['new'][$record['data']['id']] = $record;
+            }
+            else {
+              $groups[$parent->id()]['updated'][$record['data']['id']] = $record;
+            }
           }
         }
 
@@ -111,8 +123,27 @@ class WebhookController extends ControllerBase {
         }
 
         if (!empty($groups)) {
-          $groups = array_merge($groups, $this->state()->get('hr_paragraphs_mailchimp_group_ids', []));
-          $this->state()->set('hr_paragraphs_mailchimp_group_ids', $groups);
+          $this->getLogger('debug')->notice('groups:' . print_r($groups, TRUE));
+
+          $combined = [];
+          $existing = $this->state()->get('hr_paragraphs_mailchimp_group_ids', []);
+
+          if (empty($existing)) {
+            $combined = $groups;
+          }
+          else {
+            foreach ($groups as $id => $info) {
+              if (isset($existing[$id])) {
+                $combined[$id]['new'] = array_merge($groups[$id]['new'], $existing[$id]['new']);
+                $combined[$id]['updated'] = array_merge($groups[$id]['updated'], $existing[$id]['updated']);
+              }
+              else {
+                $combined[$id] = $info;
+              }
+            }
+          }
+
+          $this->state()->set('hr_paragraphs_mailchimp_group_ids', $combined);
         }
       }
     }

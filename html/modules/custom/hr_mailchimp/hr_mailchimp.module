@@ -137,7 +137,7 @@ function hr_mailchimp_get_tags() {
 /**
  * Send an email to a group.
  */
-function hr_mailchimp_send_mail(Group $group) {
+function hr_mailchimp_send_mail(Group $group, array $new = [], array $updated = []) {
   $prefix = Settings::get('hr_mailchimp_prefix');
   $list_id = Settings::get('hr_mailchimp_list_id');
   $api_key = Settings::get('hr_mailchimp_api_key');
@@ -161,6 +161,26 @@ function hr_mailchimp_send_mail(Group $group) {
   $body[] = '';
   $body[] = 'There are new or updated numbers available for ' . $group->label();
   $body[] = 'Have a look at ' . $group->toUrl('canonical', ['absolute' => TRUE])->toString();
+
+  if (!empty($new)) {
+    $body[] = '';
+    $body[] = '';
+    $body[] = 'New numbers:';
+    $body[] = '';
+    foreach ($new as $record) {
+      $body[] = '- ' . $record['data']['name'] . ': ' . $record['data']['value'] . ' has been added.';
+    }
+  }
+
+  if (!empty($updated)) {
+    $body[] = '';
+    $body[] = '';
+    $body[] = 'Updated numbers:';
+    $body[] = '';
+    foreach ($updated as $record) {
+      $body[] = '- ' . $record['data']['name'] . ' is changed from ' . $record['old_value'] . ' to ' . $record['new_value'];
+    }
+  }
 
   $conditions = [
     [
@@ -223,13 +243,18 @@ function hr_mailchimp_send_mail(Group $group) {
  * Implements hook_cron().
  */
 function hr_mailchimp_cron() {
-  $group_ids = \Drupal::state()->get('hr_paragraphs_mailchimp_group_ids', []);
-  if (empty($groups)) {
+  $group_info = \Drupal::state()->get('hr_paragraphs_mailchimp_group_ids', []);
+  if (empty($group_info)) {
     return;
   }
 
-  $groups = Group::loadMultiple($group_ids);
+  $groups = Group::loadMultiple(array_keys(($group_info)));
   foreach ($groups as $group) {
-    hr_mailchimp_send_mail($group);
+    $new = $group_info[$group->id()]['new'] ?? [];
+    $updated = $group_info[$group->id()]['updated'] ?? [];
+    hr_mailchimp_send_mail($group, $new, $updated);
   }
+
+  // Reset state.
+  \Drupal::state()->set('hr_paragraphs_mailchimp_group_ids', []);
 }
