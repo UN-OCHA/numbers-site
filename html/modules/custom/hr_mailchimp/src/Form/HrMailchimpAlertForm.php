@@ -5,7 +5,6 @@ namespace Drupal\hr_mailchimp\Form;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -46,7 +45,12 @@ class HrMailchimpAlertForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, AccountInterface $user = NULL) {
+  public function buildForm(array $form, FormStateInterface $form_state, array $selected_countries = []) {
+    $options = $this->getGroups();
+    if (!empty($selected_countries)) {
+      $options = array_intersect_key($options, $selected_countries);
+    }
+
     $form['email'] = [
       '#type' => 'email',
       '#title' => $this->t('Email'),
@@ -58,7 +62,7 @@ class HrMailchimpAlertForm extends FormBase {
     $form['groups'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Locations'),
-      '#options' => $this->getGroups(),
+      '#options' => $options,
       '#default_value' => [],
       '#required' => TRUE,
     ];
@@ -93,7 +97,9 @@ class HrMailchimpAlertForm extends FormBase {
    * Get groups.
    */
   protected function getGroups() {
-    $groups = $this->entityTypeManager->getStorage('group')->loadMultiple();
+    $groups = $this->entityTypeManager->getStorage('group')->loadByProperties([
+      'status' => 1,
+    ]);
     $options = [];
 
     foreach ($groups as $group) {

@@ -18,14 +18,26 @@ function hr_mailchimp_preprocess_paragraph__email_alerts(&$variables) {
   if ($view_mode === 'preview') {
     $variables['content']['empty_indicator'] = [
       '#type' => 'markup',
-      '#markup' => t('No preview available'),
+      '#markup' => t('Sign up form'),
       '#weight' => -100,
       '#prefix' => '<div class="paragraph-empty-indicator">',
       '#suffix' => '</div>',
     ];
+
+    return;
   }
 
-  $variables['content']['form'] = \Drupal::formBuilder()->getForm('Drupal\hr_mailchimp\Form\HrMailchimpAlertForm');
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $selected_countries = [];
+
+  if ($paragraph->hasField('field_countries')) {
+    foreach ($paragraph->field_countries->referencedEntities() as $group) {
+      $selected_countries[$group->id()] = $group->id();
+    }
+  }
+
+  $variables['content']['form'] = \Drupal::formBuilder()->getForm('Drupal\hr_mailchimp\Form\HrMailchimpAlertForm', $selected_countries);
 }
 
 /**
@@ -205,4 +217,19 @@ function hr_mailchimp_send_mail(Group $group) {
     ]);
   }
 
+}
+
+/**
+ * Implements hook_cron().
+ */
+function hr_mailchimp_cron() {
+  $group_ids = \Drupal::state()->get('hr_paragraphs_mailchimp_group_ids', []);
+  if (empty($groups)) {
+    return;
+  }
+
+  $groups = Group::loadMultiple($group_ids);
+  foreach ($groups as $group) {
+    hr_mailchimp_send_mail($group);
+  }
 }
