@@ -1,0 +1,10 @@
+uuid: 191fd455-cfc2-4dad-a458-cfd2c64bc59a
+langcode: en
+status: true
+dependencies: {  }
+id: email_alerts
+label: 'Email alerts'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
