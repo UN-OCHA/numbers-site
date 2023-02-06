@@ -14,6 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ConfirmRegenerateKeys extends ConfirmFormBase {
 
   /**
+   * Key helper.
+   *
    * @var \Drupal\web_push_notification\KeysHelper
    */
   protected $keysHelper;

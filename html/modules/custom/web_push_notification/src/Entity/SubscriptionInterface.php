@@ -3,8 +3,6 @@
 namespace Drupal\web_push_notification\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityChangedInterface;
-use Drupal\user\EntityOwnerInterface;
 
 /**
  * Provides an interface for defining Notification subscription entities.
@@ -17,6 +15,7 @@ interface SubscriptionInterface extends ContentEntityInterface {
    * Gets the subscription public key.
    *
    * @return string
+   *   Returns the public key.
    */
   public function getPublicKey();
 
@@ -34,6 +33,7 @@ interface SubscriptionInterface extends ContentEntityInterface {
    * Gets the subscription token.
    *
    * @return string
+   *   Returns the token.
    */
   public function getToken();
 
@@ -44,6 +44,7 @@ interface SubscriptionInterface extends ContentEntityInterface {
    *   The subscription token.
    *
    * @return $this
+   *   Allow chaining.
    */
   public function setToken($token);
 
@@ -51,6 +52,7 @@ interface SubscriptionInterface extends ContentEntityInterface {
    * Gets the subscription endpoint.
    *
    * @return string
+   *   Returns the endpoint.
    */
   public function getEndpoint();
 

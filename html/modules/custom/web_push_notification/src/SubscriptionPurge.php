@@ -13,11 +13,15 @@ use Psr\Log\LoggerInterface;
 class SubscriptionPurge {
 
   /**
+   * Entity storage.
+   *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
   protected $entityStorage;
 
   /**
+   * Logger.
+   *
    * @var \Psr\Log\LoggerInterface
    */
   protected $logger;

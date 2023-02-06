@@ -3,7 +3,7 @@
 namespace Drupal\web_push_notification;
 
 /**
- * WebPushSenderInterface
+ * WebPushSender Interface.
  *
  * @package Drupal\web_push_notification
  */

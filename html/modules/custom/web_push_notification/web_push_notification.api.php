@@ -1,11 +1,11 @@
 <?php
 
-use Drupal\web_push_notification\NotificationItem;
-
 /**
  * @file
  * Hooks and API provided by the Web Push Notification module.
  */
+
+use Drupal\web_push_notification\NotificationItem;
 
 /**
  * @addtogroup hooks
@@ -23,7 +23,6 @@ use Drupal\web_push_notification\NotificationItem;
  *   of the item is trimmed.
  * @param string $full_body
  *   The source message body.
- *
  */
 function hook_web_push_notification_item_alter(NotificationItem $item, $full_body) {
 

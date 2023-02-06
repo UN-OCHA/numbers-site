@@ -67,7 +67,8 @@ class ConfirmClearSubscribers extends ConfirmFormBase {
         '#markup' => $this->t('No notification subscriptions found.'),
       ];
       $form['actions'] = ['#type' => 'actions'];
-      $form['actions']['cancel'] = ConfirmFormHelper::buildCancelLink($this, $this->getRequest());;
+      $form['actions']['cancel'] = ConfirmFormHelper::buildCancelLink($this, $this->getRequest());
+      ;
       return $form;
     }
 
@@ -82,7 +83,7 @@ class ConfirmClearSubscribers extends ConfirmFormBase {
 
     $start = 0;
 
-    // TODO: reimplement with batch() ?
+    // @todo reimplement with batch() ?
     while ($ids = $query->range($start, self::BATCH_DELETE_SIZE)->execute()) {
       $subscriptions = Subscription::loadMultiple($ids);
       $this->storage->delete($subscriptions);
@@ -112,4 +113,5 @@ class ConfirmClearSubscribers extends ConfirmFormBase {
   public function getCancelUrl() {
     return new Url('view.web_push_notification_subscriptions.page_1');
   }
+
 }
