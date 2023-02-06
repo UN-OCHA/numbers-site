@@ -1,0 +1,29 @@
+uuid: 88ec5379-663f-496d-bf8e-14d3ac50c61d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_countries
+    - group.type.operation
+    - paragraphs.paragraphs_type.email_alerts
+id: paragraph.email_alerts.field_countries
+field_name: field_countries
+entity_type: paragraph
+bundle: email_alerts
+label: Countries
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:group'
+  handler_settings:
+    target_bundles:
+      operation: operation
+    sort:
+      field: label
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

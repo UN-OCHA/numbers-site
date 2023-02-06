@@ -19,6 +19,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SettingsForm extends ConfigFormBase {
 
   /**
+   * Key helper.
+   *
    * @var \Drupal\web_push_notification\KeysHelper
    */
   protected $keysHelper;
@@ -38,11 +40,15 @@ class SettingsForm extends ConfigFormBase {
   protected $ttl;
 
   /**
+   * Redirect destination.
+   *
    * @var \Drupal\Core\Routing\RedirectDestinationInterface
    */
   protected $redirectDestination;
 
   /**
+   * Entity field manager.
+   *
    * @var \Drupal\Core\Entity\EntityFieldManagerInterface
    */
   protected $entityFieldManager;
@@ -105,7 +111,7 @@ class SettingsForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'web_push_notification.settings'
+      'web_push_notification.settings',
     ];
   }
 
@@ -113,7 +119,7 @@ class SettingsForm extends ConfigFormBase {
    * Returns a list of node bundles.
    *
    * @return array
-   *  The list of node bundles.
+   *   The list of node bundles.
    */
   protected function getNodeBundles() {
     return $this->bundleInfo->getBundleInfo('node');
@@ -129,7 +135,8 @@ class SettingsForm extends ConfigFormBase {
 
     $form['auth'] = [
       '#type' => 'details',
-      '#open' => !$is_keys_defined, // Open when no keys, close when keys exist.
+    // Open when no keys, close when keys exist.
+      '#open' => !$is_keys_defined,
       '#title' => $this->t('Auth parameters'),
     ];
     $form['auth']['public_key'] = [
@@ -148,8 +155,8 @@ class SettingsForm extends ConfigFormBase {
     ];
     $form['auth']['generate'] = [
       '#type' => 'submit',
-      '#value' => $this->t($is_keys_defined ? 'Regenerate keys' : 'Generate keys'),
-      '#limit_validation_errors' => [], // Skip required fields validation.
+      '#value' => $is_keys_defined ? $this->t('Regenerate keys') : $this->t('Generate keys'),
+      '#limit_validation_errors' => [],
     ];
     $form['auth']['generate']['#submit'] = $is_keys_defined ?
       ['::regenerateKeys'] : ['::generateKeys'];
@@ -198,7 +205,7 @@ class SettingsForm extends ConfigFormBase {
     $form['config']['pages_mode'] = [
       '#type' => 'radios',
       '#options' => [
-        'show' => $this->t(' Show for the listed pages'),
+        'show' => $this->t('Show for the listed pages'),
         'hide' => $this->t('Hide for the listed pages'),
       ],
       '#default_value' => $config->get('pages_mode') ?: 'hide',
@@ -211,6 +218,7 @@ class SettingsForm extends ConfigFormBase {
    * Builds bundles form section.
    *
    * @return array
+   *   Returns render array.
    */
   protected function buildBundlesForm() {
     $form = [

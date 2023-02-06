@@ -10,38 +10,44 @@ use Drupal\Component\Serialization\Json;
 class NotificationItem {
 
   /**
+   * The list of Subscription entity ID.
+   *
    * @var int[]
-   *   The list of Subscription entity ID.
    */
   public $ids = [];
 
   /**
+   * The notification title.
+   *
    * @var string
-   *   The notification title.
    */
   public $title = '';
 
   /**
+   * The notification message (body).
+   *
    * @var string
-   *   The notification message (body).
    */
   public $body = '';
 
   /**
+   * The notification url.
+   *
    * @var string
-   *   The notification url.
    */
   public $url = '';
 
   /**
+   * The notification image/icon.
+   *
    * @var string
-   *  The notification image/icon.
    */
   public $icon = '';
 
   /**
+   * Bundle name.
+   *
    * @var string
-   *   The bundle name. What bundle is used to create this item.
    */
   public $bundle = '';
 
@@ -50,7 +56,6 @@ class NotificationItem {
    *
    * @param string $title
    *   The notification title.
-   *
    * @param string $body
    *   The notification message (body).
    */
@@ -73,4 +78,5 @@ class NotificationItem {
       'icon' => $this->icon,
     ]);
   }
+
 }

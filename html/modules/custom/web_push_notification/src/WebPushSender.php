@@ -15,16 +15,22 @@ use Minishlink\WebPush\Subscription as PushSubscription;
 class WebPushSender implements WebPushSenderInterface {
 
   /**
+   * Key helper.
+   *
    * @var \Drupal\web_push_notification\KeysHelper
    */
   protected $keyHelper;
 
   /**
+   * Pusher.
+   *
    * @var \Minishlink\WebPush\WebPush
    */
   protected $webPush;
 
   /**
+   * Purger.
+   *
    * @var \Drupal\web_push_notification\SubscriptionPurge
    */
   protected $purge;

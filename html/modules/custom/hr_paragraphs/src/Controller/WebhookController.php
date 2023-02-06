@@ -6,6 +6,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\group\Entity\Group;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -21,6 +22,13 @@ class WebhookController extends ControllerBase {
    * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
    */
   protected $loggerFactory;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * {@inheritdoc}
@@ -78,6 +86,7 @@ class WebhookController extends ControllerBase {
 
       if (!empty($ids)) {
         $bundles = [];
+        $groups = [];
 
         /** @var \Drupal\paragraphs\Entity\Paragraph[] $paragraphs */
         $paragraphs = $this->entityTypeManager->getStorage('paragraph')->loadMultiple($ids);
@@ -88,11 +97,53 @@ class WebhookController extends ControllerBase {
 
           // Track bundles.
           $bundles[$paragraph->bundle()] = $paragraph->bundle();
+
+          // Get group to send emails.
+          $parent = $paragraph->getParentEntity();
+          if ($parent && $parent instanceof Group) {
+            if (!isset($groups[$parent->id()])) {
+              $groups[$parent->id()] = [
+                'new' => [],
+                'updated' => [],
+              ];
+            }
+
+            if ($is_new) {
+              $groups[$parent->id()]['new'][$record['data']['id']] = $record;
+            }
+            else {
+              $groups[$parent->id()]['updated'][$record['data']['id']] = $record;
+            }
+          }
         }
 
         foreach ($bundles as $bundle) {
           $controller = hr_paragraphs_load_keyfigure_controller($bundle);
           $controller->invalidateCache();
+        }
+
+        if (!empty($groups)) {
+          $this->getLogger('debug')->notice('groups:' . print_r($groups, TRUE));
+
+          $combined = [];
+          $existing = $this->state()->get('hr_paragraphs_mailchimp_group_ids', []);
+
+          if (empty($existing)) {
+            $combined = $groups;
+          }
+          else {
+            foreach ($groups as $id => $info) {
+              if (isset($existing[$id])) {
+                $combined[$id]['new'] = array_merge($groups[$id]['new'], $existing[$id]['new']);
+                $combined[$id]['updated'] = array_merge($groups[$id]['updated'], $existing[$id]['updated']);
+              }
+              else {
+                $combined[$id] = $info;
+              }
+            }
+          }
+
+          $this->state()->set('hr_paragraphs_mailchimp_group_ids', $combined);
         }
       }
     }

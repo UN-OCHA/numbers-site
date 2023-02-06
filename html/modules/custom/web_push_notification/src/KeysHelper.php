@@ -14,16 +14,22 @@ class KeysHelper {
   const SETTINGS = 'web_push_notification.settings';
 
   /**
+   * Config.
+   *
    * @var \Drupal\Core\Config\Config
    */
   protected $config;
 
   /**
+   * Public key.
+   *
    * @var string
    */
   private $publicKey;
 
   /**
+   * Private key.
+   *
    * @var string
    */
   private $privateKey;
@@ -83,6 +89,7 @@ class KeysHelper {
    * Returns whether keys (public and private) defined.
    *
    * @return bool
+   *   Are the keys defined.
    */
   public function isKeysDefined() {
     $public = $this->getPublicKey();
@@ -99,6 +106,7 @@ class KeysHelper {
    *   When public or/and private keys isn't defined.
    *
    * @return array
+   *   VAPID info.
    */
   public function getVapidAuth() {
     $this->validateKeys();
@@ -106,7 +114,7 @@ class KeysHelper {
     return [
       'VAPID' => [
         'subject' => Url::fromRoute('<front>', [], [
-          'absolute' => TRUE
+          'absolute' => TRUE,
         ])->toString(),
         'publicKey' => $this->getPublicKey(),
         'privateKey' => $this->getPrivateKey(),

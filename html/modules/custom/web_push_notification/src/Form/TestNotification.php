@@ -20,11 +20,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class TestNotification extends FormBase {
 
   /**
+   * Key helper.
+   *
    * @var \Drupal\web_push_notification\KeysHelper
    */
   protected $keysHelper;
 
   /**
+   * Queue.
+   *
    * @var \Drupal\web_push_notification\NotificationQueue
    */
   protected $queue;
@@ -161,13 +165,6 @@ class TestNotification extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $item = new NotificationItem();
     $item->title = $form_state->getValue('title');
@@ -176,11 +173,10 @@ class TestNotification extends FormBase {
 
     $item->url = $form_state->getValue('url');
     if (empty($item->url)) {
-        $item->url = Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString();
+      $item->url = Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString();
     }
 
-    // TODO: make a batch process.
-
+    // @todo make a batch process.
     $this->queue->startWithItem($item);
     $queue = $this->queue->getQueue();
     $worker = $this->queueWorkerManger->createInstance('web_push_queue');

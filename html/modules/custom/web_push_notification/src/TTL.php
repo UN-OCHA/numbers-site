@@ -9,6 +9,7 @@ class TTL {
 
   /**
    * TTL pattern.
+   *
    * Accepts plain number value it's treated as minutes.
    * Suffix 'h' is treated as hours.
    * Suffix 'd' is treated as days.
@@ -22,6 +23,7 @@ class TTL {
    *   The TTL value.
    *
    * @return bool
+   *   Is it valid.
    */
   public function validate($value) {
     return preg_match(self::PATTERN, $value);

@@ -23,6 +23,8 @@ class NotificationQueue {
   protected $queue;
 
   /**
+   * Entity type manager.
+   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityManager;
@@ -35,6 +37,8 @@ class NotificationQueue {
   protected $config;
 
   /**
+   * Module handler.
+   *
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   protected $moduleHandler;
@@ -141,7 +145,7 @@ class NotificationQueue {
   /**
    * Returns an icon url from the entity field.
    *
-   * @param \Drupal\Core\Field\FieldItemList $field
+   * @param \Drupal\Core\Field\FieldItemList|mixed $field
    *   The entity field.
    *
    * @return string
@@ -155,6 +159,7 @@ class NotificationQueue {
       $file = reset($entities);
       return $file->toUrl();
     }
+
     return '';
   }
 

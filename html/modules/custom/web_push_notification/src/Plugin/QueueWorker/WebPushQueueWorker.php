@@ -2,11 +2,11 @@
 
 namespace Drupal\web_push_notification\Plugin\QueueWorker;
 
-use Drupal\Core\Annotation\QueueWorker;
-use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Queue\QueueWorkerBase;
 
 /**
+ * Queue worker.
+ *
  * @QueueWorker(
  *   id = "web_push_queue",
  *   title = @Translation("Web Push notification sender"),
