@@ -1,0 +1,260 @@
+<?php
+
+/**
+ * @file
+ * Response Mailchimp module file.
+ */
+
+use Drupal\Core\Site\Settings;
+use Drupal\group\Entity\Group;
+use GuzzleHttp\Exception\BadResponseException;
+use MailchimpMarketing\ApiClient;
+
+/**
+ * Implements hook_preprocess_paragraph__type().
+ */
+function hr_mailchimp_preprocess_paragraph__email_alerts(&$variables) {
+  $view_mode = $variables['view_mode'];
+  if ($view_mode === 'preview') {
+    $variables['content']['empty_indicator'] = [
+      '#type' => 'markup',
+      '#markup' => t('Sign up form'),
+      '#weight' => -100,
+      '#prefix' => '<div class="paragraph-empty-indicator">',
+      '#suffix' => '</div>',
+    ];
+
+    return;
+  }
+
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $selected_countries = [];
+
+  if ($paragraph->hasField('field_countries')) {
+    foreach ($paragraph->field_countries->referencedEntities() as $group) {
+      $selected_countries[$group->id()] = $group->id();
+    }
+  }
+
+  $variables['content']['form'] = \Drupal::formBuilder()->getForm('Drupal\hr_mailchimp\Form\HrMailchimpAlertForm', $selected_countries);
+}
+
+/**
+ * Add or update user.
+ */
+function hr_mailchimp_subscribe_to_alerts(string $email, array $tags) {
+  $prefix = Settings::get('hr_mailchimp_prefix');
+  $list_id = Settings::get('hr_mailchimp_list_id');
+  $api_key = Settings::get('hr_mailchimp_api_key');
+
+  $tags[] = 'Num - alerts';
+
+  // All are mandatory.
+  if (empty($prefix) || empty($list_id) || empty($tags) || empty($api_key)) {
+    return FALSE;
+  }
+
+  $client = new ApiClient();
+  $client->setConfig([
+    'apiKey' => $api_key,
+    'server' => $prefix,
+  ]);
+
+  try {
+    $response = $client->lists->setListMember($list_id, $email, [
+      'email_address' => $email,
+      'status_if_new' => 'subscribed',
+      'skip_merge_validation' => TRUE,
+      'tags' => $tags,
+    ]);
+
+    if ($response->id) {
+      \Drupal::logger('hr_mailchimp')->info('@email added to MailChimp (@tags)', [
+        '@email' => $email,
+        '@tags' => implode(', ', $tags),
+      ]);
+
+      return TRUE;
+    }
+    else {
+      \Drupal::logger('hr_mailchimp')->notice('@email was not added to MailChimp (@tags)', [
+        '@email' => $email,
+        '@tags' => implode(', ', $tags),
+      ]);
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('hr_mailchimp')->error('Unable to add @email to MailChimp (@tags), @error', [
+      '@email' => $email,
+      '@tags' => implode(', ', $tags),
+      '@error' => $e->getMessage(),
+    ]);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Get all tags on mailchimp.
+ */
+function hr_mailchimp_get_tags() {
+  $prefix = Settings::get('hr_mailchimp_prefix');
+  $list_id = Settings::get('hr_mailchimp_list_id');
+  $api_key = Settings::get('hr_mailchimp_api_key');
+
+  $tags = [];
+
+  // All are mandatory.
+  if (empty($prefix) || empty($list_id) || empty($api_key)) {
+    return FALSE;
+  }
+
+  $client = new ApiClient();
+  $client->setConfig([
+    'apiKey' => $api_key,
+    'server' => $prefix,
+  ]);
+
+  try {
+    $response = $client->lists->tagSearch($list_id, 'Num -');
+
+    if ($response->tags) {
+      foreach ($response->tags as $tag) {
+        $tags[$tag->id] = $tag->name;
+      }
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('hr_mailchimp')->error('Unable to get tags, @error', [
+      '@error' => $e->getMessage(),
+    ]);
+  }
+
+  return $tags;
+}
+
+/**
+ * Send an email to a group.
+ */
+function hr_mailchimp_send_mail(Group $group, array $new = [], array $updated = []) {
+  $prefix = Settings::get('hr_mailchimp_prefix');
+  $list_id = Settings::get('hr_mailchimp_list_id');
+  $api_key = Settings::get('hr_mailchimp_api_key');
+  $from = Settings::get('hr_mailchimp_sender');
+
+  // All are mandatory.
+  if (empty($prefix) || empty($list_id) || empty($api_key)) {
+    return FALSE;
+  }
+
+  $tags = hr_mailchimp_get_tags();
+  $tags = array_flip($tags);
+
+  if (!isset($tags['Num - ' . $group->id()])) {
+    return;
+  }
+
+  $subject = 'New figures available for ' . $group->label();
+  $body = [];
+  $body[] = 'Dear,';
+  $body[] = '';
+  $body[] = 'There are new or updated numbers available for ' . $group->label();
+  $body[] = 'Have a look at ' . $group->toUrl('canonical', ['absolute' => TRUE])->toString();
+
+  if (!empty($new)) {
+    $body[] = '';
+    $body[] = '';
+    $body[] = 'New numbers:';
+    $body[] = '';
+    foreach ($new as $record) {
+      $body[] = '- ' . $record['data']['name'] . ': ' . $record['data']['value'] . ' has been added.';
+    }
+  }
+
+  if (!empty($updated)) {
+    $body[] = '';
+    $body[] = '';
+    $body[] = 'Updated numbers:';
+    $body[] = '';
+    foreach ($updated as $record) {
+      $body[] = '- ' . $record['data']['name'] . ' is changed from ' . $record['old_value'] . ' to ' . $record['new_value'];
+    }
+  }
+
+  $conditions = [
+    [
+      'condition_type' => 'StaticSegment',
+      'field' => 'static_segment',
+      'op' => 'static_is',
+      'value' => $tags['Num - ' . $group->id()],
+    ],
+  ];
+
+  $client = new ApiClient();
+  $client->setConfig([
+    'apiKey' => $api_key,
+    'server' => $prefix,
+  ]);
+
+  try {
+    $response = $client->campaigns->create([
+      'type' => 'regular',
+      'recipients' => [
+        'list_id' => $list_id,
+        'segment_opts' => [
+          'conditions' => $conditions,
+        ],
+      ],
+      'settings' => [
+        'subject_line' => $subject,
+        'title' => date('Y-m-d') . ' - ' . $subject,
+        'reply_to' => $from,
+        'from_name' => 'Reliefweb Numbers',
+      ],
+    ]);
+
+    $campaign_id = $response->id;
+    $response = $client->campaigns->setContent($campaign_id, [
+      'plain_text' => implode("\n", $body),
+      'html' => '<p>' . implode("</p>\n<p>", $body) . '</p>',
+    ]);
+
+    $response = $client->campaigns->getSendChecklist($campaign_id);
+    if ($response->is_ready) {
+      $response = $client->campaigns->send($campaign_id);
+    }
+
+  }
+  catch (BadResponseException $e) {
+    \Drupal::logger('hr_mailchimp')->error('Unable to send campaign, @error', [
+      '@error' => $e->getResponse()->getBody()->getContents(),
+    ]);
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('hr_mailchimp')->error('Unable to send campaign, @error', [
+      '@error' => $e->getMessage(),
+    ]);
+  }
+
+}
+
+/**
+ * Implements hook_cron().
+ */
+function hr_mailchimp_cron() {
+  $group_info = \Drupal::state()->get('hr_paragraphs_mailchimp_group_ids', []);
+  if (empty($group_info)) {
+    return;
+  }
+
+  $groups = Group::loadMultiple(array_keys(($group_info)));
+  foreach ($groups as $group) {
+    $new = $group_info[$group->id()]['new'] ?? [];
+    $updated = $group_info[$group->id()]['updated'] ?? [];
+    hr_mailchimp_send_mail($group, $new, $updated);
+  }
+
+  // Reset state.
+  \Drupal::state()->set('hr_paragraphs_mailchimp_group_ids', []);
+}

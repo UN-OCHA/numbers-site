@@ -21,7 +21,7 @@ class InformKeyFiguresController extends BaseKeyFiguresController {
   public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
     parent::__construct($http_client, $cache);
 
-    $this->apiUrl .= 'inform/';
+    $this->apiUrl .= 'inform-risk/';
   }
 
 }

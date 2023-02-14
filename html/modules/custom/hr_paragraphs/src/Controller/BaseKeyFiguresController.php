@@ -57,6 +57,13 @@ class BaseKeyFiguresController extends ControllerBase {
   protected $cacheDuration = 60 * 60;
 
   /**
+   * Financial data.
+   *
+   * @var bool
+   */
+  protected $financialData = FALSE;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(ClientInterface $http_client, CacheBackendInterface $cache) {
@@ -65,6 +72,13 @@ class BaseKeyFiguresController extends ControllerBase {
 
     $this->apiUrl = $this->config('hr_paragraphs.settings')->get('ocha_api_url');
     $this->apiKey = $this->config('hr_paragraphs.settings')->get('ocha_api_key');
+  }
+
+  /**
+   * Is financial data.
+   */
+  public function isFinancial() {
+    return $this->financialData;
   }
 
   /**
@@ -78,7 +92,7 @@ class BaseKeyFiguresController extends ControllerBase {
    * @return array<string, mixed>
    *   Raw results.
    */
-  public function getKeyFigures(string $iso3, $year) : array {
+  public function getKeyFigures(string $iso3, $year = '') : array {
     $query = [
       'iso3' => $iso3,
     ];
@@ -100,25 +114,26 @@ class BaseKeyFiguresController extends ControllerBase {
 
     foreach ($data as &$row) {
       $row['date'] = new \DateTime($row['year'] . '-01-01');
-    }
-
-    if (!$grouped) {
-      $results = [];
-      foreach ($data as $row) {
-        $results[$row['name']] = $row;
+      if (isset($row['updated']) && !empty($row['updated'])) {
+        $row['date'] = new \DateTime(substr($row['updated'], 0, 10));
       }
-
-      return $results;
     }
 
     $results = [];
-    foreach ($data as $row) {
-      if (!isset($results[$row['name']])) {
+    if (!$grouped) {
+      foreach ($data as $row) {
         $results[$row['name']] = $row;
-        $results[$row['name']]['values'] = [$row];
       }
-      else {
-        $results[$row['name']]['values'][] = $row;
+    }
+    else {
+      foreach ($data as $row) {
+        if (!isset($results[$row['name']])) {
+          $results[$row['name']] = $row;
+          $results[$row['name']]['values'] = [$row];
+        }
+        else {
+          $results[$row['name']]['values'][] = $row;
+        }
       }
     }
 
@@ -416,6 +431,14 @@ class BaseKeyFiguresController extends ControllerBase {
     $this->cacheBackend->set($cid, $years, time() + $this->cacheDuration);
 
     return $years;
+  }
+
+  /**
+   * Invalidate cache.
+   */
+  public function invalidateCache() {
+    $this->cacheBackend->invalidate($this->cacheId . ':countries');
+    $this->cacheBackend->invalidate($this->cacheId . ':years');
   }
 
 }

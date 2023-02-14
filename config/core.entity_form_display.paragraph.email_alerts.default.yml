@@ -1,0 +1,41 @@
+uuid: aa74d92d-2d0c-43a5-8627-a0ad297e54bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.email_alerts.field_countries
+    - field.field.paragraph.email_alerts.field_text
+    - field.field.paragraph.email_alerts.field_title
+    - paragraphs.paragraphs_type.email_alerts
+  module:
+    - text
+id: paragraph.email_alerts.default
+targetEntityType: paragraph
+bundle: email_alerts
+mode: default
+content:
+  field_countries:
+    type: options_buttons
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_text:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

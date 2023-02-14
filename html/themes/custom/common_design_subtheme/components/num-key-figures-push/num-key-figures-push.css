@@ -1,0 +1,24 @@
+/**
+ * Styles for push-enabled browsers. These styles will apply regardless of how
+ * the user grants permissions for the page to send push notifications.
+ */
+[data-push-allowed] {
+  position: relative;
+}
+
+[data-push-allowed] .field--name-field-title {
+  margin-inline-end: 110px;
+}
+
+[data-push-allowed] button[data-push-id] {
+  position: absolute;
+  top: 3px;
+}
+
+[dir=ltr] [data-push-allowed] button[data-push-id] {
+  right: 0;
+}
+
+[dir=rtl] [data-push-allowed] button[data-push-id] {
+  left: 0;
+}
