@@ -4,6 +4,49 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.1.5](https://github.com/UN-OCHA/numbers-site/compare/0.1.4...v0.1.5) (2023-02-14)
+
+### Features
+
+* Featured numbers on pages [#NUM-64](https://https://humanitarian.atlassian.net/browse/NUM-64) ([090a87](https://github.com/UN-OCHA/numbers-site/commit/090a87587ad9237ce88b769e11d33870445420a7))
+* Featured numbers with sparklines on pages [#NUM-64](https://https://humanitarian.atlassian.net/browse/NUM-64) ([49e76e](https://github.com/UN-OCHA/numbers-site/commit/49e76e860a290f7d41f00cbbca240edd788b5465))
+* Inform risk [#OHA-17](https://https://humanitarian.atlassian.net/browse/OHA-17) ([b10f35](https://github.com/UN-OCHA/numbers-site/commit/b10f35b21457568ad8437d0a785684028ad3fa32))
+* Listen for changes and clear cache [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([f60c05](https://github.com/UN-OCHA/numbers-site/commit/f60c0543fb52b906808716d3f684b0f8167e96b5))
+* Mailchimp integration [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([0b7676](https://github.com/UN-OCHA/numbers-site/commit/0b7676741ffa26eb3e9941abf559772c7ab6a692), [19e807](https://github.com/UN-OCHA/numbers-site/commit/19e807c34c65513e431307668d71f25d479a7e6f), [966b88](https://github.com/UN-OCHA/numbers-site/commit/966b882a4a706560cc03daff951dd7a3e1a197a2), [b85957](https://github.com/UN-OCHA/numbers-site/commit/b85957afc7b0f6561bf18fc429348de40d23fdef), [b86272](https://github.com/UN-OCHA/numbers-site/commit/b8627251933b24a906054c889b16dd44a156fef5))
+* Skip archived figures for RW [#NUM-74](https://https://humanitarian.atlassian.net/browse/NUM-74) ([ec7e57](https://github.com/UN-OCHA/numbers-site/commit/ec7e575ba952b97bf4b9eae9b6c12f5f1fbb3024))
+* Use GH [#OPS-9006](https://https://humanitarian.atlassian.net/browse/OPS-9006) ([11923c](https://github.com/UN-OCHA/numbers-site/commit/11923c04b96073747c5d5abc6fc1c949eec0797e))
+* Use updated for date if present [#NUM-75](https://https://humanitarian.atlassian.net/browse/NUM-75) ([b53ff5](https://github.com/UN-OCHA/numbers-site/commit/b53ff5bb06e26945c53cff50c5a8c80fa363e4ad))
+* Web push [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([0dbde2](https://github.com/UN-OCHA/numbers-site/commit/0dbde23025591e3e9f225a1644409103a724ced6), [6f641a](https://github.com/UN-OCHA/numbers-site/commit/6f641a95de28cc5d58c0d2f433afc433ccf66724), [2797f8](https://github.com/UN-OCHA/numbers-site/commit/2797f818a190c74f6c3589963648eebd1c94cdfe), [18e0ff](https://github.com/UN-OCHA/numbers-site/commit/18e0ff0e14cb2881ffff327544d5cbb9925c7cbf))
+* Web push config [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([3796b5](https://github.com/UN-OCHA/numbers-site/commit/3796b5e60280bd13f750e7df689e8fe1c8d1a1e9), [e3edbb](https://github.com/UN-OCHA/numbers-site/commit/e3edbb86de51a35627963eea096f7e31b6306cdb))
+
+### Bug Fixes
+
+* Prevent duplicate buttons from repeated execution of Behavior ([a85734](https://github.com/UN-OCHA/numbers-site/commit/a85734905e06e64838b5e80627ea27d4590a7459))
+
+##### Push
+
+* Disable old SW ([45f658](https://github.com/UN-OCHA/numbers-site/commit/45f65888cfc290a0e305893f5f26de22b2e24600))
+* Explicit then/catch for SW registration ([167150](https://github.com/UN-OCHA/numbers-site/commit/16715024e8414c1033388ab779141eb3405d851f))
+* Force HTTPs when building drupal.settings push config ([0bde80](https://github.com/UN-OCHA/numbers-site/commit/0bde80c5ef392998f1b53efdeded13245f138779))
+* Position push buttons in the upper corner away from title ([6d4953](https://github.com/UN-OCHA/numbers-site/commit/6d4953d95d84bf09760a880ce276d14c4dff5642))
+* Style user-facing buttons with CD ([e41ac2](https://github.com/UN-OCHA/numbers-site/commit/e41ac23b086f7591630f432469b4b7e695fba15e))
+
+### Chores
+
+* Add dockerignore and update dockerfile ([8d0d40](https://github.com/UN-OCHA/numbers-site/commit/8d0d40fd5348e06734f508cd2057f1bdfd82a3fd))
+* Add methods ([502ac1](https://github.com/UN-OCHA/numbers-site/commit/502ac1f49377ce7f65ec86887ec4753ca0ffdad9))
+* CS ([1c3251](https://github.com/UN-OCHA/numbers-site/commit/1c3251495c4c853b90e4a7b04b959788ae7f00fa))
+* Disable rule Squiz.Arrays.ArrayDeclaration.NoKeySpecified ([4c6a65](https://github.com/UN-OCHA/numbers-site/commit/4c6a65ce505c0a34aa81cfb7667b931f95a0da74))
+* Prep group update ([3af618](https://github.com/UN-OCHA/numbers-site/commit/3af618261db12ff2718d8542349552f847a8c408), [42b0a8](https://github.com/UN-OCHA/numbers-site/commit/42b0a8e6ceeccf4775f29909b14c8fc132a0c73e))
+* Remove console ([c3ad54](https://github.com/UN-OCHA/numbers-site/commit/c3ad54c232d81ace0bb0f530719c5e8926e8b5cc))
+* Remove travis [#OPS-9006](https://https://humanitarian.atlassian.net/browse/OPS-9006) ([eee898](https://github.com/UN-OCHA/numbers-site/commit/eee8986e71693667b6bccb3495fc263959ce4de0))
+* Update all outdated drupal/* packages. ([ad89b9](https://github.com/UN-OCHA/numbers-site/commit/ad89b91d790ca9aa0e8a5be66d5eced01740a678), [c99466](https://github.com/UN-OCHA/numbers-site/commit/c99466de4301a9dbc3392a3e1e73bb93600f287c))
+* Update patches ([7550ac](https://github.com/UN-OCHA/numbers-site/commit/7550ac53954576f3c2a756153bcb9ff6623ef180))
+
+##### Deps
+
+* Bump debug, babel-jest, jest and svg-sprite ([f06bd2](https://github.com/UN-OCHA/numbers-site/commit/f06bd2e2c8d8afcb68026bd8cd68425d7ee0d927))
+
 ## [0.1.3](https://github.com/UN-OCHA/numbers-site/compare/0.1.2...v0.1.3) (2022-12-19)
 
 ### Features
