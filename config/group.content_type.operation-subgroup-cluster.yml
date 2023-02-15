@@ -8,11 +8,8 @@ dependencies:
   module:
     - subgroup
 id: operation-subgroup-cluster
-label: 'Cluster or Working Group'
-description: 'Adds <em class="placeholder">Cluster or Working Group</em> as subgroups.'
 group_type: operation
 content_plugin: 'subgroup:cluster'
 plugin_config:
   group_cardinality: 1
   entity_cardinality: 1
-  use_creation_wizard: false

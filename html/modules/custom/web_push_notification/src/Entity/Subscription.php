@@ -110,14 +110,27 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
    * {@inheritdoc}
    */
   public function getParaIds() {
-    return $this->get('para_ids')->value;
+    return $this->get('para_ids')->value ?? '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getParaIdsArray() {
+    return explode(',', $this->getParaIds());
   }
 
   /**
    * {@inheritdoc}
    */
   public function setParaIds($para_ids) {
+    if (is_array($para_ids)) {
+      $para_ids = array_unique($para_ids);
+      $para_ids = implode(',', $para_ids);
+    }
+
     $this->set('para_ids', $para_ids);
+
     return $this;
   }
 
@@ -125,11 +138,11 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
    * {@inheritdoc}
    */
   public function addParaId($para_id) {
-    $para_ids = $this->get('para_ids')->value;
-    $para_ids = explode(',', $para_ids);
+    $para_ids = $this->getParaIdsArray();
     $para_ids[] = $para_id;
-    $para_ids = array_unique($para_ids);
-    $this->set('para_ids', $para_ids);
+
+    $this->setParaIds($para_ids);
+
     return $this;
   }
 
@@ -137,14 +150,16 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
    * {@inheritdoc}
    */
   public function removeParaId($para_id) {
-    $para_ids = $this->get('para_ids')->value;
-    $para_ids = explode(',', $para_ids);
+    if (empty($para_id)) {
+      return $this;
+    }
+
+    $para_ids = $this->getParaIdsArray();
 
     if ($index = array_search($para_id, $para_ids)) {
       unset($para_ids[$index]);
     }
 
-    $para_ids = array_unique($para_ids);
     $this->set('para_ids', $para_ids);
     return $this;
   }

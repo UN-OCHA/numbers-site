@@ -99,6 +99,7 @@ class WebPushNotificationController extends ControllerBase {
 
     $subscription = FALSE;
     $input = json_decode($request->getContent(), TRUE);
+
     $key = $input['key'];
     $token = $input['token'];
     $endpoint = $input['endpoint'];
@@ -126,7 +127,7 @@ class WebPushNotificationController extends ControllerBase {
         }
       }
       if ($subscription) {
-        return new JsonResponse(['para_ids' => $subscription->para_ids->value]);
+        return new JsonResponse(['para_ids' => $subscription->getParaIds()]);
       }
     }
     else {
@@ -170,7 +171,7 @@ class WebPushNotificationController extends ControllerBase {
   }
 
   /**
-   * Add a pragraph id.
+   * Add a paragraph id.
    */
   public function update(Request $request) {
     // Cannot accept a user confirmation when push keys are empty.

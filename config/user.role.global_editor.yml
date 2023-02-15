@@ -43,7 +43,6 @@ permissions:
   - 'administer taxonomy'
   - 'administer url aliases'
   - 'administer users'
-  - 'bypass group access'
   - 'bypass node access'
   - 'create landing_page content'
   - 'create operation group'
