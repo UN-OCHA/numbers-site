@@ -4,6 +4,10 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.1.6](https://github.com/UN-OCHA/numbers-site/compare/0.1.5...v0.1.6) (2023-02-15)
+
+* Update groups 2
+
 ## [0.1.5](https://github.com/UN-OCHA/numbers-site/compare/0.1.4...v0.1.5) (2023-02-14)
 
 ### Features
