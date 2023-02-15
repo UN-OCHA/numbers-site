@@ -1044,8 +1044,6 @@ function hr_paragraphs_allowed_years(FieldStorageConfig $definition, ContentEnti
   $controller = hr_paragraphs_load_keyfigure_controller_by_entity($entity);
 
   if (!$controller) {
-    \Drupal::logger('years')->alert('controller not found 1');
-    \Drupal::logger('years')->error($entity->bundle());
     return [];
   }
 
@@ -1067,11 +1065,9 @@ function hr_paragraphs_allowed_countries(FieldStorageConfig $definition, Content
   $controller = hr_paragraphs_load_keyfigure_controller_by_entity($entity);
 
   if (!$controller) {
-    \Drupal::logger('countries')->alert('controller not found 2');
-    \Drupal::logger('countries')->error($entity->bundle());
     return [];
   }
-  \Drupal::logger('countries')->error($entity->bundle());
+
   return $controller->getCountries();
 }
 
@@ -1083,8 +1079,6 @@ function hr_paragraphs_allowed_figures(FieldStorageConfig $definition, ContentEn
   $controller = hr_paragraphs_load_keyfigure_controller_by_entity($entity);
 
   if (!$controller) {
-    \Drupal::logger('figures')->alert('controller not found 3');
-    \Drupal::logger('figures')->error($entity->bundle());
     return [];
   }
 
@@ -1104,7 +1098,7 @@ function hr_paragraphs_allowed_figures(FieldStorageConfig $definition, ContentEn
 
   $figures = $controller->getKeyFigures($iso3, $year);
   $figures = array_keys($figures);
-  \Drupal::logger('allowed figures')->alert(print_r($figures, TRUE));
+
   return array_combine($figures, $figures);
 }
 

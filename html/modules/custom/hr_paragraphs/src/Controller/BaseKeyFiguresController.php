@@ -107,17 +107,17 @@ class BaseKeyFiguresController extends ControllerBase {
 
     $data = $this->getData('', $query);
 
-    // Sort the values by newest first.
-    usort($data, function ($a, $b) {
-      return strcmp($b['year'], $a['year']);
-    });
-
     foreach ($data as &$row) {
       $row['date'] = new \DateTime($row['year'] . '-01-01');
       if (isset($row['updated']) && !empty($row['updated'])) {
         $row['date'] = new \DateTime(substr($row['updated'], 0, 10));
       }
     }
+
+    // Sort the values by newest first.
+    usort($data, function ($a, $b) {
+      return (int) ($b['date'] > $a['date']);
+    });
 
     $results = [];
     if (!$grouped) {
@@ -308,6 +308,15 @@ class BaseKeyFiguresController extends ControllerBase {
     if ($max === $min) {
       return NULL;
     }
+
+    // Sort the values by newest first.
+    usort($values, function ($a, $b) {
+      if (isset($a['updated']) && isset($b['updated'])) {
+        return strcmp($b['updated'], $a['updated']);
+      }
+
+      return (int) ($b['date'] > $a['date']);
+    });
 
     // The values are ordered by newest first. We retrieve the number of
     // days between the newest and oldest days for the x axis.
