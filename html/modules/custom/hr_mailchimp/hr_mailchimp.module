@@ -37,6 +37,9 @@ function hr_mailchimp_preprocess_paragraph__email_alerts(&$variables) {
     }
   }
 
+  // Sort countries.
+  asort($selected_countries);
+
   $variables['content']['form'] = \Drupal::formBuilder()->getForm('Drupal\hr_mailchimp\Form\HrMailchimpAlertForm', $selected_countries);
 }
 
@@ -64,7 +67,7 @@ function hr_mailchimp_subscribe_to_alerts(string $email, array $tags) {
   try {
     $response = $client->lists->setListMember($list_id, $email, [
       'email_address' => $email,
-      'status_if_new' => 'subscribed',
+      'status_if_new' => 'pending',
       'skip_merge_validation' => TRUE,
       'tags' => $tags,
     ]);
