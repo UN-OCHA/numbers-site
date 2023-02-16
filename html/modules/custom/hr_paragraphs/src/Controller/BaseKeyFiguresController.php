@@ -221,9 +221,12 @@ class BaseKeyFiguresController extends ControllerBase {
     if ($sparklines) {
       foreach ($figures as $index => $figure) {
         if (isset($figure['values'])) {
-          $figure['trend'] = $this->getKeyFigureTrend($figure['values']);
-          $figure['sparkline'] = $this->getKeyFigureSparkline($figure['values']);
+          if (!isset($figure['valueType']) || $figure['valueType'] === 'numeric') {
+            $figure['trend'] = $this->getKeyFigureTrend($figure['values']);
+            $figure['sparkline'] = $this->getKeyFigureSparkline($figure['values']);
+          }
         }
+
         $figures[$index] = $figure;
       }
     }
