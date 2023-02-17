@@ -41,6 +41,7 @@ function hr_mailchimp_preprocess_paragraph__email_alerts(&$variables) {
   asort($selected_countries);
 
   $variables['content']['form'] = \Drupal::formBuilder()->getForm('Drupal\hr_mailchimp\Form\HrMailchimpAlertForm', $selected_countries);
+  $variables['content']['form']['#weight'] = 99;
 }
 
 /**

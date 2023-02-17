@@ -61,7 +61,7 @@ class HrMailchimpAlertForm extends FormBase {
 
     $form['groups'] = [
       '#type' => 'checkboxes',
-      '#title' => $this->t('Locations'),
+      '#title' => $this->t('Select the locations you want to get an alert for.'),
       '#options' => $options,
       '#default_value' => [],
       '#required' => TRUE,
