@@ -1,8 +1,8 @@
-name: HR.info public
+name: Numbers public
 type: theme
-description: HR.info public theme, an OCHA Common Design subtheme
-core_version_requirement: ^8.8 || ^9
-package: HR.info
+description: Numbers public theme, an OCHA Common Design subtheme
+core_version_requirement: ^9.5 || ^10
+package: Numbers
 base theme: common_design
 logo: 'img/logos/numbers-logo.svg'
 
