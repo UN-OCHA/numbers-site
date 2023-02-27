@@ -61,7 +61,7 @@ class HrMailchimpAlertForm extends FormBase {
 
     $form['groups'] = [
       '#type' => 'checkboxes',
-      '#title' => $this->t('Locations'),
+      '#title' => $this->t('Select the locations you want to get an alert for.'),
       '#options' => $options,
       '#default_value' => [],
       '#required' => TRUE,
@@ -126,7 +126,7 @@ class HrMailchimpAlertForm extends FormBase {
     }
 
     if (hr_mailchimp_subscribe_to_alerts($email, $tags)) {
-      $this->messenger()->addMessage($this->t('Succesfully subscribed, you will get an alerts when numbers are updated.'));
+      $this->messenger()->addMessage($this->t('Succesfully subscribed, you will get an alert when numbers are updated. Do not forget to confirm your subscription.'));
     }
     else {
       $this->messenger()->addWarning($this->t('We were unable to subscribe you, please try again later.'));

@@ -4,6 +4,14 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.2.0](https://github.com/UN-OCHA/numbers-site/compare/0.1.6...v0.2.0) (2023-02-21)
+
+### Features
+
+* Allow string data [#OHA-30](https://https://humanitarian.atlassian.net/browse/OHA-30) ([b4b3ec](https://github.com/UN-OCHA/numbers-site/commit/b4b3ec79e37c8deac73675af8ef0ff7cad616f68))
+* Change label for locations [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([6fedbd](https://github.com/UN-OCHA/numbers-site/commit/6fedbdf38978ec6d3203dddf482644dfe151440d))
+* Mail confirm [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([0ad705](https://github.com/UN-OCHA/numbers-site/commit/0ad705094520017decde33914fae15f6e54dcc4b))
+
 ## [0.1.6](https://github.com/UN-OCHA/numbers-site/compare/0.1.5...v0.1.6) (2023-02-15)
 
 * Update groups 2

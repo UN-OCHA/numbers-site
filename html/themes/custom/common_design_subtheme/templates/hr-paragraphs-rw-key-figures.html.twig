@@ -10,7 +10,8 @@
         <figcaption class="rw-key-figures__figure__label">{{ figure.name }}</figcaption>
         <div class="rw-key-figures__figure__content">
           <p>
-            <data value="{{ figure.value }}" class="rw-key-figures__figure__value">{{ figure.prefix }}{{ figure.value|number_format }}{{ figure.suffix }}</data>
+            {% set value = figure.valueType == 'string' ? figure.value : figure.value|number_format %}
+            <data value="{{ value }}" class="rw-key-figures__figure__value">{{ figure.prefix }}{{ value }}{{ figure.suffix }}</data>
             {% if figure.trend %}
               <small class="rw-key-figures__figure__trend"><span class="rw-key-figures__figure__trend__message">{{ figure.trend.message }}</span> <span class="rw-key-figures__figure__trend__since">{{ figure.trend.since }}</span></small>
             {% endif %}
