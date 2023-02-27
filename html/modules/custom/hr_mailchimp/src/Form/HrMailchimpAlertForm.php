@@ -106,6 +106,9 @@ class HrMailchimpAlertForm extends FormBase {
       $options[$group->id()] = $group->label();
     }
 
+    // Sort them.
+    natcasesort($options);
+
     return $options;
   }
 
