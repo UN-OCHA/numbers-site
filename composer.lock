@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0af2a86d432e8ae68deda079b39d4e68",
+    "content-hash": "014779a77eec042db63c7acf058378a5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -12229,7 +12229,7 @@
                 "reference": "fe246e3d4e2cddbbf1e812b59ad20449402fd176"
             },
             "require": {
-                "drupal/core": "^8 || ^9"
+                "drupal/core": "^8.9 || ^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
@@ -12237,8 +12237,8 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0-alpha9+2-dev",
-                    "datestamp": "1666875112",
+                    "version": "8.x-1.0-alpha9+3-dev",
+                    "datestamp": "1676563211",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
