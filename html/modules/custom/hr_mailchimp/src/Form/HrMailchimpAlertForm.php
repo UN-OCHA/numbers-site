@@ -65,6 +65,11 @@ class HrMailchimpAlertForm extends FormBase {
       '#options' => $options,
       '#default_value' => [],
       '#required' => TRUE,
+      '#attributes' => [
+        'class' => [
+          'grid--locations',
+        ],
+      ],
     ];
 
     $form['actions'] = [
