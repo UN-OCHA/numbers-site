@@ -67,3 +67,8 @@
   vertical-align: middle;
   background: transparent url("../components/rw-brand/rw-icons-sprite.svg") -84px -108px no-repeat;
 }
+
+.grid--locations .form-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
