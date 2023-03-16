@@ -65,6 +65,11 @@ class HrMailchimpAlertForm extends FormBase {
       '#options' => $options,
       '#default_value' => [],
       '#required' => TRUE,
+      '#attributes' => [
+        'class' => [
+          'grid--locations',
+        ],
+      ],
     ];
 
     $form['actions'] = [
@@ -105,6 +110,9 @@ class HrMailchimpAlertForm extends FormBase {
     foreach ($groups as $group) {
       $options[$group->id()] = $group->label();
     }
+
+    // Sort them.
+    natcasesort($options);
 
     return $options;
   }

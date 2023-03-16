@@ -67,3 +67,28 @@
   vertical-align: middle;
   background: transparent url("../components/rw-brand/rw-icons-sprite.svg") -84px -108px no-repeat;
 }
+
+/**
+ * Organize the email alert checkboxes.
+ *
+ * Aside from the columns property, this mostly overrides CD Form defaults.
+ */
+form .grid--locations .form-checkboxes {
+  columns: 1;
+}
+form .grid--locations .form-checkboxes .form-type-checkbox {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+form .grid--locations .form-checkboxes .form-checkbox {
+  margin-block-start: .35rem;
+}
+
+/* expand to 3-col once we have space */
+@media (min-width: 576px) {
+  form .grid--locations .form-checkboxes {
+    columns: 3;
+  }
+}
