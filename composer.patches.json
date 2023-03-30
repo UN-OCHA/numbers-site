@@ -1,7 +1,7 @@
 {
     "patches": {
         "drupal/core" : {
-            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-02-28/2544110-149.patch",
+            "https://www.drupal.org/project/drupal/issues/2544110": "https://www.drupal.org/files/issues/2023-03-13/2544110-151.patch",
             "Include database SSL/TLS info on status report": "./PATCHES/mysql-ssl-status.patch"
         },
         "drupal/csp": {
