@@ -28,6 +28,14 @@ function ocha_key_figures_theme($existing, $type, $theme, $path) {
         'jsonld' => NULL,
       ],
     ],
+    'form_element_label__checkbox' => [
+      'template' => 'form-element-label--checkbox',
+      'render element' => 'element',
+    ],
+    'checkboxes__layout_paragraphs_component_form__field_figures' => [
+      'template' => 'checkboxes--layout-paragraphs-component-form--field-figures',
+      'render element' => 'element',
+    ],
   ];
 }
 
@@ -43,7 +51,7 @@ function ocha_key_figures_preprocess_paragraph__reliefweb_key_figures(&$variable
     $iso3 = $paragraph->field_country->value;
 
     $variables['view_all'] = TRUE;
-    $variables['view_all_info'] =[
+    $variables['view_all_info'] = [
       'href' => 'https://reliefweb.int/country/' . $iso3 . '?figures=all#key-figures',
     ];
   }
@@ -736,6 +744,8 @@ function ocha_key_figures_form_layout_paragraphs_component_form_alter(&$form, Fo
   else {
     $form['field_figures']['widget']['#options'] = [];
   }
+
+  $form['#attached']['library'][] = 'ocha_key_figures/admin';
 }
 
 /**
