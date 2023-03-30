@@ -1,0 +1,6 @@
+name: 'OCHA Key Figures'
+description: 'OCHA Key Figures'
+type: module
+core_version_requirement: ^8 || ^9 || ^10
+dependencies:
+  - paragraphs
