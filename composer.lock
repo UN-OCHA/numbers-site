@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed6e53af5d123da8781d84471297a9fa",
+    "content-hash": "c83f6f097be95e002573d0922817f562",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -9534,6 +9534,36 @@
                 "source": "https://github.com/UN-OCHA/common_design/tree/v8.0.0"
             },
             "time": "2023-02-16T10:40:04+00:00"
+        },
+        {
+            "name": "unocha/ocha_key_figures",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UN-OCHA/ocha_key_figures.git",
+                "reference": "34124633b30d9a03d17c44e62a4e50ac7f2915a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UN-OCHA/ocha_key_figures/zipball/34124633b30d9a03d17c44e62a4e50ac7f2915a2",
+                "reference": "34124633b30d9a03d17c44e62a4e50ac7f2915a2",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/formdazzle": "^2.1",
+                "drupal/layout_paragraphs": "^2.0"
+            },
+            "type": "drupal-module",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "UNOCHA Key Figures",
+            "support": {
+                "issues": "https://github.com/UN-OCHA/ocha_key_figures/issues",
+                "source": "https://github.com/UN-OCHA/ocha_key_figures/tree/1.0.1"
+            },
+            "time": "2023-03-30T21:27:35+00:00"
         },
         {
             "name": "unocha/ocha_search",

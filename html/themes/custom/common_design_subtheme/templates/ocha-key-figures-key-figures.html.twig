@@ -13,6 +13,7 @@
             {% set value = figure.valueType == 'string' ? figure.value : figure.value|number_format %}
             <data value="{{ value }}" class="rw-key-figures__figure__value">{{ figure.prefix }}{{ value }}{{ figure.suffix }}</data>
             {% if figure.trend %}
+
               <small class="rw-key-figures__figure__trend"><span class="rw-key-figures__figure__trend__message">{{ figure.trend.message }}</span> <span class="rw-key-figures__figure__trend__since">{{ figure.trend.since }}</span></small>
             {% endif %}
           </p>
@@ -36,7 +37,7 @@
 
   {% if view_all %}
   <footer class="view-more rw-key-figures__links">
-    <a href="https://reliefweb.int/country/{{ country_iso|lower }}?figures=all#key-figures">{{ 'View all @country figures'|t({'@country': country_name}) }}</a>
+    <a href="{{ view_all_info.href }}">{{ view_all_info.title }}</a>
   </footer>
   {% endif %}
 
