@@ -119,7 +119,9 @@ class WebhookController extends ControllerBase {
 
         foreach ($bundles as $bundle) {
           $controller = hr_paragraphs_load_keyfigure_controller($bundle);
-          $controller->invalidateCache();
+          if (!empty($controller)) {
+            $controller->invalidateCache();
+          }
         }
 
         if (!empty($groups)) {
