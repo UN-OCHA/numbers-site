@@ -32,9 +32,13 @@ class KeyFiguresUpdatedSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[KeyFiguresUpdated::EVENT_UPDATED] = [
-      'onDataUpdated',
-    ];
+    $events = [];
+
+    if (class_exists('Drupal\ocha_key_figures\Event\KeyFiguresUpdated\KeyFiguresUpdated')) {
+      $events[KeyFiguresUpdated::EVENT_UPDATED] = [
+        'onDataUpdated',
+      ];
+    }
 
     return $events;
   }
