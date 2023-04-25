@@ -44,10 +44,10 @@ class KeyFiguresUpdatedSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Set name to mail.
+   * Update mailchimp group IDs.
    *
    * @param \Drupal\ocha_key_figures\Event\KeyFiguresUpdated $event
-   *   The Social Auth user fields event object.
+   *   The event object.
    */
   public function onDataUpdated(KeyFiguresUpdated $event) {
     $data = $event->data;

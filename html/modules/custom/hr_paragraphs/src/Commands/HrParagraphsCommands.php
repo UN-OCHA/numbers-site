@@ -30,6 +30,13 @@ class HrParagraphsCommands extends DrushCommands {
   protected $moduleExtensionList;
 
   /**
+   * The UUID service.
+   *
+   * @var \Drupal\Component\Uuid\UuidInterface
+   */
+  protected $uuidService;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(ConfigFactoryInterface $config_factory, ModuleExtensionList $module_extensionList, UuidInterface $uuid_service) {
