@@ -664,3 +664,23 @@ function hr_paragraphs_form_views_exposed_form_alter(&$form, $form_state, $form_
     }
   }
 }
+
+/**
+ * Implements hook_preprocess_paragraph__type().
+ */
+function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) {
+  $paragraph = $variables['paragraph'];
+  if ($paragraph->hasField('field_country') && !$paragraph->field_country->isEmpty()) {
+    $iso3 = $paragraph->field_country->value;
+
+    $variables['view_all'] = TRUE;
+    $variables['view_all_info'] = [
+      'href' => 'https://reliefweb.int/country/' . $iso3 . '?figures=all#key-figures',
+    ];
+
+    if (isset($variables['content']['key_figures'])) {
+      $variables['content']['key_figures']['#view_all_info'] = $variables['view_all'];
+      $variables['content']['key_figures']['#view_all_info'] = $variables['view_all_info'];
+    }
+  }
+}
