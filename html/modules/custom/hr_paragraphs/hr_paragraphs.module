@@ -679,7 +679,7 @@ function hr_paragraphs_preprocess_paragraph__reliefweb_key_figures(&$variables) 
     ];
 
     if (isset($variables['content']['key_figures'])) {
-      $variables['content']['key_figures']['#view_all_info'] = $variables['view_all'];
+      $variables['content']['key_figures']['#view_all'] = $variables['view_all'];
       $variables['content']['key_figures']['#view_all_info'] = $variables['view_all_info'];
     }
   }
