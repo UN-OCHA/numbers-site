@@ -32,3 +32,4 @@
 /code-coverage-report-clover/
 /coverage/
 /html/sites/default/browser_output/
+.docksal/docksal-local.env~
