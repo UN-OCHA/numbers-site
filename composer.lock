@@ -9537,16 +9537,16 @@
         },
         {
             "name": "unocha/ocha_key_figures",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UN-OCHA/ocha_key_figures.git",
-                "reference": "438f83c131bec339b5904b48b1916f239eb40f0e"
+                "reference": "176723272b6e266807d75ccabd57efcb77b49f67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UN-OCHA/ocha_key_figures/zipball/438f83c131bec339b5904b48b1916f239eb40f0e",
-                "reference": "438f83c131bec339b5904b48b1916f239eb40f0e",
+                "url": "https://api.github.com/repos/UN-OCHA/ocha_key_figures/zipball/176723272b6e266807d75ccabd57efcb77b49f67",
+                "reference": "176723272b6e266807d75ccabd57efcb77b49f67",
                 "shasum": ""
             },
             "require": {
@@ -9561,9 +9561,9 @@
             "description": "UNOCHA Key Figures",
             "support": {
                 "issues": "https://github.com/UN-OCHA/ocha_key_figures/issues",
-                "source": "https://github.com/UN-OCHA/ocha_key_figures/tree/1.0.4"
+                "source": "https://github.com/UN-OCHA/ocha_key_figures/tree/1.0.5"
             },
-            "time": "2023-04-28T08:44:07+00:00"
+            "time": "2023-05-10T09:53:45+00:00"
         },
         {
             "name": "unocha/ocha_search",
