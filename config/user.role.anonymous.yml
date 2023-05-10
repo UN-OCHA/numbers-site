@@ -43,6 +43,7 @@ permissions:
   - 'view paragraph content layout'
   - 'view paragraph content locations_list'
   - 'view paragraph content menu_block'
+  - 'view paragraph content oct_key_figures'
   - 'view paragraph content offices'
   - 'view paragraph content recent_assessments'
   - 'view paragraph content reliefweb_document'
