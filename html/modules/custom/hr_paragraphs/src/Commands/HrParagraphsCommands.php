@@ -50,10 +50,10 @@ class HrParagraphsCommands extends DrushCommands {
    *
    * @command hr_paragraphs:add-keyfigures
    * @validate-module-enabled hr_paragraphs
-   * @usage hr_paragraphs:import-operations idps_key_figures "Figures - IDPs" "Description" "Default title"
+   * @usage hr_paragraphs:add-keyfigures idps_key_figures "Figures - IDPs" "Description" "Default title"
    *   Create paragraph type.
    */
-  public function importOperations(string $machine_name, string $label, string $description, string $title) {
+  public function addKeyFiguresParagraph(string $machine_name, string $label, string $description, string $title) {
 
     $config = [
       'core.entity_form_display.paragraph.idps_key_figures.default.yml',
@@ -84,13 +84,13 @@ class HrParagraphsCommands extends DrushCommands {
 
       // Grant permissions.
       $read = [
-        'view paragraph content inform_key_figures',
+        'view paragraph content ' . $machine_name,
       ];
       $write = [
-        'create paragraph content inform_key_figures',
-        'delete paragraph content inform_key_figures',
-        'update paragraph content inform_key_figures',
-        'view paragraph content inform_key_figures',
+        'create paragraph content ' . $machine_name,
+        'delete paragraph content ' . $machine_name,
+        'update paragraph content ' . $machine_name,
+        'view paragraph content ' . $machine_name,
       ];
 
       user_role_grant_permissions('anonymous', $read);
