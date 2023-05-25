@@ -30,8 +30,15 @@ services:
       - '@language.default'
     tags:
       - { name: config.factory.override, priority: 2 }
-  hr_paragraphs.key_figures_updated:
-    class: Drupal\hr_paragraphs\EventSubscriber\KeyFiguresUpdatedSubscriber
+  hr_paragraphs.key_figures_updated_webpush:
+    class: Drupal\hr_paragraphs\EventSubscriber\KeyFiguresUpdatedWebPushSubscriber
+    arguments:
+      - '@entity_type.manager'
+      - '@web_push_notification.queue'
+    tags:
+      - { name: 'event_subscriber' }
+  hr_paragraphs.key_figures_updated_mailchimp:
+    class: Drupal\hr_paragraphs\EventSubscriber\KeyFiguresUpdatedMailchimpSubscriber
     arguments:
       - '@state'
     tags:

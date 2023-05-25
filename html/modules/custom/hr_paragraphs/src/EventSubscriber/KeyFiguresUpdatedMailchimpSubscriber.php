@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Reacts on Social Auth events.
  */
-class KeyFiguresUpdatedSubscriber implements EventSubscriberInterface {
+class KeyFiguresUpdatedMailchimpSubscriber implements EventSubscriberInterface {
 
   /**
    * State.
@@ -34,7 +34,7 @@ class KeyFiguresUpdatedSubscriber implements EventSubscriberInterface {
   public static function getSubscribedEvents() {
     $events = [];
 
-    if (class_exists('Drupal\ocha_key_figures\Event\KeyFiguresUpdated\KeyFiguresUpdated')) {
+    if (class_exists('Drupal\ocha_key_figures\Event\KeyFiguresUpdated')) {
       $events[KeyFiguresUpdated::EVENT_UPDATED] = [
         'onDataUpdated',
       ];

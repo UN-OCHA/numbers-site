@@ -179,7 +179,7 @@
           return;
         }
 
-        let paraIds = data.para_ids.split(',');
+        let paraIds = data.para_ids;
         const pushButtons = document.querySelectorAll('button[data-push-id]');
         if (!pushButtons) {
           return;

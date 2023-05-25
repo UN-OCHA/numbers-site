@@ -117,7 +117,10 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
    * {@inheritdoc}
    */
   public function getParaIdsArray() {
-    return explode(',', $this->getParaIds());
+    // Format is "|123|456|".
+    $ids = $this->getParaIds();
+    $ids = trim($ids, '|');
+    return explode('|', $ids);
   }
 
   /**
@@ -126,10 +129,10 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
   public function setParaIds($para_ids) {
     if (is_array($para_ids)) {
       $para_ids = array_unique($para_ids);
-      $para_ids = implode(',', $para_ids);
+      $para_ids = implode('|', $para_ids);
     }
 
-    $this->set('para_ids', $para_ids);
+    $this->set('para_ids', '|' . $para_ids . '|');
 
     return $this;
   }
@@ -196,7 +199,7 @@ class Subscription extends ContentEntityBase implements SubscriptionInterface {
 
     $fields['para_ids'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Paragraph Ids'))
-      ->setDescription(t('Paragraph Ids.'))
+      ->setDescription(t('Paragraph Ids, format |123|456|'))
       ->setSettings([
         'max_length' => 2048,
       ])
