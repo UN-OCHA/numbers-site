@@ -1,0 +1,21 @@
+uuid: b63a5a0c-6b1d-45f6-a577-286476bdfef0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - paragraphs.paragraphs_type.figures
+  module:
+    - text
+id: paragraph.figures.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: figures
+label: Text
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

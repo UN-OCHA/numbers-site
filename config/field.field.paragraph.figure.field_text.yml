@@ -1,16 +1,16 @@
-uuid: 4b1c3839-f133-4595-b81c-4f566038f07f
+uuid: e94d919f-5189-451b-89c8-a6a4a7765e14
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_text
-    - paragraphs.paragraphs_type.featured_numbers
+    - paragraphs.paragraphs_type.figure
   module:
     - text
-id: paragraph.featured_numbers.field_text
+id: paragraph.figure.field_text
 field_name: field_text
 entity_type: paragraph
-bundle: featured_numbers
+bundle: figure
 label: Text
 description: ''
 required: false

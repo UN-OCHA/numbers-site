@@ -1,9 +1,9 @@
-uuid: 2d96c190-a3d6-44e9-96f2-fdb12477b739
+uuid: a65ad219-2d16-4460-a65f-d2e7b8e7a174
 langcode: en
 status: true
 dependencies: {  }
-id: cbpf_key_figures
-label: 'Figures - CBPF'
+id: figures
+label: Figures
 icon_uuid: null
 icon_default: null
 description: ''
