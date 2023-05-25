@@ -58,43 +58,6 @@ function hr_paragraphs_group_update(EntityInterface $entity) {
   if ($entity->bundle() == 'operation') {
     return hr_paragraphs_group_insert($entity);
   }
-
-  $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
-  $source = '/group/' . $entity->id();
-
-  $path_alias_manager = \Drupal::service('path_alias.manager');
-  $group_alias = $path_alias_manager->getAliasByPath($source);
-
-  // Add alias if needed.
-  if ($group_alias === $source) {
-    // Get parent alias.
-    if ($entity->hasField('subgroup_tree') && !$entity->subgroup_tree->isEmpty()) {
-      $subgroup = $entity;
-      $group = Group::load($entity->subgroup_tree->value);
-
-      $path_alias_manager = \Drupal::service('path_alias.manager');
-
-      $group_alias = $path_alias_manager->getAliasByPath('/group/' . $group->id());
-      $page_title = \Drupal::service('pathauto.alias_cleaner')->cleanString($entity->label());
-      $new_alias = $group_alias . '/' . $page_title;
-
-      $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
-      $source = '/group/' . $subgroup->id();
-
-      /** @var \Drupal\pathauto\AliasUniquifier $alias_uniquifier */
-      $alias_uniquifier = \Drupal::service('pathauto.alias_uniquifier');
-      $alias_uniquifier->uniquify($new_alias, $source, $langcode);
-
-      if ($source !== $new_alias) {
-        $path_alias = PathAlias::create([
-          'path' => $source,
-          'alias' => $new_alias,
-        ]);
-
-        $path_alias->save();
-      }
-    }
-  }
 }
 
 /**
@@ -153,10 +116,6 @@ function hr_paragraphs_group_content_insert(EntityInterface $entity) {
     return hr_paragraphs_group_content_alias($entity);
   }
 
-  if ($plugin_id === 'subgroup:cluster') {
-    return hr_paragraphs_group_subgroup_alias($entity);
-  }
-
   if ($plugin_id === 'group_membership') {
     return hr_paragraphs_group_add_member($entity);
   }
@@ -192,42 +151,6 @@ function hr_paragraphs_group_add_member(EntityInterface $entity) {
       '@member' => $member->getAccountName(),
       '@uid' => $member->id(),
     ]);
-  }
-}
-
-/**
- * Implements hook_ENTITY_TYPE_insert().
- */
-function hr_paragraphs_group_subgroup_alias(EntityInterface $entity) {
-  /** @var \Drupal\group\Entity\GroupRelationship $entity */
-  $plugin_id = $entity->getRelationshipType()->getPluginId();
-  if ($plugin_id != 'subgroup:cluster') {
-    return;
-  }
-
-  $subgroup = $entity->getEntity();
-  $group = $entity->getGroup();
-
-  $path_alias_manager = \Drupal::service('path_alias.manager');
-
-  $group_alias = $path_alias_manager->getAliasByPath('/group/' . $group->id());
-  $page_title = \Drupal::service('pathauto.alias_cleaner')->cleanString($entity->label());
-  $new_alias = $group_alias . '/' . $page_title;
-
-  $langcode = LanguageInterface::LANGCODE_NOT_SPECIFIED;
-  $source = '/group/' . $subgroup->id();
-
-  /** @var \Drupal\pathauto\AliasUniquifier $alias_uniquifier */
-  $alias_uniquifier = \Drupal::service('pathauto.alias_uniquifier');
-  $alias_uniquifier->uniquify($new_alias, $source, $langcode);
-
-  if ($source !== $new_alias) {
-    $path_alias = PathAlias::create([
-      'path' => $source,
-      'alias' => $new_alias,
-    ]);
-
-    $path_alias->save();
   }
 }
 

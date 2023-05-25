@@ -1,0 +1,22 @@
+{{ attach_library('common_design_subtheme/rw-key-figures') }}
+{{ attach_library('common_design_subtheme/num-key-figures-share') }}
+{{ attach_library('common_design_subtheme/num-key-figures-push') }}
+
+<div class="rw-key-figures">
+  <ul class="rw-key-figures__list">
+  {{ figures }}
+  </ul>
+
+  {% if view_all %}
+  <footer class="view-more rw-key-figures__links">
+    <a href="{{ view_all_info.href }}">{{ view_all_info.title }}</a>
+  </footer>
+  {% endif %}
+
+  {% if jsonld is not empty %}
+  <script type="application/ld+json">
+    {{ jsonld|raw }}
+  </script>
+  {% endif %}
+
+</div>{# .rw-key-figures #}

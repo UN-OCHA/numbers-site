@@ -1,0 +1,27 @@
+<li>
+  <figure id="{{ figure.id|clean_id }}" class="rw-key-figures__figure rw-key-figures__figure--{{ figure.status }}">
+    <figcaption class="rw-key-figures__figure__label">{{ figure.name }}</figcaption>
+    <div class="rw-key-figures__figure__content">
+      <p>
+        {% set value = figure.valueType == 'string' ? figure.value : figure.value|number_format %}
+        <data value="{{ value }}" class="rw-key-figures__figure__value">{{ figure.prefix }}{{ value }}{{ figure.suffix }}</data>
+        {% if figure.trend %}
+
+          <small class="rw-key-figures__figure__trend"><span class="rw-key-figures__figure__trend__message">{{ figure.trend.message }}</span> <span class="rw-key-figures__figure__trend__since">{{ figure.trend.since }}</span></small>
+        {% endif %}
+      </p>
+      {% if figure.sparkline %}
+      <svg class="rw-key-figures__figure__sparkline" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" width="120" fill="none" stroke="#999" aria-hidden="true">
+        <polyline points="{{ figure.sparkline.points|join(' ') }}"/>
+      </svg>
+      {% endif %}
+      {% if figure.description %}
+        <small class="rw-key-figures__figure__description"><span class="rw-key-figures__figure__description__message">{{ figure.description }}</span></small>
+      {% endif %}
+    </div>
+    <footer class="rw-key-figures__figure__footer">
+      <time datetime="{{ figure.date|date('c') }}" class="rw-key-figures__figure__updated">{{ figure.updated }}</time>
+      <cite class="rw-key-figures__figure__source"><span class="visually-hidden">{{ 'Source: '|t }} </span><a href="{{ figure.url }}">{{ figure.source }}</a></cite>
+    </footer>
+  </figure>
+</li>
