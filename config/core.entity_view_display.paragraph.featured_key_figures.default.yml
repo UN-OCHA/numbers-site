@@ -1,29 +1,27 @@
-uuid: 25e93fb2-b3ae-404d-8ddc-d82d14bf6e52
+uuid: 8400a425-1a0a-4db6-8068-343696f157b9
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.figures.field_key_figures
-    - field.field.paragraph.figures.field_text
-    - field.field.paragraph.figures.field_title
-    - paragraphs.paragraphs_type.figures
+    - field.field.paragraph.featured_key_figures.field_key_figures
+    - field.field.paragraph.featured_key_figures.field_text
+    - field.field.paragraph.featured_key_figures.field_title
+    - paragraphs.paragraphs_type.featured_key_figures
   module:
     - ocha_key_figures
     - text
-id: paragraph.figures.default
+id: paragraph.featured_key_figures.default
 targetEntityType: paragraph
-bundle: figures
+bundle: featured_key_figures
 mode: default
 content:
   field_key_figures:
-    type: key_figure_extended
+    type: key_figure
     label: hidden
     settings:
       format: decimal
       precision: '1'
       percentage: 'yes'
-      display_sparklines: single
-      output_json_ld: 'yes'
     third_party_settings: {  }
     weight: 2
     region: content

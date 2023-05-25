@@ -1,9 +1,9 @@
-uuid: ae836c7d-ced1-4d0d-8561-2603989df436
+uuid: 43a0ce66-b9da-463f-a979-4949c20550a9
 langcode: en
 status: true
 dependencies: {  }
-id: figure
-label: Figure
+id: featured_key_figures
+label: 'Featured key figures'
 icon_uuid: null
 icon_default: null
 description: ''

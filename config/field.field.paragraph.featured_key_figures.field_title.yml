@@ -1,14 +1,14 @@
-uuid: 9d385cb6-c61c-4c8e-a07e-436f8f9d7daa
+uuid: 7d774e38-601a-430f-a883-9404556c6394
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_title
-    - paragraphs.paragraphs_type.figure
-id: paragraph.figure.field_title
+    - paragraphs.paragraphs_type.featured_key_figures
+id: paragraph.featured_key_figures.field_title
 field_name: field_title
 entity_type: paragraph
-bundle: figure
+bundle: featured_key_figures
 label: Title
 description: ''
 required: false

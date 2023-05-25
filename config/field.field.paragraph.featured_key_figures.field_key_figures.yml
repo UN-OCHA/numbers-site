@@ -1,0 +1,21 @@
+uuid: 63e5f4b1-cab8-4c85-aaa3-aee36d74798b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_key_figures
+    - paragraphs.paragraphs_type.featured_key_figures
+  module:
+    - ocha_key_figures
+id: paragraph.featured_key_figures.field_key_figures
+field_name: field_key_figures
+entity_type: paragraph
+bundle: featured_key_figures
+label: 'Key figures'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: key_figure

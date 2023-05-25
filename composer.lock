@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c83f6f097be95e002573d0922817f562",
+    "content-hash": "537fb3c9e233181f4c4184d4cfa2fef4",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -9537,16 +9537,16 @@
         },
         {
             "name": "unocha/ocha_key_figures",
-            "version": "1.0.4",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UN-OCHA/ocha_key_figures.git",
-                "reference": "438f83c131bec339b5904b48b1916f239eb40f0e"
+                "reference": "d0502e7424ba0bbc45eb4f19e471109149465feb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UN-OCHA/ocha_key_figures/zipball/438f83c131bec339b5904b48b1916f239eb40f0e",
-                "reference": "438f83c131bec339b5904b48b1916f239eb40f0e",
+                "url": "https://api.github.com/repos/UN-OCHA/ocha_key_figures/zipball/d0502e7424ba0bbc45eb4f19e471109149465feb",
+                "reference": "d0502e7424ba0bbc45eb4f19e471109149465feb",
                 "shasum": ""
             },
             "require": {
@@ -9561,9 +9561,9 @@
             "description": "UNOCHA Key Figures",
             "support": {
                 "issues": "https://github.com/UN-OCHA/ocha_key_figures/issues",
-                "source": "https://github.com/UN-OCHA/ocha_key_figures/tree/1.0.4"
+                "source": "https://github.com/UN-OCHA/ocha_key_figures/tree/2.0.0"
             },
-            "time": "2023-04-28T08:44:07+00:00"
+            "time": "2023-05-25T06:52:27+00:00"
         },
         {
             "name": "unocha/ocha_search",
