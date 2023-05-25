@@ -1,6 +1,6 @@
 uuid: cd589ca8-d568-4f38-936e-8cf2e71a67ac
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - hr_paragraphs
