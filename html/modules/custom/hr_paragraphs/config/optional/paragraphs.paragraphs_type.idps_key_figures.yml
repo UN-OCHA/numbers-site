@@ -1,9 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: idps_key_figures
-label: 'Figures - IDPs'
-icon_uuid: null
-icon_default: null
-description: 'IDPs figures'
-behavior_plugins: {  }
