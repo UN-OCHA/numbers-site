@@ -3,7 +3,7 @@
     <figcaption class="rw-key-figures__figure__label">{{ figure.name }}</figcaption>
     <div class="rw-key-figures__figure__content">
       <p>
-        {% set value = figure.valueType == 'string' ? figure.value : figure.value|number_format %}
+        {% set value = figure.value %}
         <data value="{{ value }}" class="rw-key-figures__figure__value">{{ figure.prefix }}{{ value }}{{ figure.suffix }}</data>
         {% if figure.trend %}
 
