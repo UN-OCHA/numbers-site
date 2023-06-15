@@ -157,7 +157,7 @@ num-key-figures-share:
     components/num-key-figures-share/html2canvas.js: {}
     components/num-key-figures-share/num-key-figures-share.js: {}
   dependencies:
-    - common_design_subtheme/rw-key-figures
+    - common_design_subtheme/ocha-key-figures
     - common_design/cd-social-links
 
 num-key-figures-push:
@@ -194,10 +194,10 @@ rw-country:
   dependencies:
     - common_design_subtheme/rw-brand
 
-rw-key-figures:
+ocha-key-figures:
   css:
     theme:
-      components/rw-key-figures/rw-key-figures.css: {}
+      components/ocha-key-figures/ocha-key-figures.css: {}
 
 rw-river:
   css:

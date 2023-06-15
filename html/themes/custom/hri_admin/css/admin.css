@@ -210,7 +210,7 @@
 }
 
 /* ReliefWeb Key Figures */
-.rw-key-figures__list {
+.ocha-key-figures__list {
   --rwkf-num-cols: 1;
   --rwkf-gap-size: 1rem;
 
@@ -221,18 +221,18 @@
   padding: 0;
 }
 @media screen and (min-width: 768px) {
-  .rw-key-figures__list {
+  .ocha-key-figures__list {
     --rwkf-num-cols: 2;
   }
 }
-.rw-key-figures__list > li {
+.ocha-key-figures__list > li {
   display: block;
   margin: 0;
   padding: 0;
   flex: 0 1 calc((100% / var(--rwkf-num-cols)) - (var(--rwkf-gap-size) * (var(--rwkf-num-cols) - 1)));
   border: 2px solid #0003;
 }
-.rw-key-figures__figure__label {
+.ocha-key-figures__figure__label {
   font-weight: 700;
   font-size: 1.25em;
 }
