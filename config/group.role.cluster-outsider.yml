@@ -7,6 +7,9 @@ dependencies:
 id: cluster-outsider
 label: Outsider
 weight: -101
+admin: false
+scope: outsider
+global_role: authenticated
 group_type: cluster
 permissions:
   - 'view group'
@@ -18,6 +21,3 @@ permissions:
   - 'view paragraph content reliefweb_key_figures'
   - 'view paragraph content table_of_contents'
   - 'view paragraph content text_block'
-admin: false
-scope: outsider
-global_role: authenticated
