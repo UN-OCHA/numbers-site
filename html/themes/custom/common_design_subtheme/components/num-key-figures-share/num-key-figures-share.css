@@ -3,29 +3,29 @@
  *
  * Modifications for when the browser can natively share images or text.
  */
-.rw-key-figures__figure--can-share {
+.ocha-key-figures__figure--can-share {
   position: relative;
 }
 
-.rw-key-figures__figure--can-share .rw-key-figures__figure__label {
+.ocha-key-figures__figure--can-share .ocha-key-figures__figure__label {
   margin-inline-end: 2rem;
 }
 
-.rw-key-figures__share-button {
+.ocha-key-figures__share-button {
   position: absolute;
   top: 16px; /* matches RW component units */
   border: none;
   background: none;
 }
 
-html[dir="ltr"] .rw-key-figures__share-button {
+html[dir="ltr"] .ocha-key-figures__share-button {
   right: 16px;
 }
-html[dir="rtl"] .rw-key-figures__share-button {
+html[dir="rtl"] .ocha-key-figures__share-button {
   left: 16px;
 }
 
-.rw-key-figures__share-button img {
+.ocha-key-figures__share-button img {
   display: block;
 }
 
@@ -35,11 +35,11 @@ html[dir="rtl"] .rw-key-figures__share-button {
  */
 
 /* hide share button */
-.is--capturing .rw-key-figures__share-button {
+.is--capturing .ocha-key-figures__share-button {
   display: none;
 }
 
 /* remove underline from hyperlinked sources */
-.is--capturing .rw-key-figures__figure__source a {
+.is--capturing .ocha-key-figures__figure__source a {
   text-decoration: none;
 }

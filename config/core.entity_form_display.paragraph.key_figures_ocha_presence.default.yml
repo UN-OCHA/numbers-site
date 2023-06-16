@@ -1,0 +1,42 @@
+uuid: e59b7634-da3e-4c89-8d5c-19493d272011
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.key_figures_ocha_presence.field_key_figures_presence
+    - field.field.paragraph.key_figures_ocha_presence.field_text
+    - field.field.paragraph.key_figures_ocha_presence.field_title
+    - paragraphs.paragraphs_type.key_figures_ocha_presence
+  module:
+    - ocha_key_figures
+    - text
+id: paragraph.key_figures_ocha_presence.default
+targetEntityType: paragraph
+bundle: key_figures_ocha_presence
+mode: default
+content:
+  field_key_figures_presence:
+    type: key_figure_presence
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_text:
+    type: text_textarea
+    weight: 1
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

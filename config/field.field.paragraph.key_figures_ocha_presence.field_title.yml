@@ -1,0 +1,19 @@
+uuid: 237414e2-8a4e-419f-b6f8-0ef37ade227b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.key_figures_ocha_presence
+id: paragraph.key_figures_ocha_presence.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: key_figures_ocha_presence
+label: Title
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

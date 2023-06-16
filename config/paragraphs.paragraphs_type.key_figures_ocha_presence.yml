@@ -1,0 +1,10 @@
+uuid: 036359a0-0e45-449f-a1eb-1571d7f2983b
+langcode: en
+status: true
+dependencies: {  }
+id: key_figures_ocha_presence
+label: 'Key figures (OCHA Presence)'
+icon_uuid: null
+icon_default: null
+description: 'Display key figures based on provider, year and OCHA presence'
+behavior_plugins: {  }

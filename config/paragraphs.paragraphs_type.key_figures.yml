@@ -1,0 +1,10 @@
+uuid: bcadeff6-3f78-4861-b20d-a401231b35ab
+langcode: en
+status: true
+dependencies: {  }
+id: key_figures
+label: 'Key figures'
+icon_uuid: null
+icon_default: null
+description: 'Display key figures based on provider, year and country'
+behavior_plugins: {  }
