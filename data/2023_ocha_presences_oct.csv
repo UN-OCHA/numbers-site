@@ -1,35 +1,35 @@
-"title","iso3","project_id"
-"Afghanistan","afg",2311
-"Asia and the Pacific (ROAP)","roap",1915
-"Burkina Faso","bfa",2181
-"Burundi","bdi",2019
-"Cameroon","cmr",2014
-"Central African Republic (CAR)","caf",2269
-"Chad","tcd",2349
-"Colombia","col",2359
-"Democratic Republic of the Congo (DRC)","cod",2002
-"Ethiopia","eth",2004
-"Iraq","irq",2229
-"Jordan","jor",2648
-"Latin America and the Caribbean (ROLAC)","rolac",2601
-"Lebanon","lso",2653
-"Libya","lby",2522
-"Mali","mli",2006
-"Middle East and North Africa (ROMENA)","romena",2609
-"Mozambique","moz",2530
-"Myanmar","mmr",2535
-"Niger","ner",2008
-"Nigeria","nga",2008
-"Office of the Pacific Islands","pacific",1913
-"Pakistan","pak",2053
-"Somalia","som",2009
-"South Sudan","ssd",2011
-"Southern and Eastern Africa (ROSEA)","rosea",2022
-"Sudan","sdn",2272
-"Syrian Arab Republic","syr",2227
-"The Philippines","phl",2066
-"Türkiye Cross-Border","tur",2658
-"Ukraine","ukr",2228
-"Venezuela","ven",2684
-"West and Central Africa (ROWCA)","rowca",2303
-"Yemen","yem",2275
+title,iso3,project_id,office_type
+Afghanistan,afg,2311,Country office
+Asia and the Pacific (ROAP),roap,1915,Regional office
+Burkina Faso,bfa,2181,Country office
+Burundi,bdi,2019,Country office
+Cameroon,cmr,2014,Country office
+Central African Republic (CAR),caf,2269,Country office
+Chad,tcd,2349,Country office
+Colombia,col,2359,Country office
+Democratic Republic of the Congo (DRC),cod,2002,Country office
+Ethiopia,eth,2004,Country office
+Iraq,irq,2229,Country office
+Jordan,jor,2648,Country office
+Latin America and the Caribbean (ROLAC),rolac,2601,Regional office
+Lebanon,lso,2653,Country office
+Libya,lby,2522,Country office
+Mali,mli,2006,Country office
+Middle East and North Africa (ROMENA),romena,2609,Regional office
+Mozambique,moz,2530,Country office
+Myanmar,mmr,2535,Country office
+Niger,ner,2008,Country office
+Nigeria,nga,2008,Country office
+Office of the Pacific Islands,pacific,1913,Regional office
+Pakistan,pak,2053,Country office
+Somalia,som,2009,Country office
+South Sudan,ssd,2011,Country office
+Southern and Eastern Africa (ROSEA),rosea,2022,Regional office
+Sudan,sdn,2272,Country office
+Syrian Arab Republic,syr,2227,Country office
+The Philippines,phl,2066,Country office
+Türkiye Cross-Border,tur,2658,Country office
+Ukraine,ukr,2228,Country office
+Venezuela,ven,2684,Country office
+West and Central Africa (ROWCA),rowca,2303,Regional office
+Yemen,yem,2275,Country office
