@@ -1,0 +1,46 @@
+uuid: e2864d94-aa0a-4cd6-a5aa-0844fe27e922
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.key_figures.field_key_figures
+    - field.field.paragraph.key_figures.field_text
+    - field.field.paragraph.key_figures.field_title
+    - paragraphs.paragraphs_type.key_figures
+  module:
+    - ocha_key_figures
+    - text
+id: paragraph.key_figures.default
+targetEntityType: paragraph
+bundle: key_figures
+mode: default
+content:
+  field_key_figures:
+    type: key_figure_extended
+    label: hidden
+    settings:
+      format: decimal
+      precision: '1'
+      currency_symbol: 'yes'
+      percentage: 'yes'
+      display_sparklines: all
+      output_json_ld: 'yes'
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_text:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

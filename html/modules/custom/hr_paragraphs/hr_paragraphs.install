@@ -110,3 +110,29 @@ function hr_paragraphs_update_9006() {
     }
   }
 }
+
+/**
+ * Delete old paragraph types.
+ */
+function hr_paragraphs_update_9007() {
+  $paragraph_types = [
+    'cbpf_key_figures',
+    'cerf_key_figures',
+    'featured_number',
+    'featured_numbers',
+    'fts_key_figures',
+    'idps_key_figures',
+    'inform_key_figures',
+    'reliefweb_key_figures',
+  ];
+
+  foreach ($paragraph_types as $paragraph_type) {
+    $paragraphs = Drupal::entityTypeManager()->getStorage('group')->loadByProperties([
+      'type' => $paragraph_type,
+    ]);
+
+    foreach ($paragraphs as $paragraph) {
+      $paragraph->delete();
+    }
+  }
+}

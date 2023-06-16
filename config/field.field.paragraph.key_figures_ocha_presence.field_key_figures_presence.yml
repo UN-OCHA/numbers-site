@@ -1,0 +1,21 @@
+uuid: 03fe8fa5-ece6-4074-a30c-2f7894a6fd90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_key_figures_presence
+    - paragraphs.paragraphs_type.key_figures_ocha_presence
+  module:
+    - ocha_key_figures
+id: paragraph.key_figures_ocha_presence.field_key_figures_presence
+field_name: field_key_figures_presence
+entity_type: paragraph
+bundle: key_figures_ocha_presence
+label: 'Key figures'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: key_figure_presence
