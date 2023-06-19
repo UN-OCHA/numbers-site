@@ -4,8 +4,8 @@ namespace Drupal\web_push_notification;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\web_push_notification\Entity\Subscription;
-use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription as PushSubscription;
+use Minishlink\WebPush\WebPush;
 
 /**
  * Sends push notifications.
