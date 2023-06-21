@@ -1,8 +1,9 @@
 /**
  * Numbers ToC customizations
  *
- * The ToC component is sourced from RW D9 and shouldn't be altered. Use this
- * file to make customizations to the ToC.
+ * The ToC component is sourced from RW D9 and shouldn't be altered unless it's
+ * absolutely necessary, in order to simplify upstream updates. Instead, use
+ * this file to make NUM-specific customizations to the ToC.
  */
 .js .rw-toc {
   padding-bottom: 16px;
@@ -24,6 +25,7 @@
 .rw-toc a {
   display: inline-block;
   padding-inline-start: 16px;
+  text-transform: capitalize;
 }
 
 .rw-toc a[data-active] {
