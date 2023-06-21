@@ -16,7 +16,8 @@
 
 <nav{{ attributes
   .addClass(classes)
-  .setAttribute('data-cd-toggable', 'Jump to content')
+  .setAttribute('aria-label', 'Jump to section'|t)
+  .setAttribute('data-cd-toggable', 'Jump to section'|t)
   .setAttribute('data-cd-icon', 'arrow-down')
   .setAttribute('data-cd-component', 'rw-toc')
   .setAttribute('id', 'table-of-contents')
