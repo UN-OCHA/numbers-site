@@ -25,8 +25,9 @@
   <h3 class="rw-toc__title">{{ 'Figures'|t }}</h3>
   <ul class="rw-toc__list">
     {% for section in group.field_paragraphs %}
+      {% set default_title = section.entity.bundle|replace({'_': ' '}) %}
       <li class="rw-toc__section">
-        <a href="#{{ section.entity.bundle ~ '-' ~ section.entity.id() }}">{{ section.entity.field_title.value }}</a>
+        <a href="#{{ section.entity.bundle ~ '-' ~ section.entity.id() }}">{{ section.entity.field_title.value ? section.entity.field_title.value : default_title }}</a>
       </li>
     {% endfor %}
   </ul>

@@ -1,4 +1,10 @@
-/* Table of contents */
+/**
+ * RW Table of contents
+ *
+ * Provides a JS dropdown until 1024px, then expands to a normal list.
+ *
+ * Numbers customization: changed dropdown breakpoint from 768 to 1024.
+ */
 .rw-toc {
   padding: 32px 0 0 0;
   border-bottom: 1px solid #e6ecef;
@@ -33,7 +39,7 @@
 
 /* Show the table of content as left sidebar with the content on the right on
  * large screens. */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
   .rw-toc {
     position: -webkit-sticky;
     position: sticky;
@@ -76,7 +82,7 @@
  *
  * Show the table as a dropdown on small screens.
  */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
   .js .rw-toc__btn {
     display: block;
     height: 40px;
@@ -147,7 +153,7 @@
 /* On large screens show the blue border in the space on the left so that the
  * titles stay aligned with the content. On smaller screens there is not enough
  * space for that. */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
   .js .rw-toc ~ section[data-active] > h2,
   .js .rw-toc ~ article[data-active] > h2,
   .js .rw-toc ~ fieldset[data-active] > legend,
@@ -169,7 +175,7 @@
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
   .js .rw-toc {
     --dropdown: false;
   }
