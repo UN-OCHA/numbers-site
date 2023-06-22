@@ -1,35 +1,70 @@
 title,iso3,project_id,year,office_type
 Afghanistan,afg,2311,2022,Country office
+Afghanistan,afg,2320,2023,Country office
 Asia and the Pacific (ROAP),roap,1915,2022,Regional office
+Asia and the Pacific (ROAP),roap,2597,2023,Regional office
 Burkina Faso,bfa,2181,2022,Country office
+Burkina Faso,bfa,2182,2023,Country office
 Burundi,bdi,2019,2022,Country office
+Burundi,bdi,2279,2023,Country office
 Cameroon,cmr,2014,2022,Country office
+Cameroon,cmr,2337,2023,Country office
 Central African Republic (CAR),caf,2269,2022,Country office
+Central African Republic (CAR),caf,2270,2023,Country office
 Chad,tcd,2349,2022,Country office
+Chad,tcd,2350,2023,Country office
 Colombia,col,2359,2022,Country office
+Colombia,col,2360,2023,Country office
 Democratic Republic of the Congo (DRC),cod,2002,2022,Country office
+Democratic Republic of the Congo (DRC),cod,2274,2023,Country office
 Ethiopia,eth,2004,2022,Country office
+Ethiopia,eth,2280,2023,Country office
+Haiti,hti,2481,2023,Country office
 Iraq,irq,2229,2022,Country office
+Iraq,irq,2277,2023,Country office
 Jordan,jor,2648,2022,Country office
+Jordan,jor,2648,2023,Country office
 Latin America and the Caribbean (ROLAC),rolac,2601,2022,Regional office
+Latin America and the Caribbean (ROLAC),rolac,2602,2023,Regional office
 Lebanon,lso,2653,2022,Country office
+Lebanon,lso,2654,2023,Country office
 Libya,lby,2522,2022,Country office
+Libya,lby,2522,2023,Country office
 Mali,mli,2006,2022,Country office
+Mali,mli,2186,2023,Country office
 Middle East and North Africa (ROMENA),romena,2609,2022,Regional office
+Middle East and North Africa (ROMENA),romena,2610,2023,Regional office
 Mozambique,moz,2530,2022,Country office
+Mozambique,moz,2531,2023,Country office
 Myanmar,mmr,2535,2022,Country office
+Myanmar,mmr,2536,2023,Country office
 Niger,ner,2008,2022,Country office
+Niger,ner,2185,2023,Country office
 Nigeria,nga,2008,2022,Country office
+Nigeria,nga,2271,2023,Country office
 Office of the Pacific Islands,pacific,1913,2022,Regional office
+Office of the Pacific Islands,pacific,2555,2023,Regional office
 Pakistan,pak,2053,2022,Country office
+Pakistan,pak,2730,2023,Country office
 Somalia,som,2009,2022,Country office
+Somalia,som,2316,2023,Country office
 South Sudan,ssd,2011,2022,Country office
+South Sudan,ssd,2622,2023,Country office
 Southern and Eastern Africa (ROSEA),rosea,2022,2022,Regional office
+Southern and Eastern Africa (ROSEA),rosea,2278,2023,Regional office
 Sudan,sdn,2272,2022,Country office
+Sudan,sdn,2273,2023,Country office
 Syrian Arab Republic,syr,2227,2022,Country office
+Syrian Arab Republic,syr,2644,2023,Country office
 The Philippines,phl,2066,2022,Country office
+The Philippines,phl,2066,2023,Country office
 Türkiye Cross-Border,tur,2658,2022,Country office
+Türkiye Cross-Border,tur,2659,2023,Country office
 Ukraine,ukr,2228,2022,Country office
+Ukraine,ukr,2673,2023,Country office
 Venezuela,ven,2684,2022,Country office
+Venezuela,ven,2685,2023,Country office
 West and Central Africa (ROWCA),rowca,2303,2022,Regional office
+West and Central Africa (ROWCA),rowca,2308,2023,Regional office
 Yemen,yem,2275,2022,Country office
+Yemen,yem,2276,2023,Country office
