@@ -4,13 +4,64 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
-## [0.2.0](https://github.com/UN-OCHA/numbers-site/compare/0.1.6...v0.2.0) (2023-02-21)
+## [0.1.0](https://github.com/UN-OCHA/numbers-site/compare/0.1.6...v1.0.0) (2023-06-26)
 
 ### Features
 
 * Allow string data [#OHA-30](https://https://humanitarian.atlassian.net/browse/OHA-30) ([b4b3ec](https://github.com/UN-OCHA/numbers-site/commit/b4b3ec79e37c8deac73675af8ef0ff7cad616f68))
 * Change label for locations [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([6fedbd](https://github.com/UN-OCHA/numbers-site/commit/6fedbdf38978ec6d3203dddf482644dfe151440d))
 * Mail confirm [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([0ad705](https://github.com/UN-OCHA/numbers-site/commit/0ad705094520017decde33914fae15f6e54dcc4b))
+* New ocha keyfigures ([453c15](https://github.com/UN-OCHA/numbers-site/commit/453c15e3707d02c092d01b7dad92292eee4b13f4), [ce1174](https://github.com/UN-OCHA/numbers-site/commit/ce1174110ea06b2cb3a3a1211c766f2c46a0df18))
+
+### Bug Fixes
+
+* Add view perms for anon/auth users so they can see the Numbers ([52cbea](https://github.com/UN-OCHA/numbers-site/commit/52cbead9b8a5668a93073245d659e74b5db206c3))
+* Customize the RW ToC a little bit ([37ade4](https://github.com/UN-OCHA/numbers-site/commit/37ade475572b322f7ef8b05a441a4fc903e36ddf))
+* Phpcs use sorting ([4dac28](https://github.com/UN-OCHA/numbers-site/commit/4dac2859c604aaebf9f24d4603e7bcdf0398db3c))
+* Run `composer update --lock` because [*@rupl*](https://github.com/rupl) can not or will not, who knows. ([c4f864](https://github.com/UN-OCHA/numbers-site/commit/c4f864a3db40e43cf88c34f1ffbbb9ff9c9c627f))
+* Use CSS columns for subscribe checkboxes ([12a617](https://github.com/UN-OCHA/numbers-site/commit/12a617a56a1d37e56379e30f879f4697a1a16bd7), [8f8d40](https://github.com/UN-OCHA/numbers-site/commit/8f8d4077c1f2cb001ec30530d9e5b3fa479a47a7))
+* Use the correct secret name for the AWS credential. ([67c960](https://github.com/UN-OCHA/numbers-site/commit/67c960c2ac7cb56e68cd10e5e9956cfd80a8a92a))
+
+##### A11y
+
+* Adjust markup/ARIA and use base-theme CD Layout ([a64276](https://github.com/UN-OCHA/numbers-site/commit/a64276f3c5ba1050817b26b491abacd91a154c39))
+
+### Chores
+
+* 21-02-2023 prep release ([2b0dbe](https://github.com/UN-OCHA/numbers-site/commit/2b0dbe711735b45181cd9eea6b2b1f14b1fe26b4))
+* Add and configure environment_indicator ([8783f0](https://github.com/UN-OCHA/numbers-site/commit/8783f0b7644c96d5c7ed67e126b53a1119572cb7))
+* Add templates and js ([32cc5e](https://github.com/UN-OCHA/numbers-site/commit/32cc5e86029be3d06452d8f595b7b17ab45498df))
+* Adjust colors for switcher too for consistency ([324644](https://github.com/UN-OCHA/numbers-site/commit/324644bd2c07f0b12d5ab9d01668c2a662b8d3e2))
+* Adjust local colors for consistency ([5e3428](https://github.com/UN-OCHA/numbers-site/commit/5e34284ada13e2fcc64942563cf5d14b7b7efac0))
+* Bump php version for periodic updates ([3b429b](https://github.com/UN-OCHA/numbers-site/commit/3b429b9be2576f17feea8f585d92b67d590110c1))
+* CD v8.2.0 ([ccc2c3](https://github.com/UN-OCHA/numbers-site/commit/ccc2c3072974df462227d4a1a8151338a9c639bf))
+* Codeium test ([462307](https://github.com/UN-OCHA/numbers-site/commit/462307bbd47b41205825ae01e7172141b9b101f5))
+* Composer update ([085638](https://github.com/UN-OCHA/numbers-site/commit/085638ad1b5b2cf608d4f72ab978d37eaa093f03))
+* Composer update --with-all-dependencies drupal/* ([36e381](https://github.com/UN-OCHA/numbers-site/commit/36e3814150c442008ce96799b662c9cc2ec478c5))
+* Fix theme for new module ([913299](https://github.com/UN-OCHA/numbers-site/commit/913299f401770a88cb4f269236f9d3d2b0a6890a))
+* Fix typo ([93d9e5](https://github.com/UN-OCHA/numbers-site/commit/93d9e5c638bff0149666c52d15f0af3f6d192994))
+* Grid layout countries [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25), [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([3cd17b](https://github.com/UN-OCHA/numbers-site/commit/3cd17b03bdf81b4f25e7fb629cbc33b2d03bae33), [8a18eb](https://github.com/UN-OCHA/numbers-site/commit/8a18ebe0fb9f8751eb19d95754b562155083e94b))
+* Key figure improvements ([7c41ce](https://github.com/UN-OCHA/numbers-site/commit/7c41ceb460bf8935156a6304310955cca531318c))
+* Move view all into custom module ([6e0bab](https://github.com/UN-OCHA/numbers-site/commit/6e0bab29ac755d423ef50370e581a9bc480fc94a))
+* Remove duplicate line ([5557cb](https://github.com/UN-OCHA/numbers-site/commit/5557cb05088e708cf9b57aa88fbfa18570f9a1a2))
+* Remove obsolete code ([5a5d6a](https://github.com/UN-OCHA/numbers-site/commit/5a5d6a092a629c0b36d6d291655d526e93e373ee))
+* Remove references to Sass in composer/git-hooks ([f7e658](https://github.com/UN-OCHA/numbers-site/commit/f7e65835aa32f1b01d329acffe92720c3d1a27b8))
+* Sort countries [#NUM-25](https://https://humanitarian.atlassian.net/browse/NUM-25) ([d3b82a](https://github.com/UN-OCHA/numbers-site/commit/d3b82a058798a73b90789a292d72c4303a046537))
+* Split key figures ([a13860](https://github.com/UN-OCHA/numbers-site/commit/a1386042a4f696bd3535fe0db86bbee48d29917d))
+* Update all outdated drupal/* packages. ([b0d729](https://github.com/UN-OCHA/numbers-site/commit/b0d729766546f795316a05827664e2671abd8d1e), [fd729f](https://github.com/UN-OCHA/numbers-site/commit/fd729f152c9dce480dff155bec7075efb8e9cdba), [9bf5b3](https://github.com/UN-OCHA/numbers-site/commit/9bf5b3e781c7c66dcad828b7c4cee0aee9d451c7), [b2facc](https://github.com/UN-OCHA/numbers-site/commit/b2facc2172f31a63da5302efc7432ab83e663843), [a2c79c](https://github.com/UN-OCHA/numbers-site/commit/a2c79c3402546746e033d314098a2e804a35eb8a), [8f846d](https://github.com/UN-OCHA/numbers-site/commit/8f846db276cc8d696db0cbd3133121e6594e0534), [c9f9c1](https://github.com/UN-OCHA/numbers-site/commit/c9f9c1fc35b580cc42b033912f0fb0e5959f1fa0), [e0b479](https://github.com/UN-OCHA/numbers-site/commit/e0b479e156da26ac59d9f1b61392dd8336d712b7), [75f84e](https://github.com/UN-OCHA/numbers-site/commit/75f84e66254093ade3c77ba0db6e8ba75b525129), [75c7a1](https://github.com/UN-OCHA/numbers-site/commit/75c7a1e045ad0caad0b3b97edcee3915882d7ca2), [0f92eb](https://github.com/UN-OCHA/numbers-site/commit/0f92eb34d32dc51a1fea6cee287334a5ef6bb8e6), [f14499](https://github.com/UN-OCHA/numbers-site/commit/f1449967d5303606f640a1fcdf5388da6a966074), [eceed0](https://github.com/UN-OCHA/numbers-site/commit/eceed00e793a4ca2842bd122de8dfd2080cd16bf), [a89fcd](https://github.com/UN-OCHA/numbers-site/commit/a89fcd83d0b86431f78b8e4204f87e283b51ece0), [a53683](https://github.com/UN-OCHA/numbers-site/commit/a5368386eceac187cc7b0e0fed4bd654080b085e), [2baaca](https://github.com/UN-OCHA/numbers-site/commit/2baacac3c06f43bcf739042ef6ee5cb4cc375b17), [b68216](https://github.com/UN-OCHA/numbers-site/commit/b68216a4300ef0d222ef913bc73beeb23282591b))
+* Update key figures ([b25f67](https://github.com/UN-OCHA/numbers-site/commit/b25f67fd27062ddae87744d61f3338deac911f97))
+* Update patch ([5d4944](https://github.com/UN-OCHA/numbers-site/commit/5d49444e63418e1b1240e72723c88cda9217e836))
+* Update patch so it applies cleanly ([60f1bb](https://github.com/UN-OCHA/numbers-site/commit/60f1bb1570b7392e9adcb6a23fcfd876183f5d3a))
+* Update to tests, without running the tests themselves which are ([bd4318](https://github.com/UN-OCHA/numbers-site/commit/bd43187cbfc83bb3b10be4f317c9306108c8d0bd))
+* Update unocha/ocha_key_figures ([4a8379](https://github.com/UN-OCHA/numbers-site/commit/4a8379224c537f3d13b69bca1db20959bda2654f))
+* Use PHP8.1 [#OPS-9109](https://https://humanitarian.atlassian.net/browse/OPS-9109), [#OPS-9109](https://https://humanitarian.atlassian.net/browse/OPS-9109) ([d4928a](https://github.com/UN-OCHA/numbers-site/commit/d4928a091fd1afc51059c4e30115247901d46ad7), [cbfcc7](https://github.com/UN-OCHA/numbers-site/commit/cbfcc7eafd02df7bb23cfc04728fb89c9f7d335d))
+
+##### Deps
+
+* Bump @sideway/formula ([06709a](https://github.com/UN-OCHA/numbers-site/commit/06709ad218c4508a768a425d732ed621e0e8d992))
+* Bump yaml, stylelint, stylelint-config-standard and stylelint-order ([2fb14c](https://github.com/UN-OCHA/numbers-site/commit/2fb14c554e4b6c973eb65deff363d69bd8b208ff))
+* Upgrade Numbers sub-theme to CD v8 ([c40a90](https://github.com/UN-OCHA/numbers-site/commit/c40a90d9a51ca64e0e8167e3091ee27f1f8afb4f))
+* Upgrade to CD v8 ([81e2f2](https://github.com/UN-OCHA/numbers-site/commit/81e2f281cbe1098a40c75695027dc21e71db7f27))
 
 ## [0.1.6](https://github.com/UN-OCHA/numbers-site/compare/0.1.5...v0.1.6) (2023-02-15)
 
