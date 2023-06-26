@@ -5,7 +5,7 @@
 
 (function () {
   if (!!navigator.canShare) {
-    var keyFigures = document.querySelectorAll('.rw-key-figures__figure');
+    var keyFigures = document.querySelectorAll('.ocha-key-figures__figure');
 
     keyFigures.forEach((keyFigure) => {
       // Create share button.
@@ -13,7 +13,7 @@
       // @TODO: fix non-translatable text
       shareButton.innerHTML = '<span class="visually-hidden">Share this figure</span><img src="/themes/custom/common_design_subtheme/components/num-key-figures-share/share.svg" aria-hidden="true" focusable="false">';
       shareButton.classList.add(
-        'rw-key-figures__share-button',
+        'ocha-key-figures__share-button',
         'cd-social-links__link',
         'cd-social-links__link--copy',
       );
@@ -24,14 +24,14 @@
 
       // Set up Web Share API when button is clicked.
       shareButton.addEventListener('click', (ev) => {
-        let keyFigure = ev.target.closest('.rw-key-figures__figure');
+        let keyFigure = ev.target.closest('.ocha-key-figures__figure');
 
         let shareTitle = window.title;
         let shareUrl = window.location.href + '#' + keyFigure.id;
         let sharetext = [
-          keyFigure.querySelector('.rw-key-figures__figure__label').innerHTML,
+          keyFigure.querySelector('.ocha-key-figures__figure__label').innerHTML,
           ': ',
-          keyFigure.querySelector('.rw-key-figures__figure__value').innerHTML,
+          keyFigure.querySelector('.ocha-key-figures__figure__value').innerHTML,
           '\n',
         ].join('');
 
@@ -97,7 +97,7 @@
       // Insert button into DOM.
       keyFigure.append(shareButton);
       // Mark this figure as shareable.
-      keyFigure.classList.add('rw-key-figures__figure--can-share');
+      keyFigure.classList.add('ocha-key-figures__figure--can-share');
     });
   }
 }());

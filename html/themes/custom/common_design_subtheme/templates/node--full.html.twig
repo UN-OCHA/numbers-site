@@ -85,7 +85,6 @@
 {{ attach_library('common_design/cd-article') }}
 {{ attach_library('common_design/cd-author') }}
 {{ attach_library('common_design/cd-typography') }}
-{{ attach_library('common_design_subtheme/num-layout') }}
 
 {% set unochaDate = node.getCreatedTime|date('j F Y') %}
 <article{{ attributes.addClass(classes) }}>
@@ -141,15 +140,15 @@
 
   <div{{ content_attributes }}>
     {% block section %}
-      <div class="num-layout num-layout--two-col">
-        <div class="num-layout__main-content">
+      <div class="cd-layout">
+        <div class="cd-layout__content">
           {{ content }}
         </div>
 
         {% if field_sidebar_menu is not empty %}
-          <div class="num-layout__sidebar num-layout__first" role="complementary">
+          <aside class="cd-layout__sidebar cd-layout__sidebar--first cd-content--compact" aria-label="{{ 'Sidebar'|t }}">
             {{ field_sidebar_menu }}
-          </div>
+          </aside>
         {% endif %}
       </div>
     {% endblock %}

@@ -52,8 +52,7 @@ libraries-extend:
 # Override libraries to replace specific base-theme components. Now, when the
 # base-theme component would have been used, instead ONLY yours will apply.
 #
-libraries-override:
-  common_design/cd-tabs: common_design_subtheme/cd-tabs
+# libraries-override:
 
 ###
 # Custom namespace - requires Components module

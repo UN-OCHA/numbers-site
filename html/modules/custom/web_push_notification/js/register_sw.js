@@ -68,7 +68,7 @@
 
         // Mark paragraph as processed.
         paragraph.classList.add(
-          'rw-key-figures__can-push',
+          'ocha-key-figures__can-push',
           'web-push--processed',
         );
       });

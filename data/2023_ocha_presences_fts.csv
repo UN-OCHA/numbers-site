@@ -1,0 +1,116 @@
+title,iso3,plan_id,year,office_type
+Afghanistan,afg,1100,2022,Country office
+Afghanistan,afg,1117,2023,Country office
+Asia and the Pacific (ROAP),roap,1100,2022,Regional office
+Asia and the Pacific (ROAP),roap,1082,2022,Regional office
+Asia and the Pacific (ROAP),roap,1095,2022,Regional office
+Asia and the Pacific (ROAP),roap,1117,2023,Regional office
+Asia and the Pacific (ROAP),roap,1143,2023,Regional office
+Asia and the Pacific (ROAP),roap,1132,2023,Regional office
+Burkina Faso,bfa,1087,2022,Country office
+Burkina Faso,bfa,1112,2023,Country office
+Burundi,bdi,1075,2022,Country office
+Burundi,bdi,1148,2023,Country office
+Cameroon,cmr,1080,2022,Country office
+Cameroon,cmr,1115,2023,Country office
+Central African Republic (CAR),caf,1064,2022,Country office
+Central African Republic (CAR),caf,1130,2023,Country office
+Chad,tcd,1091,2022,Country office
+Chad,tcd,1141,2023,Country office
+Colombia,col,1090,2022,Country office
+Colombia,col,1142,2023,Country office
+Democratic Republic of the Congo (DRC),cod,1093,2022,Country office
+Democratic Republic of the Congo (DRC),cod,1113,2023,Country office
+Ethiopia,eth,1079,2022,Country office
+Ethiopia,eth,1128,2023,Country office
+Haiti,hti,1121,2023,Country office
+Horn of Africa,horn,1079,2022,Regional office
+Horn of Africa,horn,1105,2022,Regional office
+Horn of Africa,horn,1063,2022,Regional office
+Horn of Africa,horn,1079,2023,Regional office
+Horn of Africa,horn,1105,2023,Regional office
+Horn of Africa,horn,1063,2023,Regional office
+Iraq,irq,1083,2022,Country office
+Iraq,irq,1083,2023,Country office
+Jordan,jor,1072,2023,Country office
+Latin America and the Caribbean (ROLAC),rolac,1090,2022,Regional office
+Latin America and the Caribbean (ROLAC),rolac,1096,2022,Regional office
+Latin America and the Caribbean (ROLAC),rolac,1097,2022,Regional office
+Latin America and the Caribbean (ROLAC),rolac,1142,2023,Regional office
+Latin America and the Caribbean (ROLAC),rolac,1138,2023,Regional office
+Latin America and the Caribbean (ROLAC),rolac,1139,2023,Regional office
+Latin America and the Caribbean (ROLAC),rolac,1144,2023,Regional office
+Latin America and the Caribbean (ROLAC),rolac,1135,2023,Regional office
+Lebanon,lso,1099,2022,Country office
+Lebanon,lso,1099,2023,Country office
+Libya,lby,1060,2022,Country office
+Libya,lby,1060,2023,Country office
+Mali,mli,1076,2022,Country office
+Mali,mli,1122,2023,Country office
+Middle East and North Africa (ROMENA),romena,1083,2022,Regional office
+Middle East and North Africa (ROMENA),romena,1060,2022,Regional office
+Middle East and North Africa (ROMENA),romena,1088,2022,Regional office
+Middle East and North Africa (ROMENA),romena,1077,2022,Regional office
+Middle East and North Africa (ROMENA),romena,1059,2022,Regional office
+Middle East and North Africa (ROMENA),romena,1134,2023,Regional office
+Middle East and North Africa (ROMENA),romena,1114,2023,Regional office
+Middle East and North Africa (ROMENA),romena,1116,2023,Regional office
+Middle East and North Africa (ROMENA),romena,1109,2023,Regional office
+Mozambique,moz,1094,2022,Country office
+Mozambique,moz,1131,2023,Country office
+Myanmar,mmr,1095,2022,Country office
+Myanmar,mmr,1132,2023,Country office
+Niger,ner,1078,2022,Country office
+Niger,ner,1145,2023,Country office
+Nigeria,nga,1062,2022,Country office
+Nigeria,nga,1110,2023,Country office
+Pakistan,pak,1034,2022,Country office
+Pakistan,pak,1140,2023,Country office
+Sahel,sahel,1037,2022,Regional office
+Sahel,sahel,1030,2022,Regional office
+Sahel,sahel,1028,2022,Regional office
+Sahel,sahel,1036,2022,Regional office
+Sahel,sahel,1033,2022,Regional office
+Sahel,sahel,1032,2022,Regional office
+Sahel,sahel,1028,2023,Regional office
+Sahel,sahel,1036,2023,Regional office
+Sahel,sahel,1033,2023,Regional office
+Sahel,sahel,1032,2023,Regional office
+Sahel,sahel,1037,2023,Regional office
+Sahel,sahel,1030,2023,Regional office
+Somalia,som,1063,2022,Country office
+Somalia,som,1133,2023,Country office
+South Sudan,ssd,1098,2022,Country office
+South Sudan,ssd,1111,2023,Country office
+Southern and Eastern Africa (ROSEA),rosea,1063,2022,Regional office
+Southern and Eastern Africa (ROSEA),rosea,1098,2022,Regional office
+Southern and Eastern Africa (ROSEA),rosea,1068,2022,Regional office
+Southern and Eastern Africa (ROSEA),rosea,1094,2022,Regional office
+Southern and Eastern Africa (ROSEA),rosea,1131,2023,Regional office
+Southern and Eastern Africa (ROSEA),rosea,1133,2023,Regional office
+Southern and Eastern Africa (ROSEA),rosea,1111,2023,Regional office
+Southern and Eastern Africa (ROSEA),rosea,1123,2023,Regional office
+Sudan,sdn,1068,2022,Country office
+Sudan,sdn,1123,2023,Country office
+Syrian Arab Republic,syr,1088,2022,Country office
+Syrian Arab Republic,syr,1114,2023,Country office
+The Philippines,phl,1101,2022,Country office
+The Philippines,phl,1101,2023,Country office
+Türkiye Cross-Border,tur,1088,2022,Regional office
+Türkiye Cross-Border,tur,1114,2023,Regional office
+Ukraine,ukr,1102,2022,Country office
+Ukraine,ukr,1124,2023,Country office
+Venezuela,ven,1097,2022,Country office
+Venezuela,ven,1135,2023,Country office
+West and Central Africa (ROWCA),rowca,1080,2022,Regional office
+West and Central Africa (ROWCA),rowca,1091,2022,Regional office
+West and Central Africa (ROWCA),rowca,1093,2022,Regional office
+West and Central Africa (ROWCA),rowca,1076,2022,Regional office
+West and Central Africa (ROWCA),rowca,1078,2022,Regional office
+West and Central Africa (ROWCA),rowca,1115,2023,Regional office
+West and Central Africa (ROWCA),rowca,1141,2023,Regional office
+West and Central Africa (ROWCA),rowca,1113,2023,Regional office
+West and Central Africa (ROWCA),rowca,1122,2023,Regional office
+West and Central Africa (ROWCA),rowca,1110,2023,Regional office
+Yemen,yem,1077,2022,Country office
+Yemen,yem,1116,2023,Country office

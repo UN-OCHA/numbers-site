@@ -1,0 +1,19 @@
+uuid: 054d34c5-00fb-4f52-b988-538771df2d18
+langcode: en
+status: true
+dependencies:
+  module:
+    - ocha_key_figures
+    - paragraphs
+id: paragraph.field_key_figures
+field_name: field_key_figures
+entity_type: paragraph
+type: key_figure
+settings: {  }
+module: ocha_key_figures
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

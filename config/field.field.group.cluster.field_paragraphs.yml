@@ -5,8 +5,6 @@ dependencies:
   config:
     - field.storage.group.field_paragraphs
     - group.type.cluster
-    - paragraphs.paragraphs_type.featured_number
-    - paragraphs.paragraphs_type.featured_numbers
   module:
     - entity_reference_revisions
 id: group.cluster.field_paragraphs
@@ -22,9 +20,7 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    target_bundles:
-      featured_number: featured_number
-      featured_numbers: featured_numbers
+    target_bundles: {  }
     negate: 1
     target_bundles_drag_drop:
       cbpf_key_figures:
