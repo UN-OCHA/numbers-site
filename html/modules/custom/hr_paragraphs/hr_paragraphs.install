@@ -127,7 +127,7 @@ function hr_paragraphs_update_9007() {
   ];
 
   foreach ($paragraph_types as $paragraph_type) {
-    $paragraphs = Drupal::entityTypeManager()->getStorage('group')->loadByProperties([
+    $paragraphs = Drupal::entityTypeManager()->getStorage('paragraph')->loadByProperties([
       'type' => $paragraph_type,
     ]);
 
