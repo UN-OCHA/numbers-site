@@ -4,7 +4,17 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
-## [0.1.0](https://github.com/UN-OCHA/numbers-site/compare/0.1.6...v1.0.0) (2023-06-26)
+## [0.1.18](https://github.com/UN-OCHA/numbers-site/compare/0.1.16...0.1.18) (2023-06-30)
+
+### Features
+
+* Re-add webpush ([0804a8](https://github.com/UN-OCHA/numbers-site/commit/0804a8d217a803f017cc3a1e015504c934c16b1e))
+
+### Chores
+
+* Add dependency ([515da7](https://github.com/UN-OCHA/numbers-site/commit/515da7112ba4e8c079bee3466ef49883c7c2fc8e))
+
+## [0.1.16](https://github.com/UN-OCHA/numbers-site/compare/0.1.6...0.1.16) (2023-06-26)
 
 ### Features
 
