@@ -68,7 +68,7 @@
 
         // Mark paragraph as processed.
         paragraph.classList.add(
-          'ocha-key-figures__can-push',
+          'rw-key-figures__can-push',
           'web-push--processed',
         );
       });
@@ -179,7 +179,7 @@
           return;
         }
 
-        let paraIds = data.para_ids.split(',');
+        let paraIds = data.para_ids;
         const pushButtons = document.querySelectorAll('button[data-push-id]');
         if (!pushButtons) {
           return;

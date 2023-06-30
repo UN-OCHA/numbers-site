@@ -25,7 +25,6 @@ self.addEventListener('push', function (event) {
 
   if (event.data) {
     data = event.data.json();
-    console.log(event);
     self.registration.showNotification(data.title, {
       body: data.body,
       icon: data.icon,
