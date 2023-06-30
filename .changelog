@@ -2,7 +2,7 @@
 
 return [
   'ignoreTypes' => ['build', 'ci', 'docs', 'refactor', 'revert', 'style', 'test'],
-  'tagPrefix' => 'v',
+  'tagPrefix' => '',
   'tagSuffix' => '',
   'commitUrlFormat' => '{{host}}/{{owner}}/{{repository}}/commit/{{hash}}',
   'compareUrlFormat' => '{{host}}/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}',

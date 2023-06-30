@@ -115,8 +115,8 @@ class WebPushNotificationController extends ControllerBase {
           'key' => $key,
           'token' => $token,
           'endpoint' => $endpoint,
-          'para_ids' => $para_id,
         ]);
+        $subscription->addParaId($para_id);
         $subscription->save();
       }
       else {
@@ -193,7 +193,7 @@ class WebPushNotificationController extends ControllerBase {
       }
       else {
         $subscription = Subscription::load(reset($ids));
-        return new JsonResponse(['para_ids' => $subscription->para_ids->value]);
+        return new JsonResponse(['para_ids' => $subscription->getParaIdsArray()]);
       }
     }
     else {
@@ -224,7 +224,7 @@ class WebPushNotificationController extends ControllerBase {
       }
       else {
         $subscription = Subscription::load(reset($ids));
-        return new JsonResponse(['para_ids' => $subscription->para_ids->value]);
+        return new JsonResponse(['para_ids' => $subscription->getParaIdsArray()]);
       }
     }
     else {
