@@ -143,3 +143,18 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.ocha-key-figures__figure__table {
+  font-size: 1rem;
+}
+
+.ocha-key-figures__figure__label {
+  width: 90%;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.ocha-key-figures__figure__amount {
+  text-align: right;
+}
