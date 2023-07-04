@@ -141,6 +141,7 @@
 /* Tables */
 .ocha-key-figures__figure__table {
   font-size: 1rem;
+  width: 100%;
 }
 
 .ocha-key-figures__figure__label {
