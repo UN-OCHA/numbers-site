@@ -1,0 +1,31 @@
+<li>
+  <figure id="{{ figure.id|clean_id }}" class="ocha-key-figures__figure ocha-key-figures__figure--{{ figure.status }}">
+    <figcaption class="ocha-key-figures__figure__label">{{ figure.name }}</figcaption>
+    <div class="ocha-key-figures__figure__content">
+      <table class="ocha-key-figures__figure__table">
+        <thead>
+          <tr>
+            <th scope="col" class="ocha-key-figures__figure__label">{{ 'Sector'|t }}</th>
+            <th scope="col" class="ocha-key-figures__figure__amount">{{ 'Total funding'|t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for donor in figure.donors %}
+          <tr>
+            <td class="ocha-key-figures__figure__label">{{ donor.name }}</td>
+            <td class="ocha-key-figures__figure__amount">${{ donor.total_funding|number_format(2, '.', ',') }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% if figure.description %}
+        <small class="ocha-key-figures__figure__description"><span class="ocha-key-figures__figure__description__message">{{ figure.description }}</span></small>
+      {% endif %}
+    </div>
+    <footer class="ocha-key-figures__figure__footer">
+      <time datetime="{{ figure.date|date('c') }}" class="ocha-key-figures__figure__updated">{{ figure.updated }}</time>
+      <cite class="ocha-key-figures__figure__source"><span class="visually-hidden">{{ 'Source: '|t }} </span><a href="{{ figure.url }}">{{ figure.source }}</a></cite>
+    </footer>
+  </figure>
+</li>
