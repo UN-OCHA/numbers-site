@@ -1,11 +1,5 @@
-/* stylelint-disable max-line-length */
 /**
- * RW Key Figures component
- *
- * This component contains modifications to the original, which came from the
- * following commit:
- *
- * @see https://github.com/UN-OCHA/rwint9-site/blob/8900b2b7079594a59a8ccc2c75c4c7f1415eef3a/html/themes/custom/common_design_subtheme/components/rw-key-figures/rw-key-figures.css
+ * OCHA Key Figures
  */
 
 /* Country key figures */
@@ -144,16 +138,17 @@
   }
 }
 
+/* Tables */
 .ocha-key-figures__figure__table {
   font-size: 1rem;
 }
 
 .ocha-key-figures__figure__label {
-  width: 90%;
   display: inline-block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   overflow: hidden;
+  width: 90%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .ocha-key-figures__figure__amount {
   text-align: right;
