@@ -5,14 +5,14 @@
       <table class="ocha-key-figures__figure__table">
         <thead>
           <tr>
-            <td class="ocha-key-figures__figure__label">Donor</td>
-            <td class="ocha-key-figures__figure__amount">Total funding</td>
+            <th scope="col" class="ocha-key-figures__figure__label">Donor</th>
+            <th scope="col" class="ocha-key-figures__figure__amount">Total funding</th>
           </tr>
         </thead>
         <tbody>
           {% for donor in figure.donors %}
           <tr>
-            <td class="ocha-key-figures__figure__label" title="{{ donor.name }}">{{ donor.name }}</td>
+            <td class="ocha-key-figures__figure__label">{{ donor.name }}</td>
             <td class="ocha-key-figures__figure__amount">${{ donor.total_funding|number_format(2, '.', ',') }}</td>
           </tr>
           {% endfor %}
