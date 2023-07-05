@@ -68,6 +68,7 @@ module:
   update: 0
   user: 0
   user_expire: 0
+  username_enumeration_prevention: 0
   variationcache: 0
   web_push_notification: 0
   pathauto: 1
