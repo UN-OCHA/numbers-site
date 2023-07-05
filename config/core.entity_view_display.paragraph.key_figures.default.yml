@@ -20,11 +20,11 @@ content:
     label: hidden
     settings:
       format: decimal
-      precision: '1'
-      currency_symbol: 'yes'
+      precision: 1
       percentage: 'yes'
-      display_sparklines: all
-      output_json_ld: 'yes'
+      currency_symbol: 'yes'
+      display_sparklines: 'no'
+      output_json_ld: 'no'
     third_party_settings: {  }
     weight: 2
     region: content

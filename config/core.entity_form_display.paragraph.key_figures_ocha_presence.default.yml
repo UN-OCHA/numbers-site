@@ -16,10 +16,11 @@ bundle: key_figures_ocha_presence
 mode: default
 content:
   field_key_figures_presence:
-    type: key_figure_presence
+    type: key_figure_presence_multiple
     weight: 2
     region: content
-    settings: {  }
+    settings:
+      allow_manual: 'yes'
     third_party_settings: {  }
   field_text:
     type: text_textarea
