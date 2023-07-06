@@ -4,6 +4,27 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.1.19](https://github.com/UN-OCHA/numbers-site/compare/0.1.18...0.1.19) (2023-07-06)
+
+### Features
+
+* Styling top donors and sectors ([3b925a](https://github.com/UN-OCHA/numbers-site/commit/3b925abc9c182b4aaaa65d385222baa132001a48))
+
+### Bug Fixes
+
+* Scope table styles to actual table cells ([758db6](https://github.com/UN-OCHA/numbers-site/commit/758db63ee5c327bd17ba24a3a9f8dc991498d224))
+* Translatable labels ([92c5f7](https://github.com/UN-OCHA/numbers-site/commit/92c5f7224149fc2aa7a532d3d63220c15b264ab0))
+
+##### A11y
+
+* Improve screen reading of Top donors/sectors ([046824](https://github.com/UN-OCHA/numbers-site/commit/0468246bd639b18e546d86d9e5206c7ac627c92f))
+
+### Chores
+
+* Add username_enumeration_prevention module ([fba9f6](https://github.com/UN-OCHA/numbers-site/commit/fba9f6a42adb06217c61302ba1768096761b9689))
+* Display as extended ([58174d](https://github.com/UN-OCHA/numbers-site/commit/58174dd25f08d54566111ec98e532b7e1ea607b2))
+* Enable username_enumeration_prevention module ([7b930d](https://github.com/UN-OCHA/numbers-site/commit/7b930d57ba1f1bb5a41504b4b90439df4c48c005))
+
 ## [0.1.18](https://github.com/UN-OCHA/numbers-site/compare/0.1.16...0.1.18) (2023-06-30)
 
 ### Features

@@ -16,13 +16,15 @@ bundle: key_figures_ocha_presence
 mode: default
 content:
   field_key_figures_presence:
-    type: key_figure_presence
+    type: key_figure_presence_extended
     label: hidden
     settings:
       format: decimal
       precision: 1
       percentage: 'yes'
       currency_symbol: 'yes'
+      display_sparklines: 'no'
+      output_json_ld: 'no'
     third_party_settings: {  }
     weight: 2
     region: content
