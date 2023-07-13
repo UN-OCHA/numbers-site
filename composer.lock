@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c29ed790302005def5e395eed5a8b3e",
+    "content-hash": "44bac6bb908de28d884ab44b9af79763",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3460,30 +3460,30 @@
         },
         {
             "name": "drupal/subgroup",
-            "version": "2.0.0-beta1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/subgroup.git",
-                "reference": "2.0.0-beta1"
+                "reference": "2.0.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/subgroup-2.0.0-beta1.zip",
-                "reference": "2.0.0-beta1",
-                "shasum": "13da388e7e37e0613a5d5dad18dce861e1ee9277"
+                "url": "https://ftp.drupal.org/files/projects/subgroup-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "e86c1710d48ced69c9b296ed2233f43e2c6f8c9e"
             },
             "require": {
-                "drupal/core": "^9 || ^10",
+                "drupal/core": "^9.5 || ^10",
                 "drupal/group": "^2.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.0-beta1",
-                    "datestamp": "1660653305",
+                    "version": "2.0.0",
+                    "datestamp": "1681811483",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -12595,23 +12595,26 @@
         },
         {
             "name": "drupal/field_tools",
-            "version": "dev-1.x",
+            "version": "1.0.0-alpha10",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/field_tools.git",
-                "reference": "b5b24dc8ad4465e633c794647249f9c74f5dfdb8"
+                "reference": "8.x-1.0-alpha10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/field_tools-8.x-1.0-alpha10.zip",
+                "reference": "8.x-1.0-alpha10",
+                "shasum": "21f50bf9fa8bb10f5161b3a3366a06f431f73c69"
             },
             "require": {
                 "drupal/core": "^8.9 || ^9 || ^10"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
                 "drupal": {
-                    "version": "8.x-1.0-alpha10+1-dev",
-                    "datestamp": "1677664205",
+                    "version": "8.x-1.0-alpha10",
+                    "datestamp": "1676563317",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -16908,8 +16911,7 @@
         "drupal/layout_paragraphs": 10,
         "drupal/link_allowed_hosts": 10,
         "drupal/masquerade": 10,
-        "drupal/subgroup": 10,
-        "drupal/field_tools": 20
+        "drupal/field_tools": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
