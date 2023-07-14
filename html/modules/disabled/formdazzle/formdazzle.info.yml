@@ -1,0 +1,4 @@
+name: 'formdazzle - disabled'
+description: 'formdazzle - disabled'
+type: module
+core_version_requirement: ^9 || ^10
