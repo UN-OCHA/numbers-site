@@ -72,7 +72,8 @@
         "rlanvin/php-rrule": "2.3.1",
         "unocha/common_design": "^8",
         "unocha/ocha_key_figures": "^2",
-        "unocha/ocha_search": "^1.0"
+        "unocha/ocha_search": "^1.0",
+        "weitzman/drupal-test-traits": "^2.1"
     },
     "conflict": {
         "drupal/drupal": "*"
