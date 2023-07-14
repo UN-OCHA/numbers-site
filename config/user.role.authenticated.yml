@@ -6,6 +6,7 @@ dependencies:
     - filter.format.basic_html
     - filter.format.hr_plain_text
   module:
+    - file
     - filter
     - node
     - paragraphs
@@ -21,6 +22,7 @@ is_admin: false
 permissions:
   - 'access content'
   - 'access shortcuts'
+  - 'delete own files'
   - 'use text format basic_html'
   - 'use text format hr_plain_text'
   - 'view own unpublished content'

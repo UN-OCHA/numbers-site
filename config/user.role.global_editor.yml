@@ -58,6 +58,7 @@ permissions:
   - 'delete any page content'
   - 'delete landing_page revisions'
   - 'delete orphan revisions'
+  - 'delete own files'
   - 'delete own landing_page content'
   - 'delete own page content'
   - 'delete page revisions'
