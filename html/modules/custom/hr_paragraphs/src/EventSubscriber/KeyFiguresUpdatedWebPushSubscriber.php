@@ -83,6 +83,7 @@ class KeyFiguresUpdatedWebPushSubscriber implements EventSubscriberInterface {
 
       $query = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery();
       $query->condition('para_ids', '|' . $id . '|', 'CONTAINS');
+      $query->accessCheck(FALSE);
 
       $start = 0;
       $limit = 30;

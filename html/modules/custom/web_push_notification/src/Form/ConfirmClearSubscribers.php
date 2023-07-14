@@ -59,6 +59,7 @@ class ConfirmClearSubscribers extends ConfirmFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $count = $this->storage
       ->getQuery()
+      ->accessCheck(FALSE)
       ->count()
       ->execute();
 
@@ -79,7 +80,7 @@ class ConfirmClearSubscribers extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $query = $this->storage->getQuery();
+    $query = $this->storage->getQuery()->accessCheck(FALSE);
 
     $start = 0;
 

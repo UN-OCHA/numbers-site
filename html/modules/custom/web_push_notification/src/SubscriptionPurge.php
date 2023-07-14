@@ -68,6 +68,7 @@ class SubscriptionPurge {
   protected function deleteSubscription($endpoint) {
     $ids = $this->entityStorage->getQuery()
       ->condition('endpoint', $endpoint)
+      ->accessCheck(FALSE)
       ->execute();
     if (empty($ids)) {
       return;
