@@ -75,8 +75,7 @@
         "rlanvin/php-rrule": "2.3.1",
         "unocha/common_design": "^8",
         "unocha/ocha_key_figures": "^2",
-        "unocha/ocha_search": "^1.0",
-        "weitzman/drupal-test-traits": "^2.1"
+        "unocha/ocha_search": "^1.0"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -200,7 +199,8 @@
         "phpcompatibility/php-compatibility": "^9.3",
         "phpspec/prophecy-phpunit": "^2",
         "phpunit/php-code-coverage": "^9.2",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "weitzman/drupal-test-traits": "^2.1"
     },
     "version": "0.1.19"
 }
