@@ -1,0 +1,4 @@
+name: 'ckeditor - disabled'
+description: 'ckeditor - disabled'
+type: module
+core_version_requirement: ^9 || ^10
