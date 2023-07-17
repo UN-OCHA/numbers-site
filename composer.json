@@ -48,6 +48,7 @@
         "drupal/inline_entity_form": "^1.0@RC",
         "drupal/layout_paragraphs": "^2.0@beta",
         "drupal/link_allowed_hosts": "^1.0@beta",
+        "drupal/maintenance200": "^1.1",
         "drupal/masquerade": "^2.0@beta",
         "drupal/memcache": "^2.3",
         "drupal/metatag": "^1.22",
@@ -65,10 +66,12 @@
         "galbar/jsonpath": "^2.0",
         "league/commonmark": "1.6",
         "mailchimp/marketing": "^3.0",
+        "mglaman/composer-drupal-lenient": "^1.0",
         "minishlink/web-push": "^8.0",
         "npm-asset/moment": "^2.29",
         "npm-asset/select2": "^4",
         "oomphinc/composer-installers-extender": "^2.0",
+        "orakili/composer-drupal-info-file-patch-helper": "^1.0",
         "rlanvin/php-rrule": "2.3.1",
         "unocha/common_design": "^8",
         "unocha/ocha_key_figures": "^2",
@@ -107,7 +110,9 @@
             "drupal/console-extend-plugin": true,
             "symfony/flex": true,
             "oomphinc/composer-installers-extender": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "orakili/composer-drupal-info-file-patch-helper": true,
+            "mglaman/composer-drupal-lenient": true
         }
     },
     "extra": {
@@ -173,6 +178,12 @@
                 "      https://www.drupal.org/getting-involved",
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
+            ]
+        },
+        "drupal-lenient": {
+            "constraint": "^10",
+            "allowed-list": [
+                "drupal/maintenance200"
             ]
         }
     },

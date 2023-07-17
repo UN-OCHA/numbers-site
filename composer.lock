@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8f761a0055dca96187cbdd4aae60355",
+    "content-hash": "c8ef92c12dfcd715160f692510533039",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2513,6 +2513,58 @@
             }
         },
         {
+            "name": "drupal/maintenance200",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/maintenance200.git",
+                "reference": "8.x-1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/maintenance200-8.x-1.1.zip",
+                "reference": "8.x-1.1",
+                "shasum": "b01ed2dd4371c9ff24dbbbe235bedfe44f0e008e"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.1",
+                    "datestamp": "1597142482",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Barrett",
+                    "homepage": "https://www.drupal.org/user/52745"
+                },
+                {
+                    "name": "ben.bunk",
+                    "homepage": "https://www.drupal.org/user/764808"
+                },
+                {
+                    "name": "runeasgar",
+                    "homepage": "https://www.drupal.org/user/1105258"
+                }
+            ],
+            "description": "Allows the maintenance page to return a configurable HTTP status code rather than the standard 503 code.",
+            "homepage": "https://www.drupal.org/project/maintenance200",
+            "support": {
+                "source": "https://git.drupalcode.org/project/maintenance200"
+            }
+        },
+        {
             "name": "drupal/masquerade",
             "version": "2.0.0-rc1",
             "source": {
@@ -4823,6 +4875,64 @@
             "time": "2023-01-21T13:18:17+00:00"
         },
         {
+            "name": "mglaman/composer-drupal-lenient",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mglaman/composer-drupal-lenient.git",
+                "reference": "9d9271499d86ceb1431de80f876800fadf10a9e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mglaman/composer-drupal-lenient/zipball/9d9271499d86ceb1431de80f876800fadf10a9e1",
+                "reference": "9d9271499d86ceb1431de80f876800fadf10a9e1",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "composer/composer": "^2.3",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.6",
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpstan/phpstan-strict-rules": "^1.2",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "ComposerDrupalLenient\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "ComposerDrupalLenient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Matt Glaman",
+                    "email": "nmd.matt@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/mglaman/composer-drupal-lenient/issues",
+                "source": "https://github.com/mglaman/composer-drupal-lenient/tree/1.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mglaman",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-21T19:06:37+00:00"
+        },
+        {
             "name": "minishlink/web-push",
             "version": "v8.0.0",
             "source": {
@@ -5025,6 +5135,49 @@
                 "source": "https://github.com/oomphinc/composer-installers-extender/tree/2.0.1"
             },
             "time": "2021-12-15T12:32:42+00:00"
+        },
+        {
+            "name": "orakili/composer-drupal-info-file-patch-helper",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orakili/composer-drupal-info-file-patch-helper.git",
+                "reference": "26dc73c0ad6a55486c09c75fd1cd091c79f98967"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orakili/composer-drupal-info-file-patch-helper/zipball/26dc73c0ad6a55486c09c75fd1cd091c79f98967",
+                "reference": "26dc73c0ad6a55486c09c75fd1cd091c79f98967",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^2.0",
+                "php": ">=8.1"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "ComposerDrupalInfoFilePatchHelper\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "ComposerDrupalInfoFilePatchHelper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "orakili",
+                    "homepage": "https://github.com/orakili"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/orakili/composer-drupal-info-file-patch-helper/issues",
+                "source": "https://github.com/orakili/composer-drupal-info-file-patch-helper/tree/1.0.1"
+            },
+            "time": "2022-12-20T03:47:48+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
