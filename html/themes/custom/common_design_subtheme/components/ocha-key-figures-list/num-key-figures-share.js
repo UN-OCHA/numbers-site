@@ -11,7 +11,7 @@
       // Create share button.
       let shareButton = document.createElement('button');
       // @TODO: fix non-translatable text
-      shareButton.innerHTML = '<span class="visually-hidden">Share this figure</span><img src="/themes/custom/common_design_subtheme/components/num-key-figures-share/share.svg" aria-hidden="true" focusable="false">';
+      shareButton.innerHTML = '<span class="visually-hidden">Share this figure</span><img src="/themes/custom/common_design_subtheme/components/ocha-key-figures-list/share.svg" aria-hidden="true" focusable="false">';
       shareButton.classList.add(
         'ocha-key-figures__share-button',
         'cd-social-links__link',

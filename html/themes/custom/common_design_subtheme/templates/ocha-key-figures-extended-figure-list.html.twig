@@ -1,24 +1,7 @@
-{{ attach_library('common_design_subtheme/ocha-key-figures') }}
-{{ attach_library('common_design_subtheme/num-key-figures-share') }}
-{{ attach_library('common_design_subtheme/num-key-figures-push') }}
-
-<div class="ocha-key-figures">
-  <ul class="ocha-key-figures__list">
-    {{ figures }}
-  </ul>
-
-  {% if view_all %}
-  <footer class="view-more ocha-key-figures__links">
-    <a href="{{ view_all_info.href }}">{{ view_all_info.title }}</a>
-  </footer>
-  {% endif %}
-
-  {% if jsonld is not empty %}
-  <script type="application/ld+json">
-    {{ jsonld|raw }}
-  </script>
-  {% endif %}
-
-</div>{# .ocha-key-figures #}
-
-{% set catch_cache = figures|render %}
+{{ include('common_design_subtheme:ocha-key-figures-list', {
+    figures,
+    view_all: view_all ? true : false,
+    view_all_info: view_all_info ? view_all_info : {},
+    jsonld: jsonld ? jsonld : ''
+  }, only)
+}}

@@ -1,0 +1,22 @@
+name: OCHA Key Figures list
+props:
+  type: object
+  properties:
+    figures:
+      type: array
+    view_all:
+      type: boolean
+    view_all_info:
+      type: object
+    jsonld:
+      type: string
+libraryOverrides:
+  css:
+    component:
+      num-key-figures-share.css: {}
+      num-key-figures-push.css: {}
+  js:
+    html2canvas.js: {}
+    num-key-figures-share.js: {}
+  dependencies:
+    - common_design/cd-social-links

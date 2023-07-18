@@ -1,0 +1,8 @@
+name: OCHA Key Figures
+props:
+  type: object
+  required:
+    - figure
+  properties:
+    figure:
+      type: object

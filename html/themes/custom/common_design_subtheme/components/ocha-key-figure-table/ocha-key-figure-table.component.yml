@@ -1,0 +1,13 @@
+name: OCHA Key Figures
+props:
+  type: object
+  required:
+    - figure
+  properties:
+    figure:
+      type: object
+slots:
+  table:
+    title: Table
+    required: true
+    description: Table data

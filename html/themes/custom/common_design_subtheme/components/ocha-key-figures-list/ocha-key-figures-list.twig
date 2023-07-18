@@ -1,0 +1,96 @@
+<div class="ocha-key-figures">
+  <ul class="ocha-key-figures__list">
+    {% for figure in figures %}
+      {% if figure['#figure']['figure_id'] == 'top-sectors' %}
+        {% embed 'common_design_subtheme:ocha-key-figure-table' with {
+            figure: figure['#figure'],
+          } only
+        %}
+          {% block table %}
+            <table class="ocha-key-figures__figure__table">
+              <thead>
+                <tr>
+                  <th scope="col" class="ocha-key-figures__figure__label">{{ 'Sector'|t }}</th>
+                  <th scope="col" class="ocha-key-figures__figure__amount">{{ 'Total funding'|t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for sector in figure.sectors %}
+                <tr>
+                  <td class="ocha-key-figures__figure__label">{{ sector.name }}</td>
+                  <td class="ocha-key-figures__figure__amount">${{ sector.total_funding|number_format(2, '.', ',') }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endblock %}
+        {% endembed %}
+      {% elseif figure['#figure']['figure_id'] == 'top-donors' %}
+        {% embed 'common_design_subtheme:ocha-key-figure-table' with {
+            figure: figure['#figure'],
+          } only
+        %}
+          {% block table %}
+            {% if figure.provider == 'cbpf' %}
+              <table class="ocha-key-figures__figure__table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="ocha-key-figures__figure__label">{{ 'Donor'|t }}</th>
+                    <th scope="col" class="ocha-key-figures__figure__amount">{{ 'Paid'|t }}</th>
+                    <th scope="col" class="ocha-key-figures__figure__amount">{{ 'Pledged'|t }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for donor in figure.donors %}
+                  <tr>
+                    <td class="ocha-key-figures__figure__label">{{ donor.name }}</td>
+                    <td class="ocha-key-figures__figure__amount">${{ donor.paid|number_format(2, '.', ',') }}</td>
+                    <td class="ocha-key-figures__figure__amount">${{ donor.pledged|number_format(2, '.', ',') }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <table class="ocha-key-figures__figure__table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="ocha-key-figures__figure__label">{{ 'Donor'|t }}</th>
+                    <th scope="col" class="ocha-key-figures__figure__amount">{{ 'Total funding'|t }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for donor in figure.donors %}
+                  <tr>
+                    <td class="ocha-key-figures__figure__label">{{ donor.name }}</td>
+                    <td class="ocha-key-figures__figure__amount">${{ donor.total_funding|number_format(2, '.', ',') }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% endif %}
+          {% endblock %}
+        {% endembed %}
+      {% else %}
+        {{ include('common_design_subtheme:ocha-key-figure', {
+            figure: figure['#figure'],
+          })
+        }}
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+  {% if view_all %}
+  <footer class="view-more ocha-key-figures__links">
+    <a href="{{ view_all_info.href }}">{{ view_all_info.title }}</a>
+  </footer>
+  {% endif %}
+
+  {% if jsonld is not empty %}
+  <script type="application/ld+json">
+    {{ jsonld|raw }}
+  </script>
+  {% endif %}
+
+</div>
+
+{% set catch_cache = figures|render %}
