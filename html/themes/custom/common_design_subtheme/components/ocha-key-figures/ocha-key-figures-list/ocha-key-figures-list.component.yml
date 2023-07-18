@@ -14,6 +14,7 @@ props:
 libraryOverrides:
   css:
     component:
+      ocha-key-figures-list.css: {}
       num-key-figures-share.css: {}
       num-key-figures-push.css: {}
   js:

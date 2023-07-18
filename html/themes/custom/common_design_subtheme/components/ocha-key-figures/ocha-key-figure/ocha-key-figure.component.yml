@@ -7,3 +7,6 @@ props:
   properties:
     figure:
       type: object
+libraryOverrides:
+  dependencies:
+    - sdc/ocha-key-figures-list

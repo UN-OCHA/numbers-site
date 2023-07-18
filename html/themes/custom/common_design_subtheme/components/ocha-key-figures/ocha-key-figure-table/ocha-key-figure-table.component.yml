@@ -12,3 +12,6 @@ slots:
     title: Table
     required: true
     description: Table data
+libraryOverrides:
+  dependencies:
+    - sdc/ocha-key-figures-list

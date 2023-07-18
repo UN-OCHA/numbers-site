@@ -1,0 +1,19 @@
+/* Tables */
+.ocha-key-figures__figure__table {
+  width: 100%;
+  font-size: 1rem;
+}
+
+th.ocha-key-figures__figure__label,
+td.ocha-key-figures__figure__label {
+  display: inline-block;
+  overflow: hidden;
+  width: 90%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+th.ocha-key-figures__figure__amount,
+td.ocha-key-figures__figure__amount {
+  text-align: right;
+}
