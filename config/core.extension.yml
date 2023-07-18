@@ -5,7 +5,7 @@ module:
   big_pipe: 0
   block: 0
   breakpoint: 0
-  ckeditor: 0
+  ckeditor5: 0
   components: 0
   config: 0
   config_split: 0
@@ -17,7 +17,6 @@ module:
   editor: 0
   entity: 0
   entity_reference_revisions: 0
-  environment_indicator: 0
   field: 0
   field_ui: 0
   file: 0
@@ -51,6 +50,7 @@ module:
   paragraphs_type_permissions: 0
   path: 0
   path_alias: 0
+  phpass: 0
   select2: 0
   shortcut: 0
   social_api: 0
@@ -74,14 +74,12 @@ module:
   pathauto: 1
   xmlsitemap: 1
   content_translation: 10
-  formdazzle: 10
   views: 10
   paragraphs: 11
   minimal: 1000
 theme:
-  seven: 0
   stable: 0
   common_design: 0
   common_design_subtheme: 0
-  hri_admin: 0
+  claro: 0
 profile: minimal

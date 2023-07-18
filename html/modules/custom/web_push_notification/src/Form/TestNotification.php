@@ -109,7 +109,7 @@ class TestNotification extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $count = $this->storage->getQuery()->count()->execute();
+    $count = $this->storage->getQuery()->accessCheck(FALSE)->count()->execute();
     if ($count == 0) {
       $this->messenger()->addWarning($this->t('No subscriptions found.'));
       return $form;
