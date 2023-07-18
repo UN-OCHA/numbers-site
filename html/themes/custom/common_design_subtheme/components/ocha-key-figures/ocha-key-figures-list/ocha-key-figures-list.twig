@@ -71,10 +71,10 @@
           {% endblock %}
         {% endembed %}
       {% else %}
-        {{ include('common_design_subtheme:ocha-key-figure', {
+        {% include 'common_design_subtheme:ocha-key-figure' with {
             figure: figure['#figure'],
-          })
-        }}
+          }
+        %}
       {% endif %}
     {% endfor %}
   </ul>
