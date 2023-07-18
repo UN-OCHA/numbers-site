@@ -1,4 +1,5 @@
 name: OCHA Key Figures list
+description: Render a list of key figures
 props:
   type: object
   properties:

@@ -1,4 +1,5 @@
-name: OCHA Key Figures
+name: OCHA Key Figure table
+description: OCHA Key figure containing tabular data
 props:
   type: object
   required:

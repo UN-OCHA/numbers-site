@@ -64,7 +64,6 @@
         "drupal/xmlsitemap": "^1.4",
         "drush/drush": "^12",
         "galbar/jsonpath": "^2.0",
-        "league/commonmark": "1.6",
         "mailchimp/marketing": "^3.0",
         "mglaman/composer-drupal-lenient": "^1.0",
         "minishlink/web-push": "^8.0",
@@ -187,6 +186,7 @@
         }
     },
     "require-dev": {
+        "drupal/cl_devel": "^2.0@beta",
         "drupal/coder": "^8.3",
         "drupal/config_inspector": "^2.0",
         "drupal/core-dev": "^10",

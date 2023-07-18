@@ -1,4 +1,5 @@
-name: OCHA Key Figures
+name: OCHA Key Figure
+description: OCHA Key Figure with optional sparkline
 props:
   type: object
   required:
