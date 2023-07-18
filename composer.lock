@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66e7aa3b3ef60aa5a056918ae376c80b",
+    "content-hash": "3121c0f087e2ec1d08bb878ba57b24dd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -11350,51 +11350,6 @@
             }
         },
         {
-            "name": "drupal/field_tools",
-            "version": "dev-1.x",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/field_tools.git",
-                "reference": "b5b24dc8ad4465e633c794647249f9c74f5dfdb8"
-            },
-            "require": {
-                "drupal/core": "^8.9 || ^9 || ^10"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-alpha10+1-dev",
-                    "datestamp": "1677664205",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Project has not opted into security advisory coverage!"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "joachim",
-                    "homepage": "https://www.drupal.org/user/107701"
-                },
-                {
-                    "name": "tedbow",
-                    "homepage": "https://www.drupal.org/user/240860"
-                }
-            ],
-            "description": "Provides tools for working with fields, such as cloning to other entities and bundles.",
-            "homepage": "https://www.drupal.org/project/field_tools",
-            "support": {
-                "source": "https://git.drupalcode.org/project/field_tools"
-            }
-        },
-        {
             "name": "drupal/upgrade_status",
             "version": "4.0.0",
             "source": {
@@ -15421,8 +15376,7 @@
         "drupal/inline_entity_form": 5,
         "drupal/layout_paragraphs": 10,
         "drupal/link_allowed_hosts": 10,
-        "drupal/masquerade": 10,
-        "drupal/field_tools": 20
+        "drupal/masquerade": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,
