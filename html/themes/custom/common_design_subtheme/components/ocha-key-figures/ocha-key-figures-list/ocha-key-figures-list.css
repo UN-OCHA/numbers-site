@@ -1,0 +1,37 @@
+/**
+ * OCHA Key Figures
+ */
+
+/* Country key figures */
+.ocha-key-figures h3 {
+  margin-bottom: 20px;
+}
+.ocha-key-figures ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  line-height: 1.5;
+}
+.ocha-key-figures li:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+@media screen {
+  .ocha-key-figures ul {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 20px;
+  }
+  .ocha-key-figures ul li {
+    display: flex;
+    margin: 0;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  .ocha-key-figures ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

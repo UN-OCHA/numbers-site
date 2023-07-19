@@ -133,22 +133,6 @@ node-edit-link:
     theme:
       components/node-edit-link/node-edit-link.css: {}
 
-num-key-figures-share:
-  css:
-    theme:
-      components/num-key-figures-share/num-key-figures-share.css: {}
-  js:
-    components/num-key-figures-share/html2canvas.js: {}
-    components/num-key-figures-share/num-key-figures-share.js: {}
-  dependencies:
-    - common_design_subtheme/ocha-key-figures
-    - common_design/cd-social-links
-
-num-key-figures-push:
-  css:
-    state:
-      components/num-key-figures-push/num-key-figures-push.css: {}
-
 num-layout:
   css:
     component:
@@ -177,11 +161,6 @@ rw-country:
       components/rw-country/rw-country-list.css: {}
   dependencies:
     - common_design_subtheme/rw-brand
-
-ocha-key-figures:
-  css:
-    theme:
-      components/ocha-key-figures/ocha-key-figures.css: {}
 
 rw-river:
   css:

@@ -1,0 +1,17 @@
+name: OCHA Key Figure table
+description: OCHA Key figure containing tabular data
+props:
+  type: object
+  required:
+    - figure
+  properties:
+    figure:
+      type: object
+slots:
+  table:
+    title: Table
+    required: true
+    description: Table data
+libraryOverrides:
+  dependencies:
+    - sdc/ocha-key-figures-list

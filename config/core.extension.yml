@@ -51,7 +51,9 @@ module:
   path: 0
   path_alias: 0
   phpass: 0
+  sdc: 0
   select2: 0
+  serialization: 0
   shortcut: 0
   social_api: 0
   social_auth: 0

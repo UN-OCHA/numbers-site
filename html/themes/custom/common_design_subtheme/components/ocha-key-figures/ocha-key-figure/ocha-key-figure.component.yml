@@ -1,0 +1,12 @@
+name: OCHA Key Figure
+description: OCHA Key Figure with optional sparkline
+props:
+  type: object
+  required:
+    - figure
+  properties:
+    figure:
+      type: object
+libraryOverrides:
+  dependencies:
+    - sdc/ocha-key-figures-list
