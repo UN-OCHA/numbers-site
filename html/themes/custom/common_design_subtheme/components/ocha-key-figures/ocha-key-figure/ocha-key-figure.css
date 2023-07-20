@@ -2,30 +2,30 @@
  * OCHA Key Figures
  */
 
-.ocha-key-figures figure {
+figure.ocha-key-figures__figure {
   width: 100%;
   margin: 0 0 20px 0;
   padding: 16px;
   border: 1px solid var(--cd-reliefweb-brand-grey--light);
 }
-.ocha-key-figures figure figcaption {
+figure.ocha-key-figures__figure figcaption {
   margin: 0 0 20px 0;
   font-size: 17px;
   font-weight: bold;
   font-style: normal;
 }
-.ocha-key-figures figure p {
+figure.ocha-key-figures__figure p {
   display: inline-block;
   margin: 0 12px 10px 0;
   vertical-align: middle;
 }
-.ocha-key-figures figure data {
+figure.ocha-key-figures__figure data {
   display: block;
   color: var(--cd-reliefweb-brand-blue--dark);
   font-size: 22px;
   font-weight: bold;
 }
-.ocha-key-figures figure small {
+figure.ocha-key-figures__figure small {
   display: block;
   margin-top: 6px;
   font-size: 13px;
@@ -42,12 +42,12 @@
   stroke: var(--cd-reliefweb-brand-grey--dark);
   stroke-width: 2px;
 }
-.ocha-key-figures figure footer {
+figure.ocha-key-figures__figure footer {
   clear: both;
   margin-top: 10px;
   font-size: 14px;
 }
-.ocha-key-figures figure time {
+figure.ocha-key-figures__figure time {
   display: inline-block;
   margin: 0 12px 0 0;
   padding: 1px 6px;
@@ -55,7 +55,7 @@
   border-radius: 5px;
   background: var(--cd-reliefweb-grey--disable);
 }
-.ocha-key-figures figure.recent time:before {
+figure.ocha-key-figures__figure.recent time:before {
   display: inline-block;
   width: 10px;
   height: 10px;
@@ -65,7 +65,7 @@
   border-radius: 6px;
   background: var(--cd-reliefweb-brand-red--dark);
 }
-.ocha-key-figures figure cite {
+figure.ocha-key-figures__figure cite {
   float: right;
   padding: 1px 6px;
   color: white;
@@ -73,7 +73,7 @@
   background: var(--cd-reliefweb-brand-blue--dark);
   font-style: normal;
 }
-.ocha-key-figures figure cite a {
+figure.ocha-key-figures__figure cite a {
   color: inherit;
 }
 
@@ -92,18 +92,18 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .ocha-key-figures figure div {
+  figure.ocha-key-figures__figure div {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
   }
-  .ocha-key-figures figure footer {
+  figure.ocha-key-figures__figure footer {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
   }
-  .ocha-key-figures figure small span {
+  figure.ocha-key-figures__figure small span {
     display: block;
   }
 }

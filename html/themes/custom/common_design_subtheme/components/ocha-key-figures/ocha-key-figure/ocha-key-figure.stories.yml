@@ -1,0 +1,16 @@
+title: ocha-key-figure
+stories:
+  - name: 1. Default
+    args:
+      figure:
+        trend: false
+        sparkline: false
+        date: '2020-12-30T11:00:00'
+        description: 'test'
+        id: 'id-1'
+        name: 'Number'
+        source: 'Test'
+        status: 'OK'
+        updated: '2020-12-30T11:00:00'
+        url: 'http://example.com'
+        value: '777'

@@ -5,7 +5,6 @@
       {% set value = figure.value %}
       <data value="{{ value }}" class="ocha-key-figures__figure__value">{{ figure.prefix }}{{ value }}{{ figure.suffix }}</data>
       {% if figure.trend %}
-
         <small class="ocha-key-figures__figure__trend"><span class="ocha-key-figures__figure__trend__message">{{ figure.trend.message }}</span> <span class="ocha-key-figures__figure__trend__since">{{ figure.trend.since }}</span></small>
       {% endif %}
     </p>
