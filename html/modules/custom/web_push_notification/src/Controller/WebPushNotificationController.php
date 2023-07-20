@@ -82,7 +82,7 @@ class WebPushNotificationController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
-    return BinaryFileResponse::create($uri, 200, [
+    return new BinaryFileResponse($uri, 200, [
       'Content-Type' => 'text/javascript',
       'Content-Length' => filesize($uri),
     ]);
