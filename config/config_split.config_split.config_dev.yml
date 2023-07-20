@@ -10,17 +10,13 @@ stackable: false
 storage: folder
 folder: ../config_dev
 module:
-  dev_mode: 49
   config_filter: 0
   dblog: 0
-  devel: 0
   environment_indicator: 0
   views_ui: 0
 theme: {  }
 complete_list:
   - dblog.settings
-  - devel.settings
-  - devel.toolbar.settings
   - environment_indicator.indicator
   - stage_file_proxy.settings
 partial_list: {  }
