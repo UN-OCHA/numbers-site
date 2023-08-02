@@ -108,7 +108,10 @@
             "drupal/core-project-message": true,
             "drupal/console-extend-plugin": true,
             "symfony/flex": true,
-            "oomphinc/composer-installers-extender": true
+            "oomphinc/composer-installers-extender": true,
+            "phpstan/extension-installer": true,
+            "mglaman/composer-drupal-lenient": true,
+            "orakili/composer-drupal-info-file-patch-helper": true
         }
     },
     "extra": {
