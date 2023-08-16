@@ -6,6 +6,6 @@ machine: prod
 description: null
 name: Prod
 weight: ''
-url: 'https://numbers.reliefweb.int/'
+url: ''
 fg_color: '#ffffff'
 bg_color: '#6937ac'
