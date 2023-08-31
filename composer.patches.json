@@ -12,9 +12,6 @@
         "drupal/google_tag": {
             "Error during cache rebuild when assets are stored on NFS": "./PATCHES/3250315-google-tag-nfs-locks-4.patch"
         },
-        "drupal/group": {
-            "PHP 8.2 static": "./PATCHES/3328660-7.patch"
-        },
         "drupal/maintenance200": {
             "Drupal 10 compatibility": "PATCHES/maintenance200-drupal-10-compatibility.patch"
         },
