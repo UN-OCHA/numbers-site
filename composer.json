@@ -110,8 +110,8 @@
             "symfony/flex": true,
             "oomphinc/composer-installers-extender": true,
             "phpstan/extension-installer": true,
-            "orakili/composer-drupal-info-file-patch-helper": true,
-            "mglaman/composer-drupal-lenient": true
+            "mglaman/composer-drupal-lenient": true,
+            "orakili/composer-drupal-info-file-patch-helper": true
         }
     },
     "extra": {
