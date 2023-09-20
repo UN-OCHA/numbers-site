@@ -132,7 +132,7 @@ class NotificationQueue {
     $full_body = $baseItem->body;
     $trimmed_body = $this->prepareBody($full_body);
 
-    while ($ids = $query->range($start, $limit)->execute()) {
+    while ($ids = $query->accessCheck(FALSE)->range($start, $limit)->execute()) {
       $item = clone $baseItem;
       $item->ids = $ids;
       $item->body = $trimmed_body;

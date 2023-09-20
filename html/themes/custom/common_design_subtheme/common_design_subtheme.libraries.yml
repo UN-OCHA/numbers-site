@@ -58,16 +58,6 @@ hri-dropbutton:
     component:
       components/hri-dropbutton/hri-dropbutton.css: {}
 
-hri-events:
-  css:
-    component:
-      components/hri-events/hri-events.css: {}
-  js:
-    components/hri-events/hri-events.js: {}
-  dependencies:
-    - common_design_subtheme/hri-tooltip
-    - jquery_ui_dialog/dialog
-
 hri-fullcalendar:
   css:
     component:

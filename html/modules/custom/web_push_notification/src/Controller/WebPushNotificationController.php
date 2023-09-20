@@ -82,7 +82,7 @@ class WebPushNotificationController extends ControllerBase {
       throw new NotFoundHttpException();
     }
 
-    return BinaryFileResponse::create($uri, 200, [
+    return new BinaryFileResponse($uri, 200, [
       'Content-Type' => 'text/javascript',
       'Content-Length' => filesize($uri),
     ]);
@@ -107,6 +107,7 @@ class WebPushNotificationController extends ControllerBase {
 
     if (!empty($key) && !empty($token)) {
       $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
+        ->accessCheck(FALSE)
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();
@@ -154,6 +155,7 @@ class WebPushNotificationController extends ControllerBase {
 
     if (!empty($key) && !empty($token) && !empty($endpoint)) {
       $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
+        ->accessCheck(FALSE)
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();
@@ -185,6 +187,7 @@ class WebPushNotificationController extends ControllerBase {
 
     if (!empty($key) && !empty($token)) {
       $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
+        ->accessCheck(FALSE)
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();
@@ -216,6 +219,7 @@ class WebPushNotificationController extends ControllerBase {
 
     if (!empty($key) && !empty($token) && !empty($endpoint)) {
       $ids = $this->entityTypeManager->getStorage('wpn_subscription')->getQuery()
+        ->accessCheck(FALSE)
         ->condition('key', $key)
         ->condition('token', $token)
         ->execute();

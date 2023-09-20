@@ -13,7 +13,7 @@ use Drupal\node\Entity\Node;
  */
 function hr_paragraphs_update_9001() {
   $query = \Drupal::entityQuery('node')->condition('type', 'article');
-  $results = $query->execute();
+  $results = $query->accessCheck(FALSE)->execute();
 
   foreach ($results as $nid) {
     $node = Node::load($nid);
@@ -33,7 +33,7 @@ function hr_paragraphs_update_9001() {
  */
 function hr_paragraphs_update_9002() {
   $query = \Drupal::entityQuery('node')->condition('nid', 1);
-  $results = $query->execute();
+  $results = $query->accessCheck(FALSE)->execute();
 
   foreach ($results as $nid) {
     $node = Node::load($nid);
